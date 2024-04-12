@@ -1,0 +1,74 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+<section class="inner-banner pattern-3" style="margin-top: 0px;">
+    <div class="container text-center">
+        <h2>Votre commande</h2>
+    </div>
+</section>
+<section class="bread-cumb">
+    <div class="container text-center">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><span>Cart page</span></li>
+        </ul>
+    </div>
+</section>
+<section class="cart-section pb0">
+    <div class="container">
+        <div class="cart-outer">
+            <div class="table-outer">
+                <table class="cart-table">
+    <thead class="cart-header">
+        <tr>
+            <th class="prod-column">PRODUIT</th>
+            <th>QUANTITE</th>
+            <th class="price">Prix</th>
+            <th>Total</th>
+            <th>&nbsp;</th> <!-- Ajout d'une colonne vide pour les actions, par exemple "Remove" -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits %}
+        <tr>
+            <td class="prod-column">
+                <div class="column-box">
+                    <!-- Afficher l'image du produit -->
+                    <img style="width: 80px; height: 80px;" alt="{{ produit.produit.nom }}" src="{{ asset('uploads/images/' ~ produit.produit.image) }}">
+                    <!-- Afficher le nom du produit -->
+                    <h3 class="prod-title padd-top-20">{{ produit.produit.nom }}</h3>
+                </div>
+            </td>
+            <td class="qty">
+                <!-- Afficher la quantité du produit -->
+                <input class="quantity-spinner" type="text" value="{{ produit.quantite }}" name="quantity_{{ produit.produit.ref }}">
+            </td>
+            <td class="unit-price">
+                <!-- Afficher le prix unitaire du produit -->
+                {{ produit.produit.prix }} $ 
+            </td>
+            <td class="sub-total">
+                <!-- Calculer et afficher le total pour chaque produit -->
+                {{ produit.quantite * produit.produit.prix }} $ 
+            </td>
+            <td class="remove">
+                <!-- Option pour supprimer le produit -->
+                <a href="#" class="remove-btn"><span class="fa fa-trash-o"></span> Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+            </div>
+            <div class="update-cart-box clearfix">
+                <div class="pull-right">
+                    <button type="button" class="thm-btn update-cart">Update Cart</button> &emsp;
+                    <a class="thm-btn thm-blue-bg">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

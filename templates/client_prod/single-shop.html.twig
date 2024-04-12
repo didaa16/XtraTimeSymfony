@@ -1,0 +1,454 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+
+
+
+  <section class="inner-banner pattern-3" style="margin-top: 0px;">
+        <div class="container text-center">
+            <h2>Détails sur le produit</h2>
+            <p>We offer Fitness & Yoga services since 1996</p>
+        </div>
+    </section>
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><span>Shop Details</span></li>
+            </ul>
+        </div>
+    </section>
+    <section class="sidebar-pages popular-shop-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 pull-right">
+                    <div class="sidebar-page-content section-padding pb0">
+                        <div class="inner-page-wrapper section-padding pt0 white-bg">
+                            <div class="product-content-box clearfix">
+                                <div class="img-box">
+                                    <div class="single-product-carousel-content-box owl-theme owl-carousel">
+                                        <div class="item">
+    <img src="{{ asset('uploads/images/' ~ produit.image) }}" alt="{{ produit.nom }}" />
+</div>
+                                        <!-- /.item -->
+                                        <div class="item">
+                                            <img src="/img/shop/single-1.jpg" alt="Awesome Image" />
+                                        </div>
+                                        <!-- /.item -->
+                                        <div class="item">
+                                            <img src="/img/shop/single-1.jpg" alt="Awesome Image" />
+                                        </div>
+                                        <!-- /.item -->
+                                    </div>
+                                    <!-- /.single-product-carousel-content-box owl-theme-owl-carousel -->
+                                    <div class="single-product-carousel-thumbnail-box owl-theme owl-carousel">
+                                       
+                                        <!-- /.item -->
+                                        
+                                        <!-- /.item -->
+                                       
+                                        <!-- /.item -->
+                                    </div>
+                                    <!-- /.single-product-carousel-thumbnail-box owl-theme owl-carousel -->
+                                </div>
+                                <div class="content-box">
+                                     <h2>{{ produit.nom }}</h2>
+                                    <div class="review-box">
+                                        <ul class="list-inline">
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                        </ul>
+                                        <span>(2 Customers Review)</span>
+                                    </div>
+                                    <span class="price">{{ produit.prix }} DT</span>
+                                    <p>{{ produit.description }}</p>
+                                    <div class="location-box">
+                                        
+                                        <div class="add-to-cart-box">
+                                            <input type="number" name="quantity" min="1" value="1">
+                                            <a href="{{ path('AddCart', {'ref': produit.ref}) }}" class="thm-btn">Add To Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-tab-box">
+                                <div class="tab-title">
+                                    <ul role="tablist">
+                                        <li class="active" data-tab-name="description"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">Item Details</a></li>
+                                        <li data-tab-name="review-box"><a href="#review-box" aria-controls="review-box" role="tab" data-toggle="tab">Reviews(2)</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="single-tab-content tab-pane fade in active" id="description">
+                                        <p>Easy to install, full paisa wasool , the package was good without any damage but shipping is late remaing everything is good go for it it is better than other threadmill</p>
+                                        <h3>Highlights</h3>
+                                        <ul>
+                                            <li>Training for the game of life </li>
+                                            <li>Brand: Energie Fitness </li>
+                                            <li>Type: Motorized Treadmill Display </li>
+                                            <li>Features: Distance, Program, Pulse, Speed, Calories and heart rate program </li>
+                                            <li>Speed Range: 0.5-13KM/H </li>
+                                            <li>Emergency Stop: Key </li>
+                                            <li>Foldable: Yes </li>
+                                            <li>Inclination Level: Yes (manual) Maximum User Weight: 110kg Motor </li>
+                                            <li>Power: 2 HP User/ Installation Manual: Yes </li>
+                                            <li>Warranty; 3 Months SUPC: SDL394564365</li>
+                                        </ul>
+                                    </div>
+                                    <div class="single-tab-box tab-pane fade" id="review-box">
+                                        <div class="review-box">
+                                            <div class="single-review-box">
+                                                <div class="img-box">
+                                                    <img src="/img/shop/review-thumb-1.jpg" alt="Awesome Image" />
+                                                </div>
+                                                <div class="text-box">
+                                                    <div class="top-box clearfix">
+                                                        <div class="title pull-left">
+                                                            <h2>William Simith</h2>
+                                                        </div>
+                                                        <div class="rating-box pull-right">
+                                                            <span class="time">21/08/2015  at  09.45</span>
+                                                            <ul class="review-star">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <p>Many web sites still sed in their infancy Various versions have sed evolveed over the years, sometimes by there accident, sometimes all times purpose rationally sed encounter se consequencess ut that are at sed extremely well painful or again is there anyone who loves or seds of pursues.</p>
+                                                    </div>
+                                                    <div class="bottom-box">
+                                                        <ul>
+                                                            <li><a href="#"><i class="fa fa-angle-up"></i></a></li>
+                                                            <li><a href="#"><i class="fa fa-angle-down"></i></a></li>
+                                                            <li class="reply"><a href="#">Reply</a></li>
+                                                            <li><a href="#">Share</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="single-review-box">
+                                                <div class="img-box">
+                                                    <img src="/img/shop/review-thumb-2.jpg" alt="Awesome Image" />
+                                                </div>
+                                                <div class="text-box">
+                                                    <div class="top-box clearfix">
+                                                        <div class="title pull-left">
+                                                            <h2>Darreno Picaso</h2>
+                                                        </div>
+                                                        <div class="rating-box pull-right">
+                                                            <span class="time">26/08/2015  at  05.30</span>
+                                                            <ul class="review-star">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <p>Many web sites still sed in their infancy Various versions have sed evolveed over the years, sometimes by there accident, sometimes all times purpose rationally sed encounter se consequencess ut that are at sed extremely well painful or again is there anyone who loves or seds of pursues.</p>
+                                                    </div>
+                                                    <div class="bottom-box">
+                                                        <ul>
+                                                            <li><a href="#"><i class="fa fa-angle-up"></i></a></li>
+                                                            <li><a href="#"><i class="fa fa-angle-down"></i></a></li>
+                                                            <li class="reply"><a href="#">Reply</a></li>
+                                                            <li><a href="#">Share</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="reply-box review-form-box">
+                                            <div class="section-title">
+                                                <h1><span>Give your Review</span></h1>
+                                            </div>
+                                            <!-- /.section-title -->
+                                            <div class="add-rating-box">
+                                                <h4>Your Rating</h4>
+                                                <ul>
+                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" placeholder="Your Name*" />
+                                                </div>
+                                                <!-- /.col-md-6 -->
+                                                <div class="col-md-6">
+                                                    <input type="text" placeholder="Your Email*" />
+                                                </div>
+                                                <!-- /.col-md-6 -->
+                                                <div class="col-md-12">
+                                                    <textarea placeholder="Comments"></textarea>
+                                                </div>
+                                                <!-- /.col-md-12 -->
+                                                <div class="col-md-12">
+                                                    <button type="submit" class="arrow-push-out-right"><span>Submit Now <i class="fa fa-caret-right"></i></span></button>
+                                                </div>
+                                                <!-- /.col-md-12 -->
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="related-product-box">
+                                <div class="section-title">
+                                    <h1><span>Related  products</span></h1>
+                                </div>
+                                <!-- /.section-title -->
+                                <div class="related-project-carousel-2col related-product-carousel owl-theme owl-carousel">
+                                    <div class="item">
+                                        <div class="single-product-item text-center">
+                                            <div class="img-holder">
+                                                <img src="/img/shop/1.jpg" alt="">
+                                                <div class="overlay">
+                                                    <div class="icon-holder">
+                                                        <ul>
+                                                            <li><a href="single-shop.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                                            <li><a href="single-shop.html"><i class="fa fa-heart"></i></a></li>
+                                                            <li><a href="single-shop.html"><i class="fa fa-search-plus"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /.icon-holder -->
+                                                </div>
+                                                <!-- /.overlay -->
+                                            </div>
+                                            <!-- /.img-holder -->
+                                            <div class="title">
+                                                <h3>Kobo Multi Stepper </h3>
+                                                <h2><del class="before-rate">$190.99</del>$100.99</h2>
+                                            </div>
+                                            <!-- /.title -->
+                                        </div>
+                                        <!-- /.single-product-item text-center -->
+                                    </div>
+                                    <!-- /.item -->
+                                    <div class="item">
+                                        <div class="single-product-item text-center">
+                                            <div class="img-holder">
+                                                <img src="/img/shop/2.jpg" alt="">
+                                                <div class="overlay">
+                                                    <div class="icon-holder">
+                                                        <ul>
+                                                            <li><a href="single-shop.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                                            <li><a href="single-shop.html"><i class="fa fa-heart"></i></a></li>
+                                                            <li><a href="single-shop.html"><i class="fa fa-search-plus"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /.icon-holder -->
+                                                </div>
+                                                <!-- /.overlay -->
+                                            </div>
+                                            <!-- /.img-holder -->
+                                            <div class="title">
+                                                <h3>Kobo Multi Stepper </h3>
+                                                <h2><del class="before-rate">$190.99</del>$100.99</h2>
+                                            </div>
+                                            <!-- /.title -->
+                                        </div>
+                                        <!-- /.single-product-item text-center -->
+                                    </div>
+                                    <!-- /.item -->
+                                </div>
+                            </div>
+                            <!-- /.related-product-box -->
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+                        <!-- /.inner-page-wrapper -->
+                    </div>
+                    <!-- /.sidebar-page-content -->
+                </div>
+                <!-- /.col-md-9 -->
+                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 pull-left">
+                    <div class="sidebar-wrapper section-padding">
+                        <div class="single-sidebar search-widget">
+                            <div class="title">
+                                <h3>Search Keywords</h3>
+                            </div>
+                            <!-- /.title -->
+                            <form action="#">
+                                <input type="text" placeholder="Serach For Keywords" />
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar price-filter">
+                            <div class="title">
+                                <h3>Filter By Price</h3>
+                            </div>
+                            <div class="range-slider-price" id="range-slider-price"></div>
+                            <div class="form-group clearfix">
+                                <button type="button">Filter</button>
+                                <p>price: $
+                                    <input type="text" class="val-box" id="min-value-rangeslider" readonly> $
+                                    <input type="text" class="val-box" id="max-value-rangeslider" readonly>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="single-sidebar category-widget">
+                            <div class="title">
+                                <h3>Categories</h3>
+                            </div>
+                            <!-- /.title -->
+                            <ul>
+                                <li><a href="package-v2.html">Diet Plan <span>(02)</span></a></li>
+                                <li><a href="package-v2.html">Exercise <span>(08)</span></a></li>
+                                <li><a href="package-v2.html">Nutrition <span>(09)</span></a></li>
+                                <li><a href="package-v2.html">Body Tests <span>(20)</span></a></li>
+                                <li><a href="package-v2.html">Strength overload <span>(04)</span></a></li>
+                                <li><a href="package-v2.html">Uncategorized <span>(23)</span></a></li>
+                                <li><a href="package-v2.html">Workouts <span>(02)</span></a></li>
+                                <li><a href="package-v2.html">Flexibility <span>(10)</span></a></li>
+                            </ul>
+                        </div>
+                        <!-- /.single-sidebar -->
+                        
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar package-slider-widget">
+                            <div class="title">
+                                <h3>packages Slider</h3>
+                            </div>
+                            <!-- /.title -->
+                            <div id="package-slider-widget-wrapper" class="carousel slide offer-going-package-menu" data-ride="carousel">
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="/img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item ">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="/img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item ">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="/img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="0" class="active"></li>
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="1"></li>
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="2"></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar call-to-action-widget">
+                            <img src="/img/resources/menu-package-offer.jpg" alt="Awesome Image" />
+                        </div>
+                        <!-- /.single-sidebar -->
+                    </div>
+                    <!-- /.sidebar-wrapper -->
+                </div>
+                <!-- /.col-md-3 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- /.section-padding sidebar-pages -->
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

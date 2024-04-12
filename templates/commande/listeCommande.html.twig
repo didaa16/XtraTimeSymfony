@@ -1,0 +1,295 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+
+
+  <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Liste des commandes</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                        <li class="breadcrumb-item active">Li</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0">Affichage de la liste des commandes </h4>
+                                </div><!-- end card header -->
+
+                                <div class="card-body">
+                                    <div class="listjs-table" id="customerList">
+                                        <div class="row g-4 mb-3">
+                                            {# <div class="col-sm-auto">
+                                                <div>
+                                                  
+                                                    <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                                </div>
+                                            </div> #}
+                                            <div class="col-sm">
+                                                <div class="d-flex justify-content-sm-end">
+                                                    <div class="search-box ms-2">
+                                                        <input type="text" class="form-control search" placeholder="Recherche...">
+                                                        <i class="ri-search-line search-icon"></i>
+                                                        
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive table-card mt-3 mb-1">
+                                            <table class="table align-middle table-nowrap" id="customerTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th scope="col" style="width: 50px;">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                                            </div>
+                                                        </th>
+                                                
+                                                        <th class="sort" data-sort="refCom">Réference</th>
+                                                        <th class="sort" data-sort="total">Total</th>
+                                                        <th class="sort" data-sort="stat">Status</th>
+                                                        <th class="sort" data-sort="pseudo">Pseudo</th>
+                                                        <th class="sort" data-sort="Action">Action</th>
+
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="list form-check-all">
+                                                <!-- boucle-->
+                                              {% for commande in commandes %}
+<tr>
+    <th scope="row">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+        </div>
+    </th>
+    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
+   
+    <td class="refCom">{{ commande.refCommande }}</td>
+    <td class="total">{{ commande.prix }}</td>
+    <td class="status">
+        <h4>
+        {% if commande.status == 'livrée' %}
+            <span class="badge bg-success-subtle text-success">{{ commande.status|capitalize }}</span>
+        {% elseif commande.status == 'enCours' %}
+            <span class="badge bg-warning-subtle text-warning text-uppercase">{{ commande.status|capitalize }}</span>
+        {% else %}
+            <span class="badge bg-info-subtle text-info">{{ commande.status|capitalize }}</span>
+        {% endif %}
+        </h4>
+    </td>
+    <td class="pseudo">{{ commande.idUser.pseudo }}</td>
+    <td>
+        <ul class="list-inline hstack gap-2 mb-0">
+            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+          <a href="{{ path('commandeDet', {'refCommande': commande.refCommande}) }}" class="text-primary d-inline-block"> 
+                    <i class="ri-eye-fill fs-16"></i>Afficher les produits
+                </a>
+            </li>
+            {# <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder_{{ commande.refCommande }}">
+                    <i class="ri-delete-bin-5-fill fs-16"></i>
+                </a>
+            </li> #}
+        </ul>
+        <!-- Modal -->
+        <div class="modal fade flip" id="deleteOrder_{{ commande.refCommande }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <h4>Vous êtes sur le point de supprimer la commande</h4>
+                            <p class="text-muted fs-15 mb-4">La suppression de votre commande supprimera toutes vos informations de notre base de données.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Annuler</button>
+                                <a class="btn btn-danger" href="{{ path('deleteCommande', {'refCommande': commande.refCommande}) }}">Oui, supprimez-la</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end modal -->
+    </td>    
+</tr>
+{% endfor %}
+
+
+
+
+
+                                             </tbody>
+                                            </table>
+
+        <div class="noresult" style="display: none">
+        <div class="text-center">
+            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+            <h5 class="mt-2">Désolé! Pas de resultat </h5>
+        </div>
+    </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <div class="pagination-wrap hstack gap-2">
+                                                <a class="page-item pagination-prev disabled" href="javascript:void(0);">
+                                                    Precedement
+                                                </a>
+                                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                                <a class="page-item pagination-next" href="javascript:void(0);">
+                                                    Suivant
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                   
+                    <!-- end row -->
+
+                
+                    <!-- end row -->
+
+                   
+
+                    <!--end modal -->
+
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <!-- scriptttt-->
+<!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteCommandeButtons = document.querySelectorAll('.delete-commande-btn');
+        deleteCommandeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const refCommande = this.getAttribute('data-commande-id');
+                if (refCommande) {
+                    const deletePath = "/deleteCommande/" + refCommande; // Changer le chemin en fonction de votre configuration Symfony
+                    fetch(deletePath, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('La suppression de la commande a échoué');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Une erreur s\'est produite lors de la suppression de la commande :', error);
+                    });
+                }
+            });
+        });
+    });
+</script>-->
+
+
+
+
+<!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteCommandeButtons = document.querySelectorAll('.delete-commande-btn');
+        deleteCommandeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const refCommande = this.getAttribute('data-commande-id');
+                if (refCommande) {
+                    const deletePath = "/deleteCommande/" + refCommande; // Changer le chemin en fonction de votre configuration Symfony
+                    fetch(deletePath, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('La suppression de la commande a échoué');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Une erreur s\'est produite lors de la suppression de la commande :', error);
+                    });
+                }
+            });
+        });
+
+        // Code pour la recherche
+        const searchInput = document.querySelector('.search');
+        const tableRows = document.querySelectorAll('#customerTable tbody tr');
+        const noResultMessage = document.querySelector('.noresult');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+
+            tableRows.forEach(row => {
+                let foundResult = false;
+                Array.from(row.cells).forEach(cell => {
+                    const cellData = cell.textContent.toLowerCase();
+                    if (cellData.includes(searchTerm)) {
+                        foundResult = true;
+                    }
+                });
+
+                if (foundResult) {
+                    row.style.display = ''; // Afficher la ligne si le terme est trouvé dans une colonne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne sinon
+                }
+            });
+
+            // Afficher ou masquer le message "No Result Found" en fonction des résultats trouvés
+            const hasFoundResult = Array.from(tableRows).some(row => row.style.display !== 'none');
+            if (hasFoundResult) {
+                noResultMessage.style.display = 'none'; // Masquer le message s'il y a des résultats
+            } else {
+                noResultMessage.style.display = 'block'; // Afficher le message s'il n'y a pas de résultats
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+{% endblock %}

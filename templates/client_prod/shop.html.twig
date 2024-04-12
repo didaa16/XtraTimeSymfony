@@ -1,0 +1,335 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+  
+
+  <section class="inner-banner pattern-3" style="margin-top: 0px;">
+
+
+        <div class="container text-center">
+            <h2>Découvrez notre boutique de sport </h2>
+            <p>Améliorez votre style et vos performances avec nos collections .</p>
+        </div>
+    </section>
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><span>Shop Products with sidebar</span></li>
+            </ul>
+        </div>
+    </section>
+    <section class="sidebar-pages popular-shop-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-8 col-xs-12">
+                    <div class="sidebar-page-content section-padding pb0">
+                        <div class="inner-page-wrapper section-padding pt0 white-bg">
+                            <div class="row meta-info">
+                                  <div class="col-md-12">
+                                     <p class="number-of-product pull-left">Showing 1-12 of 34 Results</p>
+                                     <div class="select-box pull-right">
+    <select class="selectpicker" onchange="window.location.href = this.value;">
+        <option value="{{ path('ClientProd', {'sort_by': 'default'}) }}">Tri par défaut</option>
+        <option value="{{ path('ClientProd', {'sort_by': 'price_asc'}) }}">Tri par prix ascendant</option>
+        <option value="{{ path('ClientProd', {'sort_by': 'price_desc'}) }}">Tri par prix descendant</option>
+        <option value="{{ path('ClientProd', {'sort_by': 'name_asc'}) }}">Tri par nom (A-Z)</option>
+    </select>
+</div>
+
+                                </div>
+                                </div>
+   <div class="row">
+ {% for produit in produits %}
+<div class="col-md-6 col-sm-6">
+    <div class="single-product-item text-center">
+        <div class="img-holder">
+            <img style="width: 200px; height: 200px;" alt="{{ produit.nom }}" src="{{ asset('uploads/images/' ~ produit.image) }}">
+            <div class="overlay">
+                <div class="icon-holder">
+                    <ul>
+                        <li><a href="{{ path('AddCart', {'ref': produit.ref}) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                        <li><a href="{{ path('MoreDetailsShop', {'ref': produit.ref}) }}"><i class="fa fa-search-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="product-info">
+             <a class="product-name" href="{{ path('MoreDetailsShop', {'ref': produit.ref}) }}">{{ produit.nom }}</a>
+          <div class="product-details">
+        <span class="product-size">Taille: {{ produit.taille }}</span>
+        <span class="product-price">{{ produit.prix }} DT</span>
+          </div>
+         </div>
+
+          
+
+      
+
+
+
+    </div>
+   
+</div>
+{% endfor %}
+</div>
+                            <ul class="post-pagination list-inline text-center">
+                                <li><a href="#"><i class="fa fa-caret-left"></i></a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- /.inner-page-wrapper -->
+                    </div>
+                    <!-- /.sidebar-page-content -->
+                </div>
+                <!-- /.col-md-9 -->
+                <div class="col-lg-3 col-md-4 col-xs-12">
+                    <div class="sidebar-wrapper section-padding">
+                        <div class="single-sidebar search-widget">
+                            <div class="title">
+                                <h3>RECHERCHER DES MOTS-CLÉS</h3>
+                            </div>
+                            <!-- /.title -->
+                            <form action="#">
+                                <input type="text" placeholder="Rechercher..." />
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar price-filter">
+                            <div class="title">
+                                <h3>Filtrer(referencee)</h3>
+                            </div>
+                            <div class="range-slider-price" id="range-slider-price"></div>
+                            <div class="form-group clearfix">
+                                <button type="button">FILTRE</button>
+                                <p>PRIX: $
+                                    <input type="text" class="val-box" id="min-value-rangeslider" readonly> $
+                                    <input type="text" class="val-box" id="max-value-rangeslider" readonly>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="single-sidebar category-widget">
+                            <div class="title">
+                                <h3>Categories</h3>
+                            </div>
+                            <!-- /.title -->
+                            <ul>
+                                <li><a href="package-v2.html">Diet Plan <span>(02)</span></a></li>
+                                <li><a href="package-v2.html">Exercise <span>(08)</span></a></li>
+                                <li><a href="package-v2.html">Nutrition <span>(09)</span></a></li>
+                                <li><a href="package-v2.html">Body Tests <span>(20)</span></a></li>
+                                <li><a href="package-v2.html">Strength overload <span>(04)</span></a></li>
+                                <li><a href="package-v2.html">Uncategorized <span>(23)</span></a></li>
+                                <li><a href="package-v2.html">Workouts <span>(02)</span></a></li>
+                                <li><a href="package-v2.html">Flexibility <span>(10)</span></a></li>
+                            </ul>
+                        </div>
+                        <!-- /.single-sidebar -->
+                       
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar package-slider-widget">
+                            <div class="title">
+                                <h3>packs</h3>
+                            </div>
+                            <!-- /.title -->
+                            <div id="package-slider-widget-wrapper" class="carousel slide offer-going-package-menu" data-ride="carousel">
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item ">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item ">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="0" class="active"></li>
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="1"></li>
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="2"></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar call-to-action-widget">
+                            <img src="img/resources/menu-package-offer.jpg" alt="Awesome Image" />
+                        </div>
+                        <!-- /.single-sidebar -->
+                    </div>
+                    <!-- /.sidebar-wrapper -->
+                </div>
+                <!-- /.col-md-3 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- /.section-padding sidebar-pages -->
+
+
+
+
+
+
+
+<script>
+   function handleChange(select) {
+    var sortBy = select.value;
+    window.location.href = "{{ path('ClientProd') }}?sort_by=" + sortBy;
+    
+    // Mettre à jour le texte du sélecteur
+    var selectBox = select.closest('.select-box'); // Trouve le parent avec la classe select-box
+    var selectedOptionText = select.options[select.selectedIndex].textContent;
+    selectBox.querySelector('.dropdown-toggle').textContent = selectedOptionText;
+}
+
+
+</script>
+
+
+
+
+
+
+ <style>
+.product-info {
+    position: relative;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.product-name {
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.product-name:hover {
+    color: #ccff00;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-size {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #a6c311;
+}
+
+
+      </style>
+
+
+
+
+{% endblock %}
+
