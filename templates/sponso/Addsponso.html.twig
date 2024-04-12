@@ -1,0 +1,154 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Add Sponsors{% endblock %}
+{% block body %}
+
+
+
+ <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Ajouter des Sponsors</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Ajouter des Sponsors</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                  
+
+
+<!-- formulaire -->
+{% block form %}
+<form action="{{ path('app_Addsponso') }}" method="post" class="row g-3" enctype="multipart/form-data">
+    {{ form_start(f) }}
+    <div class="col-md-12">
+        {{ form_row(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter le Nom'}}) }}
+         <span  id="span2">le Nom ne contient pas des chiffres</span>
+    </div>
+    <div class="col-md-6">
+        <label for="description" class="form-label">Tel</label>
+        {{ form_widget(f.tel, {'attr': {'class': 'form-control', 'placeholder': 'Enter le numde Tel'}}) }}
+         <span  id="span3">Numéro de téléphone invalide (8 chiffres)</span>
+
+    </div>
+    <div class="col-md-6">
+        <label for="description" class="form-label">Email</label> 
+        {{ form_widget(f.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter addresse mail'}}) }}
+            <span  id="span4">Veuillez saisir une adresse e-mail valide</span>
+    </div>
+
+    <div class="col-md-6">
+        <label for="image" class="form-label">Image</label>
+        {{ form_widget(f.image, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+   
+    
+    <div class="col-12">
+        <div class="text-end">
+            <button type="submit" id="ajouter"  class="btn btn-primary">Ajouter</button>
+        </div>
+    </div>
+    {{ form_end(f) }}
+</form>
+<!-- end formulaire -->
+
+{% endblock %}
+
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+  
+         $(document).ready(function () {
+
+            //Controle de saisie nom
+        $("#span2").hide();
+
+        // Utiliser l'ID ou la classe du champ titre pour le sélectionner
+        $("#{{ f.nom.vars.id }}").keyup(function () {
+            var nom = $(this).val();
+            // Expression régulière pour autoriser les lettres et les espaces
+            var test = /^[A-Za-z\s]+$/;
+            if (nom.trim() === '') {
+                // Si le titre est vide, masquer le message d'erreur et activer le bouton Ajouter
+                $('#span2').hide();
+                $('#ajouter').prop('disabled', false);
+            } else if (test.test(nom)) {
+                // Si le titre contient uniquement des lettres et des espaces, masquer le message d'erreur et activer le bouton Ajouter
+                $('#span2').hide();
+                $('#ajouter').prop('disabled', false);
+            } else {
+                // Si le titre contient d'autres caractères que des lettres et des espaces, afficher le message d'erreur et désactiver le bouton Ajouter
+                $('#span2').show();
+                $('#ajouter').prop('disabled', true);
+            }
+        });
+
+        //controle de saisie num de telephone
+// Masquer le message d'erreur au chargement de la page
+$("#span3").hide();
+
+// Utiliser l'ID ou la classe du champ téléphone pour le sélectionner
+$("#{{ f.tel.vars.id }}").keyup(function () {
+    // Récupérer la valeur saisie dans le champ téléphone
+    var tel = $(this).val();
+    // Expression régulière pour vérifier si le téléphone est composé uniquement de chiffres et a une longueur de 8 chiffres
+    var test = /^\d{8}$/;
+    if (test.test(tel)) {
+        // Si le téléphone est composé uniquement de chiffres et a une longueur de 8 chiffres, masquer le message d'erreur et activer le bouton Ajouter
+        $('#span3').hide();
+        $('#ajouter').prop('disabled', false);
+    } else {
+        // Si le téléphone ne satisfait pas les conditions, afficher le message d'erreur et désactiver le bouton Ajouter
+        $('#span3').show();
+        $('#ajouter').prop('disabled', true);
+    }
+});
+
+//Controle desaisie sur l@ maill
+// Masquer le message d'erreur au chargement de la page
+$("#span4").hide();
+
+// Utiliser l'ID ou la classe du champ email pour le sélectionner
+$("#{{ f.email.vars.id }}").keyup(function () {
+    // Récupérer la valeur saisie dans le champ email
+    var email = $(this).val();
+    // Expression régulière pour vérifier si l'email est bien formaté
+    var test = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (test.test(email)) {
+        // Si l'email est bien formaté, masquer le message d'erreur et activer le bouton Ajouter
+        $('#span4').hide();
+        $('#ajouter').prop('disabled', false);
+    } else {
+        // Si l'email n'est pas bien formaté, afficher le message d'erreur et désactiver le bouton Ajouter
+        $('#span4').show();
+        $('#ajouter').prop('disabled', true);
+    }
+});
+
+
+        
+         
+          });
+
+ 
+    </script>
+{% endblock   %}
+{% endblock %}

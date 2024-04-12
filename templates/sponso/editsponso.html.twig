@@ -1,9 +1,7 @@
-
 {% extends 'back.html.twig' %}
 
 
 {% block body %}
-
 
 <div class="main-content">
 
@@ -14,12 +12,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-                                <h4 class="mb-sm-0">Ajouter des Evenements</h4>
+                                <h4 class="mb-sm-0">Modifier des Sponsors</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                                        <li class="breadcrumb-item active">Ajouter des Evenements</li>
+                                        <li class="breadcrumb-item active">Modifier des Sponsors  </li>
                                     </ol>
                                 </div>
 
@@ -29,20 +27,21 @@
                     <!-- end page title -->
                   
 
-
-<!-- formulaire -->
-
-{% block form %}
-<form action="{{ path('event_edit', {'idevent': event.idevent}) }}"    method="post" class="row g-3" enctype="multipart/form-data">
+<form action="{{ path('sponso_edit', {'idsponso': sponso.idsponso}) }}"    method="post" class="row g-3" enctype="multipart/form-data">
     {{ form_start(f) }}
 
     <div class="col-md-12">
-        {{ form_label(f.titre, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.titre, {'attr': {'class': 'form-control', 'placeholder': 'Enter le nom du pack'}}) }}
+        {{ form_label(f.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter le nom du pack'}}) }}
     </div>
     <div class="col-md-6">
-        {{ form_label(f.description, 'Reduction', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter la référence du pack'}}) }}
+        {{ form_label(f.tel, 'Reduction', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.tel, {'attr': {'class': 'form-control', 'placeholder': 'Enter la référence du pack'}}) }}
+    </div>
+
+     <div class="col-md-6">
+        {{ form_label(f.email, 'Reduction', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter la référence du pack'}}) }}
     </div>
   
     {% if previousImage is not empty %}
@@ -58,28 +57,11 @@
     
     </div>
 
-      <div class="col-md-12">
-        {{ form_label(f.datedebut, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.datedebut, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description du pack'}}) }}
-    </div>
-      <div class="col-md-12">
-        {{ form_label(f.datefin, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.datefin, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description du pack'}}) }}
-    </div>
+     
+     
+  
 
-       <div class="col-md-12">
-        {{ form_label(f.idsponso, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.idsponso, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description du pack'}}) }}
-    </div>
-       <div class="col-md-12">
-        {{ form_label(f.idterrain, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.idterrain, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description du pack'}}) }}
-    </div>
-
-     <div class="col-md-12">
-        {{ form_label(f.iduser, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(f.iduser, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description du pack'}}) }}
-    </div>
+   
 
 
 
@@ -93,9 +75,6 @@
 </form>
 <!-- end formulaire -->
 
-{% endblock %}
-
-
 <script>
     function updateImagePreview(input) {
         var previousImagePreview = document.getElementById('previousImagePreview');
@@ -108,10 +87,6 @@
         }
     }
 </script>
-
-
-
-
 
 
 
@@ -136,11 +111,9 @@
     }
 </script>
 
-{% endblock %}
-
-
-
-
-
-
                        
+
+
+
+
+{% endblock %}

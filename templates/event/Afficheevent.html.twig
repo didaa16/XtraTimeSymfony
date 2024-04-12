@@ -135,53 +135,8 @@
 
                     
 
-                               <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const deleteButtons = document.querySelectorAll('.remove-item-btn');
+          
 
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault(); // Empêche le comportement par défaut du lien
-
-            // Récupérer l'URL de suppression à partir de l'attribut data
-            const deleteUrl = this.getAttribute('data-delete-url');
-            
-            // Vérifier si l'URL de suppression est valide
-            if (deleteUrl) {
-                // Rediriger vers l'URL de suppression
-                window.location.href = deleteUrl;
-            } else {
-                console.error('URL de suppression non trouvée.');
-            }
-        });
-    });
-});
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Bouton de suppression multiple
-        const deleteMultipleBtn = document.getElementById('deleteMultipleBtn');
-        
-        // Écouteur d'événements sur le clic du bouton de suppression multiple
-        deleteMultipleBtn.addEventListener('click', function() {
-            // Tableau pour stocker les identifiants des événements à supprimer
-            const eventIds = [];
-            
-            // Récupérer toutes les cases à cocher sélectionnées
-            const checkboxes = document.querySelectorAll('.event-checkbox:checked');
-            
-            // Parcourir les cases à cocher sélectionnées pour collecter les identifiants des événements
-            checkboxes.forEach(function(checkbox) {
-                eventIds.push(checkbox.value);
-            });
-            
-            // Redirection vers la page de suppression multiple avec les identifiants des événements
-            const deleteMultipleUrl = '/delete-multiple-events?eventIds=' + eventIds.join(',');
-            window.location.href = deleteMultipleUrl;
-        });
-    });
-</script>
                     
 
 {% endblock %}
