@@ -1,5 +1,7 @@
 {% extends 'back.html.twig' %}
 
+{% block title %}Liste des events{% endblock %}
+
 {% block body %}
 
   <div class="main-content">
@@ -34,7 +36,9 @@
                                         <div class="row g-4 mb-3">
                                             <div class="col-sm-auto">
                                                 <div>
-                                                    <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add</button>
+                                                     <a href= {{ path('app_Add') }} class="btn btn-success add-btn">
+                                                     <i class="ri-add-line align-bottom me-1"></i> Ajouter
+                                                     </a>
                                                     <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                                 </div>
                                             </div>
@@ -152,8 +156,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Bouton de suppression multiple
+        const deleteMultipleBtn = document.getElementById('deleteMultipleBtn');
+        
+        // Écouteur d'événements sur le clic du bouton de suppression multiple
+        deleteMultipleBtn.addEventListener('click', function() {
+            // Tableau pour stocker les identifiants des événements à supprimer
+            const eventIds = [];
+            
+            // Récupérer toutes les cases à cocher sélectionnées
+            const checkboxes = document.querySelectorAll('.event-checkbox:checked');
+            
+            // Parcourir les cases à cocher sélectionnées pour collecter les identifiants des événements
+            checkboxes.forEach(function(checkbox) {
+                eventIds.push(checkbox.value);
+            });
+            
+            // Redirection vers la page de suppression multiple avec les identifiants des événements
+            const deleteMultipleUrl = '/delete-multiple-events?eventIds=' + eventIds.join(',');
+            window.location.href = deleteMultipleUrl;
+        });
+    });
 </script>
                     
 
