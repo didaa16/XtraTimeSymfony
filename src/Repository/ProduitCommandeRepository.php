@@ -47,15 +47,15 @@ class ProduitCommandeRepository extends ServiceEntityRepository
 //    }
 
 
-public function countProductOccurrences(string $ref): int
-{
-    return $this->createQueryBuilder('pc')
-        ->select('COUNT(pc)')
-        ->where('pc.ref = :ref')
-        ->setParameter('ref', $ref)
-        ->getQuery()
-        ->getSingleScalarResult();
-}
+public function findProductsByOrderReference(string $orderReference): array
+    {
+        return $this->createQueryBuilder('pc')
+            ->leftJoin('pc.commande', 'c')
+            ->andWhere('c.refCommande = :orderReference')
+            ->setParameter('orderReference', $orderReference)
+            ->getQuery()
+            ->getResult();
+    }
 
 
 

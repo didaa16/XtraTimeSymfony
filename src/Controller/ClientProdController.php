@@ -79,45 +79,44 @@ class ClientProdController extends AbstractController
     public function addToCart(Request $request, string $ref): Response
     {
         // Récupérez l'utilisateur actuel (fixe pour l'exemple)
-    $pseudo = 'dida';
-
-    // Vérifiez si le produit existe dans la base de données
-    $produit = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['ref' => $ref]);
-
-    if (!$produit) {
-        throw $this->createNotFoundException('Produit non trouvé');
-    }
-
-    // Récupérer l'utilisateur en utilisant son pseudo
-    $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
-
-    // Créer une nouvelle commande si elle n'existe pas encore pour l'utilisateur "bohmid"
-    $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy(['iduser' => $utilisateur, 'status' => 'enAttente']);
-    if (!$commande) {
-        $commande = new Commande();
-        // Initialisez les autres champs de la commande si nécessaire
-        $commande->setIduser($utilisateur);
-        $commande->setStatus('enAttente');
-        $commande->setPrix(0);
-
+        $pseudo = 'dida';
+    
+        // Vérifiez si le produit existe dans la base de données
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['ref' => $ref]);
+    
+        if (!$produit) {
+            throw $this->createNotFoundException('Produit non trouvé');
+        }
+    
+        // Récupérer l'utilisateur en utilisant son pseudo
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
+    
+        // Créer une nouvelle commande si elle n'existe pas encore pour l'utilisateur "bohmid"
+        $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy(['iduser' => $utilisateur, 'status' => 'enAttente']);
+        if (!$commande) {
+            $commande = new Commande();
+            // Initialisez les autres champs de la commande si nécessaire
+            $commande->setIduser($utilisateur);
+            $commande->setStatus('enAttente');
+            $commande->setPrix(0);
+    
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($commande);
+            $entityManager->flush();
+        }
+    
+        // Ajouter le produit à la commande de l'utilisateur "bohmid"
+        $produitCommande = new ProduitCommande();
+        $produitCommande->setRef($produit->getRef());
+        $produitCommande->setRefCommande($commande->getRefCommande());
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($commande);
+        $entityManager->persist($produitCommande);
         $entityManager->flush();
+    
+        // Rediriger l'utilisateur vers la page shop après l'ajout au panier
+        return $this->redirectToRoute('ClientProd'); 
     }
-
-    // Ajouter le produit à la commande de l'utilisateur "bohmid"
-    $produitCommande = new ProduitCommande();
-    $produitCommande->setRef($produit->getRef());
-    $produitCommande->setRefCommande($commande->getRefCommande());
-    $entityManager = $this->getDoctrine()->getManager();
-    $entityManager->persist($produitCommande);
-    $entityManager->flush();
-
-    // Rediriger l'utilisateur vers une autre page après l'ajout au panier
-    return $this->render('Client_prod/cart.html.twig'); 
-
-
-    }
+    
  
 
     #[Route('/myOrder', name: 'my_order')]
@@ -170,7 +169,7 @@ class ClientProdController extends AbstractController
         } else {
             // Si aucune commande n'est trouvée, vous pouvez renvoyer un message ou rediriger l'utilisateur
             // Dans cet exemple, nous redirigeons l'utilisateur vers une autre page
-            return $this->redirectToRoute('shop.html.twig'); // Rediriger l'utilisateur vers la page d'accueil par exemple
+            return $this->redirectToRoute('ClientProd'); // Rediriger l'utilisateur vers la page d'accueil par exemple
         }
     }
     
