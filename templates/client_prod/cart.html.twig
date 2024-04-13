@@ -23,10 +23,11 @@
     <thead class="cart-header">
         <tr>
             <th class="prod-column">PRODUIT</th>
+            <th>TAILLE</th>
             <th>QUANTITE</th>
             <th class="price">Prix</th>
             <th>Total</th>
-            <th>&nbsp;</th> <!-- Ajout d'une colonne vide pour les actions, par exemple "Remove" -->
+            <th>Remove</th> <!-- Ajout d'une colonne vide pour les actions, par exemple "Remove" -->
         </tr>
     </thead>
     <tbody>
@@ -37,24 +38,30 @@
                     <!-- Afficher l'image du produit -->
                     <img style="width: 80px; height: 80px;" alt="{{ produit.produit.nom }}" src="{{ asset('uploads/images/' ~ produit.produit.image) }}">
                     <!-- Afficher le nom du produit -->
-                    <h3 class="prod-title padd-top-20">{{ produit.produit.nom }}</h3>
+                    <h3 class="prod-title padd-top-20 " >{{ produit.produit.nom }}</h3>
                 </div>
             </td>
-            <td class="qty">
-                <!-- Afficher la quantité du produit -->
-                <input class="quantity-spinner" type="text" value="{{ produit.quantite }}" name="quantity_{{ produit.produit.ref }}">
+           <td class="taille" >
+    <h4>{{ produit.produit.taille }}</h4>
+</td>
+
             </td>
+            <td class="qty">
+    <!-- Afficher la quantité du produit -->
+    <input class="quantity-spinner" type="text" value="{{ produit.quantite }}" id="spinner_{{ produit.produit.ref }}" name="quantity_{{ produit.produit.ref }}">
+</td>
             <td class="unit-price">
                 <!-- Afficher le prix unitaire du produit -->
-                {{ produit.produit.prix }} $ 
+                {{ produit.produit.prix }} DT 
             </td>
             <td class="sub-total">
                 <!-- Calculer et afficher le total pour chaque produit -->
-                {{ produit.quantite * produit.produit.prix }} $ 
+                {{ produit.quantite * produit.produit.prix }} DT 
             </td>
             <td class="remove">
                 <!-- Option pour supprimer le produit -->
-                <a href="#" class="remove-btn"><span class="fa fa-trash-o"></span> Remove</a>
+<a href="{{ path('RemoveFromCart', {'ref': produit.produit.ref}) }}" class="remove-btn" data-ref="{{ produit.produit.ref }}"><span class="fa fa-trash-o"></span> Supprimer</a>
+
             </td>
         </tr>
         {% endfor %}
@@ -62,13 +69,50 @@
 </table>
 
             </div>
-            <div class="update-cart-box clearfix">
-                <div class="pull-right">
-                    <button type="button" class="thm-btn update-cart">Update Cart</button> &emsp;
-                    <a class="thm-btn thm-blue-bg">Proceed to Checkout</a>
-                </div>
-            </div>
+                    
+                   <div class="column cart-total col-md-6 col-sm-12 col-xs-12" style="margin-top: 50px; margin-bottom: 20px;">
+    <div class="section-title text-left" ;>
+        <h1><span>Total de la commande</span></h1>
+    </div>
+    <!--Totals Table-->
+    <ul class="totals-table" >
+          <li class="clearfix">
+                <span class="col col-title">Sous-total de la commande</span>
+                <span class="col">{{ commande.prix }} DT</span>
+          </li>        
+           <li class="clearfix"><span class="col col-title">Frais de Livraison</span><span class="col">Livraison gratuite</span></li>
+           <li class="clearfix"><span class="col col-title">Total</span><span class="col">{{ commande.prix }}DT</span></li>
+    </ul>
+</div>
+
+<div class="update-cart-box clearfix">
+    <div class="pull-right">
+        <button type="button" class="thm-btn update-cart">Mise à jour Commande</button> &emsp;
+        <a class="thm-btn thm-blue-bg">PASSER À LA CAISSE</a>
+    </div>
+</div>
+
+
+
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

@@ -49,7 +49,9 @@
             <div class="overlay">
                 <div class="icon-holder">
                     <ul>
-                        <li><a href="{{ path('AddCart', {'ref': produit.ref}) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                        {# <li><a href="{{ path('AddCart', {'ref': produit.ref}) }}"><i class="fa fa-shopping-cart"></i></a></li> #}
+                        <li><a href="{{ path('AddCart', {'ref': produit.ref}) }}" class="add-to-cart" data-nom="{{ produit.nom }}"><i class="fa fa-shopping-cart"></i></a></li>
+
                         <li><a href="{{ path('MoreDetailsShop', {'ref': produit.ref}) }}"><i class="fa fa-search-plus"></i></a></li>
                     </ul>
                 </div>
@@ -276,6 +278,22 @@
 
 
 
+<script>
+    $(document).ready(function(){
+        // Détecter le clic sur le lien d'ajout au panier
+        $('a.add-to-cart').on('click', function(e){
+            e.preventDefault(); // Empêcher le lien de suivre son URL
+
+            // Récupérer le nom du produit à partir de l'attribut data-nom du lien
+            var produitNom = $(this).data('nom');
+
+            // Afficher une notification ou un popup
+            alert('Vous avez ajouté "' + produitNom + '" à votre commande.');
+        });
+    });
+</script>
+
+
 
 
  <style>
@@ -329,6 +347,7 @@
       </style>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 {% endblock %}
