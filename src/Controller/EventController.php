@@ -192,4 +192,52 @@ public function Affiche_front(EventRepository $repository): Response
     return $this->render('event/AfficheeventFront.html.twig', ['e' => $events]); // Pass 'events' as variable
 }
 
+
+#[Route('/Front_details/{idevent}', name: 'event_front_details')]
+
+public function details($idevent, EventRepository $eventRepository): Response
+{
+    // Récupérer les détails de l'événement en fonction de l'ID
+    $event = $eventRepository->find($idevent);
+
+    // Vérifier si l'événement existe
+    if (!$event) {
+        throw $this->createNotFoundException('Event not found');
+    }
+
+    // Rendre la vue des détails de l'événement avec les données de l'événement
+    return $this->render('event/details.html.twig', [
+        'event' => $event,
+    ]);
+}
+
+#[Route('/participate/{eventId}', name: 'app_participate')]
+public function participate(Request $request, EventRepository $eventRepository, UserRepository $utilisateursRepository, $eventId): Response
+{
+    // Récupérer l'événement à partir de son ID
+    $event = $eventRepository->find($eventId);
+
+    // Vérifier si l'événement existe
+    if (!$event) {
+        throw $this->createNotFoundException('L\'événement n\'existe pas');
+    }
+
+    $user = $utilisateursRepository->findOneBy(['pseudo' => 'habib']);
+
+    // Créer une nouvelle instance de Participation
+    $participation = new Participation();
+
+    // Set the user and event
+    $participation->setIduser($user);
+    $participation->setIdevent($event);
+
+    // Enregistrer la participation dans la base de données
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($participation);
+    $entityManager->flush();
+
+    // Rediriger l'utilisateur vers la page de l'événement
+    return $this->redirectToRoute('event_Affiche_front', ['id' => $eventId]);
+}
+
 }

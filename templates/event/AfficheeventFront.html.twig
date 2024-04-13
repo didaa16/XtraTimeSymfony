@@ -5,4 +5,159 @@
 {% block body %}
 
 
+
+ <section class="customizer-box off">
+        <button class="toggler"><i class="fa fa-cog fa-spin"></i></button>
+        <div class="top-box">
+            <h3>Style Switcher</h3>
+        </div><!-- /.top-box -->
+        <div class="customizer-inner ">
+            <div class="content-box">
+                <div class="title">
+                    <h4>Layout Style</h4>
+                </div><!-- /.title -->
+                <div class="content-row">
+                    <div class="content-col col-6">
+                        <a href="#" id="full-box">
+                            <img src="customizer/img/full-width.jpg" alt="Awesome Image"/>
+                            <p>Fullwidth</p>
+                        </a><!-- /.full-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-6">
+                        <a href="#" id="boxed">
+                            <img src="customizer/img/boxed-width.jpg" alt="Awesome Image"/>
+                                <p>Boxed</p>
+                        </a><!-- /.boxed -->
+                    </div><!-- /.content-col -->
+                </div><!-- /.content-row -->
+            </div><!-- /.content-box -->
+            <div class="content-box switcher-box">
+                <div class="title">
+                    <h4>Navigation</h4>
+                </div><!-- /.title -->
+                <div class="content-row">
+                    <div class="content-col col-12">
+                        <p>Sticky</p>
+                        <!-- Rounded switch -->
+                        <label class="switch navigation-switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Static</p>
+                    </div><!-- /.content-col -->
+                </div><!-- /.content-row -->
+            </div><!-- /.content-box -->
+            <div class="content-box">
+                <div class="title">
+                    <h4>Boxed Background</h4>
+                </div><!-- /.title -->
+                <div class="content-row">
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-1" data-pattern-name="boxed-pattern-1"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-2" data-pattern-name="boxed-pattern-2"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-3" data-pattern-name="boxed-pattern-3"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-4" data-pattern-name="boxed-pattern-4"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                </div><!-- /.content-row -->
+            </div><!-- /.content-box -->
+            <div class="content-box">
+                <div class="title">
+                    <h4>Color Skins</h4>
+                </div><!-- /.title -->
+                <ul class="content-row" id="styleOptions">
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-1 color1" data-theme="color1">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-2 color2" data-theme="color2">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-3 color3" data-theme="color3">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-4 color4" data-theme="color4">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                </ul><!-- /.content-row -->
+            </div><!-- /.content-box -->
+        </div><!-- /.customizer-inner -->
+    </section><!-- /.customizer-box -->
+
+    
+    
+    <section class="inner-banner pattern-3">
+        <div class="container text-center">
+            <h2>Liste des evenements</h2>
+            <p>Nos evenements </p>
+        </div>
+    </section>
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Events</a></li>
+                
+            <h2>Liste des evenements</h2>
+                <li><span></span></li>
+            </ul>
+        </div>
+    </section>
+  <section class="section-padding masonary-v1">
+    <div class="container">
+        <ul class="gallery-filter post-filter list-inline text-center">
+           
+        </ul>
+        <br />
+
+        <div class="row masonary-layout filter-layout">
+            {% for event in e %}
+            <div class="col-md-4 col-sm-4 filter-item fitness">
+                      
+
+                <div class="single-project-item">
+                    <div class="img-box">
+
+                       
+                        
+                        <img src="{{ asset('uploads/images/' ~ event.image) }}" alt="Awesome Image" />
+                    <div class="title event-title text-center">
+                        <h3>{{ event.titre }}</h3>
+                    
+                     <a href="{{ path('event_front_details', {'idevent': event.idevent}) }}" class="thm-btn">Voir les détails</a>
+</div>
+                       
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-4 -->
+            <!-- /.col-md-4 -->
+            {% endfor %}
+            <!-- /.col-md-4 -->
+        </div>
+        <!-- /.row -->
+        <br />
+        <ul class="post-pagination list-inline text-center">
+            <li><a href="#"><i class="fa fa-caret-left"></i></a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+        </ul>
+    </div>
+    <!-- /.container -->
+</section>
+
 {% endblock %}
