@@ -183,4 +183,13 @@ public function edit(EventRepository $repository, $idevent, Request $request): R
     ]);
 }
 
+
+
+#[Route('/Affiche_front', name: 'event_Affiche_front')]
+public function Affiche_front(EventRepository $repository): Response
+{
+    $events = $repository->findAll(); // Fetch all events
+    return $this->render('event/AfficheeventFront.html.twig', ['e' => $events]); // Pass 'events' as variable
+}
+
 }

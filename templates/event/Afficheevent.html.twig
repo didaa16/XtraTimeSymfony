@@ -61,15 +61,15 @@
                                                                 <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                                             </div>
                                                         </th>
-                                                         <th class="sort" data-sort="nomProduit">idevent</th>
-                                             <th class="sort" data-sort="ref">titre</th>
-                                             <th class="sort" data-sort="marque">description</th>
-                                             <th class="sort" data-sort="prix">Image</th>
-                                             <th class="sort" data-sort="quantite">Date_debut</th>
-                                             <th class="sort" data-sort="taille">Date_fin</th>
-                                             <th class="sort" data-sort="type sport"> idterrain</th>
-                                             <th class="sort" data-sort="desc">idsponso</th>
-                                             <th class="sort" data-sort="image">iduser</th>
+                                                         <th class="sort" data-sort="idevent">idevent</th>
+                                             <th class="sort" data-sort="titre">titre</th>
+                                             <th class="sort" data-sort="description">description</th>
+                                             <th class="sort" data-sort="Image">Image</th>
+                                             <th class="sort" data-sort="Date_debut">Date_debut</th>
+                                             <th class="sort" data-sort="Date_fin">Date_fin</th>
+                                             <th class="sort" data-sort=" idterrain"> idterrain</th>
+                                             <th class="sort" data-sort="idsponso">idsponso</th>
+                                             <th class="sort" data-sort="iduser">iduser</th>
                                              <th class="sort" data-sort="action">Action</th>
                                                     </tr>
                                                 </thead>
@@ -81,17 +81,17 @@
                     </div>
                 </th>
                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
-                <td class="nomProduit"  style="max-width: 90px; ">{{ a.idevent }}</td>
-                <td class="ref">{{ a.titre }}</td>
-                <td class="marque">{{ a.description }}</td>
-                <td class="prix">{{  a.image }}</td>
+                <td class="idevent"  style="max-width: 90px; ">{{ a.idevent }}</td>
+                <td class="titre">{{ a.titre }}</td>
+                <td class="description">{{ a.description }}</td>
+                <td class="image">{{  a.image }}</td>
                 
                 
-                <td class="quantite">{{  a.datedebut|date('Y-m-d H:i:s') }}</td>
-                <td class="taille">{{ a.datefin|date('Y-m-d H:i:s') }}</td>
-                <td class="type sport">{{ a.idterrain.nom }}</td>
-                <td class="desc" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{  a.idsponso.nom }}</td>
-                <td class="image" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{  a.iduser.nom }}</td>
+                <td class="datedebut">{{  a.datedebut|date('Y-m-d H:i:s') }}</td>
+                <td class="datefin">{{ a.datefin|date('Y-m-d H:i:s') }}</td>
+                <td class="idterrain ">{{ a.idterrain.nom }}</td>
+                <td class="idsponso" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{  a.idsponso.nom }}</td>
+                <td class="iduser" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{  a.iduser.nom }}</td>
                 <td>
                     <div class="d-flex gap-2">
                         <div class="edit">
@@ -136,6 +136,35 @@
                     
 
           
+  {% block JavaScript %}
+    
+      <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search');
+        const rows = document.querySelectorAll('#customerTable tbody tr');
+
+        searchInput.addEventListener('input', function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+
+            rows.forEach(row => {
+                let isVisible = false;
+                row.querySelectorAll('td').forEach(cell => {
+                    // Exclure la colonne "idevent" de la recherche
+                    if (!cell.classList.contains('idevent')) {
+                        const cellText = cell.textContent.toLowerCase();
+                        if (cellText.includes(searchTerm)) {
+                            isVisible = true;
+                        }
+                    }
+                });
+                row.style.display = isVisible ? 'table-row' : 'none';
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}
 
                     
 
