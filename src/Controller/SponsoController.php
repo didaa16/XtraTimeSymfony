@@ -156,4 +156,47 @@ public function edit(SponsoRepository $repository, $idsponso, Request $request):
 
 
 
+#[Route('/Sponso_front', name: 'sponso_Affiche_front')]
+public function Affiche_front(SponsoRepository $repository): Response
+{
+    $sponsors = $repository->findAll(); // Fetch all events
+    return $this->render('sponso/AfficheSponsoFront.html.twig', ['s' => $sponsors]); // Pass 'events' as variable
+}
+
+
+#[Route('/FrontSponso_details/{idsponso}', name: 'sponso_front_details')]
+public function details($idsponso, SponsoRepository $sponsoRepository): Response
+{
+    // Récupérer les détails de l'événement en fonction de l'ID
+    $sponso = $sponsoRepository->find($idsponso);
+
+    // Vérifier si l'événement existe
+    if (!$sponso) {
+        throw $this->createNotFoundException('Sponso not found');
+    }
+
+    // Rendre la vue des détails de l'événement avec les données de l'événement
+    return $this->render('sponso/Sponsodetails.html.twig', [
+        'sponso' => $sponso, // Utiliser le nom de variable correct
+    ]);
+}
+
+
+#[Route('/BackSponso_details/{idsponso}', name: 'sponso_back_details')]
+public function Bdetails($idsponso, SponsoRepository $sponsoRepository): Response
+{
+    // Récupérer les détails de l'événement en fonction de l'ID
+    $sponso = $sponsoRepository->find($idsponso);
+
+    // Vérifier si l'événement existe
+    if (!$sponso) {
+        throw $this->createNotFoundException('Sponso not found');
+    }
+
+    // Rendre la vue des détails de l'événement avec les données de l'événement
+    return $this->render('sponso/SponsodetailsBack.html.twig', [
+        'sponso' => $sponso, // Utiliser le nom de variable correct
+    ]);
+}
+
 }

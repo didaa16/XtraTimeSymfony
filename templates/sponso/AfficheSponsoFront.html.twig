@@ -1,0 +1,54 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Liste des Sponsors{% endblock %}
+
+{% block body %}
+    <section class="customizer-box off">
+        <!-- Votre code de personnalisation ici -->
+    </section>
+
+    <section class="related-project-box section-padding pb0">
+        <div class="section-title">
+            <h1><span>Our  Sponsors</span></h1>
+        </div>
+        <!-- /.section-title -->
+
+        <!-- Contenu de la "Related Gallery" -->
+        <div class="related-project-carousel-2col related-product-carousel owl-theme owl-carousel">
+            <!-- Contenu des sponsors -->
+            {% for sponso in s %}
+                <div class="item">
+                    <div class="single-project-item">
+                        <a href="{{ path('sponso_front_details', {idsponso: sponso.idsponso}) }}">
+                            <div class="img-box">
+                                <img src="{{ asset('uploads/images/' ~ sponso.image) }}" alt="Awesome Image" style="width: 100%; height: 200px; object-fit: cover;">
+                                <!-- Si vous avez un lien vers les détails du sponsor -->
+                                <div class="overlay">
+                                    <div class="box">
+                                        <div class="top-box">
+                                            <div class="title">
+                                                <h3>{{ sponso.nom }}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="bottom-box">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-link"></i></a></li>
+                                                <!-- Lien vers les détails du sponsor -->
+                                                <li><a href="#" class="fancybox"><i class="fa fa-search-plus"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="text-box">
+                            <h3>{{ sponso.nom }}</h3>
+                            
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- /.related-project-carousel-2col -->
+    </section>
+{% endblock %}

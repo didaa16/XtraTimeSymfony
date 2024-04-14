@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des événements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="center">Liste des événements</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Terrain</th>
+                <th>Sponsor</th>
+                <th>Image</th> <!-- Ajout de la colonne pour l'image -->
+                <!-- Ajoutez d'autres colonnes si nécessaire -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.titre }}</td>
+                    <td>{{ event.datedebut|date('d/m/Y H:i') }}</td>
+                    <td>{{ event.datefin|date('d/m/Y H:i') }}</td>
+                    <td>{{ event.idterrain.nom }}</td>
+                    <td>{{ event.idsponso.nom }}</td>
+                    <td><img src="{{ absolute_url(asset('uploads/' ~ event.image)) }}" alt="Image de l'événement" style="max-width: 100px;"></td> <!-- Affichage de l'image -->
+                    <!-- Affichez d'autres données d'événement si nécessaire -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

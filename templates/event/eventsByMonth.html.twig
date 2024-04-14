@@ -1,0 +1,92 @@
+
+
+{% block title %}Statistiques des événements par mois{% endblock %}
+
+{% block body %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <h1>Statistiques des événements par mois</h1>
+                <div class="card">
+                    <div class="card-body" style="padding: 20px;">
+                        <div id="eventsByMonthChart" style="width: 400px; height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script src="/BackEnd/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer les données passées depuis le contrôleur
+        var eventsByMonthData = {{ eventsByMonth|json_encode|raw }};
+        
+        // Créer un tableau pour stocker les données formatées
+        var chartData = [];
+        for (var month in eventsByMonthData) {
+            if (eventsByMonthData.hasOwnProperty(month)) {
+                chartData.push({
+                    x: month, // Mois
+                    y: eventsByMonthData[month] // Nombre d'événements
+                });
+            }
+        }
+        
+        // Créer le graphique avec ApexCharts
+        var options = {
+            chart: {
+                type: 'bar',
+                height: 300,
+                background: '#f8f9fc', // Couleur de fond du graphique
+                foreColor: '#333' // Couleur du texte
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [{
+                name: 'Nombre d\'événements',
+                data: chartData
+            }],
+            xaxis: {
+                type: 'category',
+                labels: {
+                    formatter: function(val) {
+                        return val.substring(0, 3); // Afficher seulement les 3 premières lettres du mois
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Nombre d\'événements',
+                    style: {
+                        color: '#333' // Couleur du titre de l'axe Y
+                    }
+                },
+                labels: {
+                    style: {
+                        colors: '#333' // Couleur des étiquettes de l'axe Y
+                    }
+                }
+            },
+            colors: ['#008FFB'] // Couleur des barres
+        };
+
+        var chart = new ApexCharts(document.querySelector("#eventsByMonthChart"), options);
+        chart.render();
+    });
+</script>
+{% endblock %}

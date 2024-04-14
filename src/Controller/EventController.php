@@ -8,18 +8,20 @@ use App\Repository\EventRepository;
 use App\Repository\SponsoRepository; 
 use App\Repository\UserRepository;
 use App\Repository\TerrainRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile; // Import UploadedFile
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Participation;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+
+
 
 
 class EventController extends AbstractController
@@ -193,6 +195,26 @@ public function Affiche_front(EventRepository $repository): Response
 }
 
 
+#[Route('/Back_details/{idevent}', name: 'event_back_details')]
+
+public function Bdetails($idevent, EventRepository $eventRepository): Response
+{
+    // Récupérer les détails de l'événement en fonction de l'ID
+    $event = $eventRepository->find($idevent);
+
+    // Vérifier si l'événement existe
+    if (!$event) {
+        throw $this->createNotFoundException('Event not found');
+    }
+
+    // Rendre la vue des détails de l'événement avec les données de l'événement
+    return $this->render('event/Backdetails.html.twig', [
+        'event' => $event,
+    ]);
+}
+
+
+
 #[Route('/Front_details/{idevent}', name: 'event_front_details')]
 
 public function details($idevent, EventRepository $eventRepository): Response
@@ -238,6 +260,78 @@ public function participate(Request $request, EventRepository $eventRepository, 
 
     // Rediriger l'utilisateur vers la page de l'événement
     return $this->redirectToRoute('event_Affiche_front', ['id' => $eventId]);
+}
+
+
+
+
+
+
+
+
+#[Route('/stats', name: 'app_stats')]
+public function stat(EventRepository $eventRepository): Response
+{
+    // Récupérer les événements avec leurs dates de début
+    $events = $eventRepository->findAll();
+
+    // Initialiser un tableau pour stocker le nombre d'événements par mois
+    $eventsByMonth = [];
+
+    // Parcourir tous les événements
+    foreach ($events as $event) {
+        // Récupérer le mois de la date de début de l'événement sous forme de nom complet
+        $month = $event->getDatedebut()->format('F');
+    
+        // Incrémenter le compteur pour ce mois
+        if (!isset($eventsByMonth[$month])) {
+            $eventsByMonth[$month] = 1;
+        } else {
+            $eventsByMonth[$month]++;
+        }
+    }
+    
+    return $this->render('event/eventsByMonth.html.twig', [
+        'eventsByMonth' => $eventsByMonth,
+    ]);
+}
+
+
+
+//PDF
+
+
+
+#[Route('/events/pdf', name: 'event_pdf')]
+public function generatePdf(EventRepository $eventRepository): Response
+{
+    // Récupérer la liste des événements depuis le repository
+    $events = $eventRepository->findAll();
+
+    // Créer une instance de Dompdf
+    $dompdf = new Dompdf();
+
+    // Générer le HTML pour la liste des événements
+    $html = $this->renderView('event/pdf.html.twig', ['events' => $events]);
+
+    // Charger le HTML dans Dompdf
+    $dompdf->loadHtml($html);
+
+    // Rendre le PDF
+    $dompdf->render();
+
+    // Générer le nom du fichier PDF
+    $pdfFileName = 'liste_des_evenements.pdf';
+
+    // Envoyer le PDF en réponse avec l'en-tête Content-Disposition réglé sur "attachment"
+    return new Response(
+        $dompdf->output(),
+        Response::HTTP_OK,
+        [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $pdfFileName . '"',
+        ]
+    );
 }
 
 }

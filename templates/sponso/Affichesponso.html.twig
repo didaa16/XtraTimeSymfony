@@ -60,7 +60,7 @@
                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                              </div>
                                              </th>
-                                             <th class="sort" data-sort="idsponso">idsponso</th>
+                                             
                                              <th class="sort" data-sort="nom">nom</th>
                                              <th class="sort" data-sort="tel">tel</th>
                                              <th class="sort" data-sort="email">email</th>
@@ -77,8 +77,10 @@
                     </div>
                 </th>
                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
-                <td class="idsponso"  style="max-width: 90px; ">{{ a.idsponso }}</td>
-                <td class="nom">{{ a.nom }}</td>
+               
+                <td class="nom">
+                 <a href="{{ path('sponso_back_details', {'idsponso': a.idsponso}) }}">{{ a.nom }}</a>
+                 </td>
                 <td class="tel">{{ a.tel }}</td>
                  <td class="email">{{ a.email }}</td>
                 <td class="image">{{  a.image }}</td>
@@ -159,6 +161,9 @@
 
 
 {% endblock %}
+
+
+
          
 
 {% endblock %}
