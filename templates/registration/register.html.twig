@@ -1,29 +1,53 @@
-{% extends 'base.html.twig' %}
+{% extends 'home/front.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Users{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6">
+                {% for flash_error in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
 
-    <h1>Register</h1>
+                <h1 class="text-center">Register</h1>
 
-    {{ form_errors(registrationForm) }}
+                {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.pseudo) }}
-    {{ form_row(registrationForm.nom) }}
-    {{ form_row(registrationForm.prenom) }}
-    {{ form_row(registrationForm.age) }}
-    {{ form_row(registrationForm.numTel) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.cin) }}
-    {{ form_row(registrationForm.plainPassword, {
-        label: 'Password'
-    }) }}
-    {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_start(registrationForm) }}
+                <div class="mb-3">
+                    {{ form_row(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.age, {'attr': {'class': 'form-control', 'placeholder': 'Age'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.numTel, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de téléphone'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.plainPassword, { 'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.agreeTerms) }}
+                </div>
 
-    <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}

@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'home/back.html.twig' %}
 
 {% block title %}Utilisateurs index{% endblock %}
 
+
 {% block body %}
+    <div>
     <h1>Utilisateurs index</h1>
 
     <table class="table">
@@ -50,4 +52,5 @@
     </table>
 
     <a href="{{ path('app_utilisateurs_new') }}">Create new</a>
+    </div>
 {% endblock %}
