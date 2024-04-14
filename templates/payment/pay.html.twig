@@ -1,0 +1,148 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+<section class="inner-banner pattern-3" style="margin-top: 0px; height: 250px;">
+    <div class="container text-center">
+        <h2>PAIEMENT</h2>
+        <img alt="" src="/img/shop/carte.png" width="150">
+    </div>
+</section>
+    <div class="container" style="margin-left: auto; margin-right: auto;  max-width: 500px;">
+
+<section class="bread-cumb">
+    
+</section>
+<!--Checkout Section-->
+<section class="checkout-section section-padding cart-section">
+
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                            <h2 style="font-weight: bold; font-size: 30px; font-family: Arial, sans-serif; text-align: center; margin-bottom: 50px; margin-top: 0px;">Paiement Avec Stripe</h2>
+
+                <div class="card" style="border: 1px solid #ccc; border-radius: 5px; padding: 20px;">
+                    <div class="card-body">
+                        <form method="post" action="{{ path('process_payment') }}" id="paymentForm">
+                            <div class="form-group">
+    <label for="card_number">Numéro de carte</label>
+    <input type="password" class="form-control" id="card_number" name="card_number" placeholder="**** **** **** ****" required pattern="\d{16}" title="Le numéro de carte doit contenir 16 chiffres">
+    <input type="text" class="form-control" id="masked_card_number" placeholder="**** **** **** ****" readonly style="display: none;">
+</div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="expiration_month">Mois d'expiration</label>
+                                    <select id="expiration_month" class="form-control" name="expiration_month" required>
+                                        <option value="">Mois</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="expiration_year">Année d'expiration</label>
+                                    <input type="text" class="form-control" id="expiration_year" name="expiration_year" placeholder="Année" required pattern="\d{4}" title="L'année d'expiration doit être au format AAAA">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvc">Code de vérification (CVC)</label>
+                                <input type="text" class="form-control" id="cvc" name="cvc" placeholder="CVC" required pattern="\d{3}" title="Le code de vérification (CVC) doit contenir 3 chiffres">
+                            </div>
+<div class="clearfix" style="font-size: 24px; display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+    <span class="col col-title">Total : </span>
+    <span class="col"> {{ total }} DT</span>
+</div>
+
+                            <button type="button" class="btn btn-primary btn-block custom-btn" id="submitBtn">Payer</button>
+                            <img alt="" src="/img/shop/stripe.png" style="margin-left: 20px";>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        var cardNumber = document.getElementById('card_number').value;
+        var month = document.getElementById('expiration_month').value;
+        var year = document.getElementById('expiration_year').value;
+        var cvc = document.getElementById('cvc').value;
+        var today = new Date();
+        var currentMonth = today.getMonth() + 1; // JavaScript months are 0-based
+        var currentYear = today.getFullYear();
+
+        // Vérifier si le numéro de carte est valide (16 chiffres)
+        if (!(/^\d{16}$/.test(cardNumber))) {
+            alert('Le numéro de carte doit contenir 16 chiffres.');
+            return;
+        }
+
+        // Vérifier si le mois et l'année d'expiration sont valides
+        if (year < currentYear || (year == currentYear && month < currentMonth)) {
+            alert('La date d\'expiration doit être supérieure à la date actuelle.');
+            return;
+        }
+
+        // Vérifier si le CVC est valide (3 chiffres)
+        if (!(/^\d{3}$/.test(cvc))) {
+            alert('Le code de vérification (CVC) doit contenir 3 chiffres.');
+            return;
+        }
+
+        // Si toutes les conditions sont remplies, soumettre le formulaire
+        document.getElementById('paymentForm').submit();
+    });
+});
+
+</script>
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var cardNumberField = document.getElementById('card_number');
+    var maskedCardNumberField = document.getElementById('masked_card_number');
+    var showCardNumberBtn = document.getElementById('showCardNumberBtn');
+
+    showCardNumberBtn.addEventListener('click', function() {
+        if (cardNumberField.type === 'password') {
+            cardNumberField.style.display = 'none';
+            maskedCardNumberField.style.display = 'inline-block';
+            maskedCardNumberField.value = cardNumberField.value.replace(/\d(?=\d{4})/g, '*');
+            showCardNumberBtn.textContent = 'Cacher le numéro de carte';
+        } else {
+            cardNumberField.style.display = 'inline-block';
+            maskedCardNumberField.style.display = 'none';
+            showCardNumberBtn.textContent = 'Voir le numéro de carte';
+        }
+    });
+});
+</script>
+
+
+
+
+
+<style>
+.custom-btn {
+    background-color: #a8c414;
+    border-color: #a8c414;
+}
+
+.custom-btn:hover {
+    background-color: #8c9c0f;
+    border-color: #8c9c0f;
+}
+</style>
+
+{% endblock %}

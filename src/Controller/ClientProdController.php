@@ -91,11 +91,12 @@ class ClientProdController extends AbstractController
         // Récupérer l'utilisateur en utilisant son pseudo
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
     
-        // Créer une nouvelle commande si elle n'existe pas encore pour l'utilisateur "bohmid"
+        // Récupérer la commande en attente de l'utilisateur
         $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy(['iduser' => $utilisateur, 'status' => 'enAttente']);
+    
         if (!$commande) {
+            // Si aucune commande en attente n'existe, créez une nouvelle commande
             $commande = new Commande();
-            // Initialisez les autres champs de la commande si nécessaire
             $commande->setIduser($utilisateur);
             $commande->setStatus('enAttente');
             $commande->setPrix(0);
@@ -105,7 +106,7 @@ class ClientProdController extends AbstractController
             $entityManager->flush();
         }
     
-        // Ajouter le produit à la commande de l'utilisateur "bohmid"
+        // Ajouter le produit à la commande de l'utilisateur
         $produitCommande = new ProduitCommande();
         $produitCommande->setRef($produit->getRef());
         $produitCommande->setRefCommande($commande->getRefCommande());
@@ -116,6 +117,7 @@ class ClientProdController extends AbstractController
         // Rediriger l'utilisateur vers la page shop après l'ajout au panier
         return $this->redirectToRoute('ClientProd'); 
     }
+    
     
  
 
@@ -217,44 +219,53 @@ $entityManager->flush();
 
    
    #[Route('/RemoveFromCart/{ref}', name: 'RemoveFromCart')]
-   public function removeFromCart(Request $request, string $ref): Response
-   {
-       // Récupérez l'utilisateur actuel (fixe pour l'exemple)
-       $pseudo = 'dida';
-   
-       // Récupérez le produit commandé à supprimer de la base de données
-       $produitCommande = $this->getDoctrine()->getRepository(ProduitCommande::class)->findOneBy(['ref' => $ref]);
-   
-       if (!$produitCommande) {
-           throw $this->createNotFoundException('Produit commandé non trouvé');
-       }
-   
-       // Récupérez l'utilisateur en utilisant son pseudo
-       $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
-   
-     /*   // Vérifier si le produit commandé appartient à l'utilisateur
-       if ($produitCommande->getIduser() != $utilisateur->getId()) {
-           throw $this->createAccessDeniedException('Vous n\'avez pas le droit de supprimer ce produit');
-       } */
-   
-       // Récupérer la commande associée au produit commandé
-       $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy(['refCommande' => $produitCommande->getRefCommande()]);
-   
-       if (!$commande) {
-           throw $this->createNotFoundException('Commande en cours non trouvée');
-       }
-   
+public function removeFromCart(Request $request, string $ref): Response
+{
+    // Récupérez l'utilisateur actuel (fixe pour l'exemple)
+    $pseudo = 'dida';
 
-       
-       // Supprimer le produit de la commande
-       $entityManager = $this->getDoctrine()->getManager();
-       $entityManager->remove($produitCommande);
-       $entityManager->flush();
-   
-       // Rediriger l'utilisateur vers la page de commande après la suppression
-       return $this->redirectToRoute('my_order'); // Vous devez remplacer 'my_order' par le nom de votre route appropriée.
-   }
-   
+    // Récupérez le produit commandé à supprimer de la base de données
+    $produitCommande = $this->getDoctrine()->getRepository(ProduitCommande::class)->findOneBy(['ref' => $ref]);
+
+    if (!$produitCommande) {
+        throw $this->createNotFoundException('Produit commandé non trouvé');
+    }
+
+    // Récupérez l'utilisateur en utilisant son pseudo
+    $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
+
+    // Récupérer la commande associée au produit commandé
+    $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy(['iduser' => $utilisateur, 'status' => 'enAttente']);
+
+    if (!$commande) {
+        throw $this->createNotFoundException('Commande en cours non trouvée');
+    }
+
+    // Supprimer le produit de la commande
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->remove($produitCommande);
+    $entityManager->flush();
+
+    // Recalculer le prix total de la commande
+    $produitsCommande = $this->getDoctrine()->getRepository(ProduitCommande::class)->findBy(['refCommande' => $commande->getRefCommande()]);
+    $sousTotal = 0;
+    foreach ($produitsCommande as $produitCommande) {
+        $refProduit = $produitCommande->getRef();
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['ref' => $refProduit]);
+        if ($produit) {
+            $sousTotal += $produit->getPrix();
+        }
+    }
+
+    // Mettre à jour le prix de la commande
+    $commande->setPrix($sousTotal);
+    $entityManager->persist($commande);
+    $entityManager->flush();
+
+    // Rediriger l'utilisateur vers la page de commande après la suppression
+    return $this->redirectToRoute('my_order');
+}
+
 
 
 
@@ -266,7 +277,3 @@ $entityManager->flush();
 
 
 }
-
-
-
-

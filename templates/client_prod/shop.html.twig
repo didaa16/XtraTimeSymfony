@@ -1,7 +1,9 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
-  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.js"></script>
+
 
   <section class="inner-banner pattern-3" style="margin-top: 0px;">
 
@@ -15,8 +17,7 @@
         <div class="container text-center">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><span>Shop Products with sidebar</span></li>
+                <li><span>Shop</span></li>
             </ul>
         </div>
     </section>
@@ -108,7 +109,7 @@
                         <!-- /.single-sidebar -->
                         <div class="single-sidebar price-filter">
                             <div class="title">
-                                <h3>Filtrer(referencee)</h3>
+                                <h3>Filtrer par prix</h3>
                             </div>
                             <div class="range-slider-price" id="range-slider-price"></div>
                             <div class="form-group clearfix">
@@ -254,13 +255,6 @@
         <!-- /.container -->
     </section>
     <!-- /.section-padding sidebar-pages -->
-
-
-
-
-
-
-
 <script>
    function handleChange(select) {
     var sortBy = select.value;
@@ -274,9 +268,6 @@
 
 
 </script>
-
-
-
 
 <script>
     $(document).ready(function(){
@@ -292,6 +283,72 @@
         });
     });
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        // Détecter la saisie de l'utilisateur dans la barre de recherche
+        $('input[type="text"]').on('input', function(){
+            var searchTerm = $(this).val().toLowerCase(); // Convertir la saisie en minuscules pour une recherche insensible à la casse
+            
+            // Parcourir tous les produits
+            $('.single-product-item').each(function(){
+                var productName = $(this).find('.product-name').text().toLowerCase(); // Récupérer le nom du produit
+                
+                // Vérifier si le nom du produit contient le terme de recherche
+                if(productName.includes(searchTerm)){
+                    $(this).show(); // Afficher le produit s'il correspond à la recherche
+                } else {
+                    $(this).hide(); // Cacher le produit s'il ne correspond pas à la recherche
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+        $(document).ready(function(){
+            // Fonction pour appliquer le filtrage par prix
+            function applyPriceFilter() {
+                var minPrice = parseFloat($('#min-value-rangeslider').val());
+                var maxPrice = parseFloat($('#max-value-rangeslider').val());
+
+                $('.single-product-item').each(function() {
+                    var productPrice = parseFloat($(this).find('.product-price').text().replace(' DT', ''));
+                    if (productPrice >= minPrice && productPrice <= maxPrice) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // Détecter les changements dans la plage de prix et appliquer le filtrage
+            $('#range-slider-price').on('change', function() {
+                applyPriceFilter();
+            });
+
+            // Appeler la fonction priceFilter() lorsque le document est prêt
+            priceFilter();
+        });
+    </script>
+
+
 
 
 
@@ -347,8 +404,11 @@
       </style>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+
 
 
 {% endblock %}
-

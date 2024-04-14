@@ -35,15 +35,32 @@
 
                                 <div class="card-body">
                                     <div class="listjs-table" id="customerList">
-                                        <div class="row g-4 mb-3">
+                                <div class="row g-3 mb-3 align-items-center">
                                             {# <div class="col-sm-auto">
                                                 <div>
                                                   
                                                     <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                                 </div>
                                             </div> #}
-                                            <div class="col-sm">
-                                                <div class="d-flex justify-content-sm-end">
+
+                                    <div class="col-sm">
+    <div class="btn-group material-shadow my-filtre"> <!-- Ajout de la classe ms-2 pour une marge à gauche -->
+    <button type="button" class="btn btn-danger dropdown-toggle material-shadow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filtrer par statut</button>
+    <div class="dropdown-menu">
+            <button class="dropdown-item filter-status" data-status="Tous">Défaut</button>
+
+        <button class="dropdown-item filter-status" data-status="EnCours">En cours</button>
+        <button class="dropdown-item filter-status" data-status="Livrée">Livrée</button>
+        <button class="dropdown-item filter-status" data-status="EnAttente">En attente</button>
+    </div>
+</div><!-- /btn-group -->
+</div>
+
+
+
+                                            
+                                            <div class="col-sm my-rech">
+                                                <div class="d-flex justify-content-sm-end ">
                                                     <div class="search-box ms-2">
                                                         <input type="text" class="form-control search" placeholder="Recherche...">
                                                         <i class="ri-search-line search-icon"></i>
@@ -198,6 +215,35 @@
 </script>-->
 
 
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+    const filterButtons = document.querySelectorAll('.filter-status');
+    const filterDropdown = document.querySelector('.btn-group .btn');
+    const tableRows = document.querySelectorAll('#customerTable tbody tr');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const status = this.getAttribute('data-status');
+            filterDropdown.textContent = status === 'Tous' ? 'Aucun filtre' : 'Filtrée par statut : ' + status;
+            
+            tableRows.forEach(row => {
+                const rowStatus = row.querySelector('.status').textContent.toLowerCase();
+                if (status === 'Tous' || rowStatus.includes(status.toLowerCase())) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+
+
+</script>
+
+
+
 
 
 <!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM -->
@@ -280,8 +326,12 @@
        
     }
 
-
-
+.my-filtre {
+    margin-left:670px; /* Ajoutez la valeur de la marge souhaitée */
+}
+.my-rech {
+    margin-right:100px; /* Ajoutez la valeur de la marge souhaitée */
+}
 
 </style>
 

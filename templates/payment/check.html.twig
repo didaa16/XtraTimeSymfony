@@ -1,0 +1,193 @@
+
+{% extends 'index.html.twig' %}
+
+{% block body %}
+<section class="inner-banner pattern-3" style="margin-top: 0px; ">
+        <div class="container text-center">
+            <h2>PAIEMENT</h2>
+        <img alt="" src="/img/shop/carte.png" width="150">
+        </div>
+    </section>
+    
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><span>Paiement</span></li>
+            </ul>
+        </div>
+    </section>
+    <!--Checkoout Section-->
+    <section class="checkout-section section-padding cart-section">
+        <div class="container">
+            <div class="row clearfix">
+                <!--Form Column-->
+                
+                <!--Form Column-->
+                <div class="col-md-6 col-sm-12 col-xs-12 column form-column">
+                    <div class="section-title text-left">
+                        <h1><span>Paiement Avec Stripe</span></h1>
+                    </div>
+                     <div class="card" style="border: 1px solid #ccc; border-radius: 5px; padding: 20px;">
+                    <div class="card-body">
+                        <form method="post" action="{{ path('process_payment') }}" id="paymentForm">
+                            <div class="form-group">
+    <label for="card_number">Numéro de carte*</label>
+    <input type="password" class="form-control" id="card_number" name="card_number" placeholder="**** **** **** ****" required pattern="\d{16}" title="Le numéro de carte doit contenir 16 chiffres">
+    <input type="text" class="form-control" id="masked_card_number" placeholder="**** **** **** ****" readonly style="display: none;">
+</div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="expiration_month">Mois d'expiration*</label>
+                                    <select id="expiration_month" class="form-control" name="expiration_month" required>
+                                        <option value="">Mois</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="expiration_year">Année d'expiration*</label>
+                                    <input type="text" class="form-control" id="expiration_year" name="expiration_year" placeholder="Année" required pattern="\d{4}" title="L'année d'expiration doit être au format AAAA">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvc">Code de vérification (CVC)*</label>
+                                <input type="text" class="form-control" id="cvc" name="cvc" placeholder="CVC" required pattern="\d{3}" title="Le code de vérification (CVC) doit contenir 3 chiffres">
+                            </div>
+
+
+
+                            <img alt="" src="/img/shop/stripe.png" style="margin-left: 20px";>
+
+                        </form>
+                    </div>
+                </div>
+                </div>
+
+<div class="col-md-6 col-sm-12 col-xs-12 column default-column cart-total">
+                    <div class="section-title text-left">
+                        <h1><span>Total de la commande</span></h1>
+                    </div>
+                    <!--Totals Table-->
+                    <div class="tot" style = "margin-top: 60px;">
+                    <ul class="totals-table">
+    <li class="clearfix">
+        <span class="col col-title" style="font-size: 18px;">Sous-total de la commande</span>
+        <span class="col" style="font-size: 18px;">{{ total }} DT</span>
+    </li>
+    <li class="clearfix">
+        <span class="col col-title" style="font-size: 18px;">Frais de Livraison</span>
+        <span class="col" style="font-size: 18px;">Livraison gratuite</span>
+    </li>
+    <li class="clearfix">
+        <span class="col col-title" style="font-size: 18px;">Total</span>
+        <span class="col total-price" style="font-size: 24px; font-weight: bold;">{{ total }} DT</span>
+    </li>
+</ul>
+
+                    <!--Payment Options-->
+                    <div class="payment-options">
+                        <div class="option-block">
+                            <div class="radio-block active">
+                                <div class="icon clearfix">
+                                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                </div>
+                                <label class="radio-label">Votre paiement</label>
+                            </div>
+                        </div>
+                        <div class="text">
+                            <p>Rassurez-vous, votre paiement est sécurisé avec Stripe, notre partenaire de confiance. Vos données sont cryptées et traitées en toute sécurité. Optez pour la tranquillité d'esprit lors de vos transactions avec nous.</p>
+                        </div>
+                        <div class="option-block">
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="margin-top-40 text-right">
+                            <button type="button" class="thm-btn thm-blue-bg" id="submitBtn">Payer</button>
+
+
+                    </div>
+                </div>
+</div>
+            </div>
+            
+        </div>
+    </section>
+
+
+
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        // Récupérer les valeurs des champs
+        var cardNumber = document.getElementById('card_number').value;
+        var month = document.getElementById('expiration_month').value;
+        var year = document.getElementById('expiration_year').value;
+        var cvc = document.getElementById('cvc').value;
+
+        // Vérifier si tous les champs sont remplis
+        if (cardNumber === '' || month === '' || year === '' || cvc === '') {
+            alert('Veuillez remplir tous les champs.');
+            return;
+        }
+
+        // Vérifier si le numéro de carte est valide (16 chiffres)
+        if (!(/^\d{16}$/.test(cardNumber))) {
+            alert('Le numéro de carte doit contenir 16 chiffres.');
+            return;
+        }
+
+        // Vérifier si le mois et l'année d'expiration sont valides
+        var today = new Date();
+        var currentMonth = today.getMonth() + 1; // JavaScript months are 0-based
+        var currentYear = today.getFullYear();
+        if (year < currentYear || (year == currentYear && month < currentMonth)) {
+            alert('La date d\'expiration doit être supérieure à la date actuelle.');
+            return;
+        }
+
+        // Vérifier si le CVC est valide (3 chiffres)
+        if (!(/^\d{3}$/.test(cvc))) {
+            alert('Le code de vérification (CVC) doit contenir 3 chiffres.');
+            return;
+        }
+
+        // Si toutes les conditions sont remplies, soumettre le formulaire
+        document.getElementById('paymentForm').submit();
+    });
+});
+
+</script>
+
+
+<style>
+
+.total-price {
+    font-size: 24px; 
+    font-weight: bold; 
+     color: #bf472c;
+
+}
+
+
+</style>
+
+
+
+
+
+{% endblock %}

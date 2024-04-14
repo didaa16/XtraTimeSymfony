@@ -1,3 +1,4 @@
+
 {% extends 'index.html.twig' %}
 
 {% block body %}
@@ -49,6 +50,7 @@
             <td class="qty">
     <!-- Afficher la quantité du produit -->
     <input class="quantity-spinner" type="text" value="{{ produit.quantite }}" id="spinner_{{ produit.produit.ref }}" name="quantity_{{ produit.produit.ref }}">
+
 </td>
             <td class="unit-price">
                 <!-- Afficher le prix unitaire du produit -->
@@ -88,7 +90,7 @@
 <div class="update-cart-box clearfix">
     <div class="pull-right">
         <button type="button" class="thm-btn update-cart">Mise à jour Commande</button> &emsp;
-        <a class="thm-btn thm-blue-bg">PASSER À LA CAISSE</a>
+<a href="{{ path('app_payment', {'refCommande': commande.refCommande}) }}" class="thm-btn thm-blue-bg">PASSER À LA CAISSE</a>
     </div>
 </div>
 
@@ -97,8 +99,6 @@
         </div>
     </div>
 </section>
-
-
 
 
 

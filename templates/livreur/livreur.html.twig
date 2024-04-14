@@ -1,0 +1,262 @@
+{% extends 'back.html.twig' %}
+
+{% block menu %}
+{% endblock %}
+
+{% block body %}
+  <div>
+
+    <!-- Bloc bleu à gauche -->
+    <div class="blue-block left-block"></div>
+    <div class="row justify-content-center"> <!-- Centrage du contenu -->
+        <div class="col-lg-10"> <!-- Limite de la largeur -->
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row ">
+                <div class="col-md-10 offset-md-1 mt-4">
+                    <!-- Utilisation de la classe offset-md-2 pour déplacer le contenu de 2 colonnes vers la droite -->
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                        <h4 class="mb-sm-0">Liste des livraisons</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                <li class="breadcrumb-item active">Li</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row "> <!-- Ajouter la classe justify-content-center pour centrer le contenu -->
+                <div class="col-xl-10 offset-md-1"> <!-- Ajuster la taille de la colonne selon vos besoins -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0">Affichage de la liste des commandes </h4>
+                        </div><!-- end card header -->
+
+                        <div class="card-body">
+                            <div class="listjs-table" id="customerList">
+                                <div class="row g-4 mb-3">
+                                    <div class="col-sm">
+                                        <div class="d-flex justify-content-sm-end">
+                                            <div class="search-box ms-2">
+                                                <input type="text" class="form-control search" placeholder="Recherche...">
+                                                <i class="ri-search-line search-icon"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive table-card mt-3 mb-1 px-5 text-center">
+                                    <table class="table align-middle table-nowrap custom-table table-margin" id="customerTable">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="sort" data-sort="refCom">Référence <br> de la commande</th>
+                                                <th class="sort" data-sort="total">Total</th>
+                                                <th class="sort" data-sort="stat">Status</th>
+                                                <th class="sort" data-sort="pseudo">Pseudo</th>
+                                                <th class="sort" data-sort="Action">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list form-check-all">
+                                            {% for commande in commandes %}
+                                                <tr>
+                                                    <td class="refCom">#{{ commande.refCommande }}</td>
+                                                    <td class="total">{{ commande.prix }}</td>
+                                                    <td class="status">
+                                                        <h4>
+                                                            {% if commande.status == 'livrée' %}
+                                                                <span class="badge bg-success-subtle text-success">{{ commande.status|capitalize }}</span>
+                                                            {% elseif commande.status == 'enCours' %}
+                                                                <span class="badge bg-warning-subtle text-warning text-uppercase">{{ commande.status|capitalize }}</span>
+                                                            {% else %}
+                                                                <span class="badge bg-info-subtle text-info">{{ commande.status|capitalize }}</span>
+                                                            {% endif %}
+                                                        </h4>
+                                                    </td>
+                                                    <td class="pseudo">{{ commande.idUser.pseudo }}</td>
+                                                    <td class="align-middle text-center">
+                                                        <ul class="list-inline hstack gap-2 mb-0 align-items-center justify-content-center">
+                                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Afficher les produits">
+                                                                <a href="{{ path('commandeDetL', {'refCommande': commande.refCommande}) }}" class="text-primary d-inline-block"> 
+                                                                    <i class="ri-eye-fill fs-16" ></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="noresult" style="display: none">
+                                        <div class="text-center">
+                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                            <h5 class="mt-2">Désolé! Pas de resultat </h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <div class="pagination-wrap hstack gap-2">
+                                        <a class="page-item pagination-prev disabled" href="javascript:void(0);">
+                                            Précédemment
+                                        </a>
+                                        <ul class="pagination listjs-pagination mb-0"></ul>
+                                        <a class="page-item pagination-next" href="javascript:void(0);">
+                                            Suivant
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card-body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+
+        </div><!-- container-fluid -->
+    </div><!-- End Page-content -->
+</div>
+</div>
+    <!-- Bloc bleu à droite -->
+    <div class="blue-block right-block"></div>
+  </div>
+
+  <!-- Scripts et styles -->
+   <!-- scriptttt-->
+<!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteCommandeButtons = document.querySelectorAll('.delete-commande-btn');
+        deleteCommandeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const refCommande = this.getAttribute('data-commande-id');
+                if (refCommande) {
+                    const deletePath = "/deleteCommande/" + refCommande; // Changer le chemin en fonction de votre configuration Symfony
+                    fetch(deletePath, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('La suppression de la commande a échoué');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Une erreur s\'est produite lors de la suppression de la commande :', error);
+                    });
+                }
+            });
+        });
+    });
+</script>-->
+
+
+
+
+<!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteCommandeButtons = document.querySelectorAll('.delete-commande-btn');
+        deleteCommandeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const refCommande = this.getAttribute('data-commande-id');
+                if (refCommande) {
+                    const deletePath = "/deleteCommande/" + refCommande; // Changer le chemin en fonction de votre configuration Symfony
+                    fetch(deletePath, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('La suppression de la commande a échoué');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Une erreur s\'est produite lors de la suppression de la commande :', error);
+                    });
+                }
+            });
+        });
+
+        // Code pour la recherche
+        const searchInput = document.querySelector('.search');
+        const tableRows = document.querySelectorAll('#customerTable tbody tr');
+        const noResultMessage = document.querySelector('.noresult');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+
+            tableRows.forEach(row => {
+                let foundResult = false;
+                Array.from(row.cells).forEach(cell => {
+                    const cellData = cell.textContent.toLowerCase();
+                    if (cellData.includes(searchTerm)) {
+                        foundResult = true;
+                    }
+                });
+
+                if (foundResult) {
+                    row.style.display = ''; // Afficher la ligne si le terme est trouvé dans une colonne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne sinon
+                }
+            });
+
+            // Afficher ou masquer le message "No Result Found" en fonction des résultats trouvés
+            const hasFoundResult = Array.from(tableRows).some(row => row.style.display !== 'none');
+            if (hasFoundResult) {
+                noResultMessage.style.display = 'none'; // Masquer le message s'il y a des résultats
+            } else {
+                noResultMessage.style.display = 'block'; // Afficher le message s'il n'y a pas de résultats
+            }
+        });
+    });
+</script>
+
+  <style>
+    .custom-table {
+        width: 100%;
+        table-layout: fixed; /* Utiliser une largeur de colonne fixe pour éviter le défilement horizontal */
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Activer le défilement horizontal si nécessaire */
+    }
+
+    .table-card {
+        margin: 0 auto; /* Centrer la table horizontalement */
+    }
+
+    .blue-block {
+        background-color: #48548c; /* Bleu */
+        position: fixed;
+        top: 0;
+        width: 200px; /* Largeur du bloc bleu */
+        height: 100%; /* Hauteur du bloc bleu */
+        z-index: -1; /* Assurez-vous que les blocs bleus restent en arrière-plan */
+    }
+
+    .left-block {
+        left: 0; /* Bloc bleu à gauche */
+    }
+
+    .right-block {
+        right: 0; /* Bloc bleu à droite */
+    }
+  </style>
+{% endblock %}
