@@ -264,7 +264,25 @@ public function participate(Request $request, EventRepository $eventRepository, 
 
 
 
+#[Route('/events/calendar', name: 'event_calendar')]
+public function calendar(): Response
+{
+    $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
 
+    $formattedEvents = [];
+    foreach ($events as $event) {
+        $formattedEvents[] = [
+            'title' => $event->getTitre(),
+            'start' => $event->getDatedebut()->format('Y-m-d'),
+            'end' => $event->getDatefin()->format('Y-m-d'),
+            // Ajoutez d'autres informations d'événement si nécessaire
+        ];
+    }
+
+    return $this->render('event/calendar.html.twig', [
+        'events' => json_encode($formattedEvents),
+    ]);
+}
 
 
 
