@@ -1,0 +1,56 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Liste des complexes{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Liste des complexes</h1>
+                    <table class="table table-sm table-bordered table-hover text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Adresse</th>
+                                <th scope="col">Téléphone</th>
+                                <th scope="col">Patente</th>
+                                <th scope="col">Image</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for complexe in complexes %}
+                                <tr>
+                                    <td>{{ complexe.nom }}</td>
+                                    <td>{{ complexe.adresse }}</td>
+                                    <td>{{ complexe.tel }}</td>
+                                    <td>
+                                        {% if complexe.patente %}
+                                            <img src="{{ complexe.patente }}" alt="Image de la patente" style="max-width: 100px;">
+                                        {% else %}
+                                            Pas de patente
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <img src="{{ complexe.image }}" alt="Image du complexe" style="max-width: 100px;">
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('edit_complexe2', { 'ref': complexe.ref }) }}">Modifier</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('delete_complexe2', { 'ref': complexe.ref }) }}">Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr><td colspan="6">Aucun complexe trouvé.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Espace après le tableau -->
+    <div style="height: 50px;"></div>
+{% endblock %}
