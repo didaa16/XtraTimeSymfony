@@ -9,8 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Ajouter un complexe</h5>
-                        {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
-                        <div class="mb-3">
+{{ form_start(form, {'attr': {'class': 'row g-3', 'enctype': 'multipart/form-data'}}) }}                        <div class="mb-3">
                             {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
                             {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                         </div>

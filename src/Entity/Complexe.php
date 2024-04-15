@@ -64,7 +64,6 @@ class Complexe
      *
      * @ORM\Column(name="patente", type="string", length=255, nullable=false)
      *   @Assert\NotBlank(message="La patente ne peut pas être vide")
-     * @Assert\Length(max=255, maxMessage="La patente ne peut pas dépasser {{ limit }} caractères")
      */
     private $patente;
 
@@ -73,7 +72,6 @@ class Complexe
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
       * @Assert\NotBlank(message="L'image ne peut pas être vide")
-     * @Assert\Length(max=255, maxMessage="Le chemin de l'image ne peut pas dépasser {{ limit }} caractères")
      */
     private $image;
 

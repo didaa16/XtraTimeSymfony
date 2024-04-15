@@ -43,7 +43,7 @@ public function add2(ManagerRegistry $doctrine , Request $request): Response
     if ($form->isSubmitted() && $form->isValid()) {
         $em->persist($complexe);
         $em->flush();
-        return $this->redirectToRoute('Complexe'); // Redirection vers la page d'accueil ou une autre page
+        return $this->redirectToRoute('Complexe_read'); // Redirection vers la page d'accueil ou une autre page
     }
 
     return $this->render('/service_complexe/add2.html.twig', [
