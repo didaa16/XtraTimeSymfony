@@ -48,16 +48,24 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $user = $token->getUser();
 
         // Vérifier les rôles de l'utilisateur
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (in_array('Admin', $user->getRoles())) {
             // Rediriger l'administrateur vers la partie back
             return new RedirectResponse($this->urlGenerator->generate('app_back'));
-        } elseif (in_array('ROLE_USER', $user->getRoles())) {
+        } elseif (in_array('Client', $user->getRoles())) {
+            // Rediriger l'utilisateur vers la partie front
+            return new RedirectResponse($this->urlGenerator->generate('app_front'));
+        }
+        elseif (in_array('Locateur', $user->getRoles())) {
+            // Rediriger l'utilisateur vers la partie front
+            return new RedirectResponse($this->urlGenerator->generate('app_front'));
+        }
+        elseif (in_array('Livreur', $user->getRoles())) {
             // Rediriger l'utilisateur vers la partie front
             return new RedirectResponse($this->urlGenerator->generate('app_front'));
         }
 
         // Rediriger vers une page par défaut si l'utilisateur n'a ni le rôle admin ni le rôle user
-        return new RedirectResponse($this->urlGenerator->generate('default_route'));
+        return new RedirectResponse($this->urlGenerator->generate('app_front'));
     }
 
 

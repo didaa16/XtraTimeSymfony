@@ -5,21 +5,18 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-    <title>{% block title %}XtraTime{% endblock %}</title>
-
+    <title>{% block title %}Welcome to Symfony{% endblock %}</title>
     {% block StyleSheets %}
         {% include 'home/frontIncludes/stylesheets.html.twig' %}
     {% endblock %}
 
-    {% block JavaScript %}
-        {% include 'home/frontIncludes/javascript.html.twig' %}
+    {% block Header %}
+        {% include 'home/frontIncludes/header.html.twig' %}
     {% endblock %}
 
 </head>
 <body>
-{% block Header %}
-    {% include 'home/frontIncludes/header.html.twig' %}
-{% endblock %}
+
 <div>
     {% block body %}
         <section class="rev_slider_wrapper">
@@ -28,103 +25,82 @@
             <div id="slider1" class="rev_slider" data-version="5.0">
                 <ul>
                     <li data-transition="random">
-                        <img src="/img/slides/1-1.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
+                        <img src="/img/slides/ballon.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
                         <div class="tp-caption tp-resizeme banner-caption-h1" data-x="center" data-hoffset="0" data-y="top" data-voffset="385" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="500">
                             Welcome to World’s Best
                         </div>
                         <div class="tp-caption  tp-resizeme banner-caption-h1" data-x="center" data-hoffset="0" data-y="top" data-voffset="480" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1500">
-                            GYM & Fitness Theme
+                            Sport & Forme Theme
                         </div>
                         <div class="tp-caption tp-resizeme banner-caption-h1-large banner-caption-bg" data-x="center" data-hoffset="0" data-y="top" data-voffset="570" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="2000">
-                            <span><img src="/img/slides/title-decor.png" alt=""> Xtra Time</span>
+                            <span><img src="" alt=""> XtraTime</span>
                         </div>
                     </li>
                     <li data-transition="random">
-                        <img src="/img/slides/1-2.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="2">
+                        <img src="/img/slides/fooot.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="2">
                         <div class="tp-caption tp-resizeme banner-caption-h1" data-x="right" data-hoffset="0" data-y="top" data-voffset="385" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="500">
-                            Awesome fitness Gym
+                            Universal Sporting Vitality
                         </div>
                         <div class="tp-caption  tp-resizeme banner-caption-h1" data-x="right" data-hoffset="0" data-y="top" data-voffset="480" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1000">
-                            Html Template
+
                         </div>
                         <div class="tp-caption  tp-resizeme banner-caption-h1-large banner-caption-bg" data-x="right" data-hoffset="15" data-y="top" data-voffset="570" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1500">
-                            <span><img src="/img/slides/title-decor.png" alt=""> Don't Miss it</span>
+                            <span><img src="/img/slides/Terrains.png" alt=""> Book & Have Fun</span>
                         </div>
                     </li>
                     <li data-transition="random" class="slider-3">
-                        <img src="/img/slides/1-3.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="3">
+                        <img src="/img/slides/terrain.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="3">
                         <div class="tp-caption tp-resizeme banner-caption-h1 banner-caption-bg" data-x="left" data-hoffset="15" data-y="top" data-voffset="340" data-transform_idle="o:1;" data-transform_in="y:-50px;opacity:0;s:1500;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="500">
                             <span>Get Maximum From Us</span>
                         </div>
-                        <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="460" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                        <div class="tp-caption tp-resizeme feature-list-item" data-x="left" data-hoffset="15" data-y="top" data-voffset="460" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
                             <div class="icon-box">
                                 <div class="box">
-                                    <i class="fa fa-database"></i>
+                                    <img src="img/resources/pack.png" alt="Image de votre choix">
                                 </div>
                             </div>
                             <div class="text-box">
-                                <p>Responsive Layout</p>
+                                <p>Customized Packages</p>
                             </div>
                         </div>
-                        <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="325" data-y="top" data-voffset="460" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="800">
-                            <div class="icon-box">
-                                <div class="box">
-                                    <i class="fa fa-calculator"></i>
-                                </div>
-                            </div>
-                            <div class="text-box">
-                                <p>BMI & IWC Calculator </p>
-                            </div>
-                        </div>
+
+
                         <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="545" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="900">
                             <div class="icon-box">
                                 <div class="box">
-                                    <i class="fa fa-codepen"></i>
+                                    <img src="img/resources/shop.png" alt="Image de votre choix">
                                 </div>
                             </div>
                             <div class="text-box">
-                                <p>Premium Plugins Free</p>
+                                <p>Varied Shops</p>
                             </div>
                         </div>
                         <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="325" data-y="top" data-voffset="545" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1000">
                             <div class="icon-box">
                                 <div class="box">
-                                    <i class="fa fa-calendar"></i>
+                                    <img src="img/resources/party.png" alt="Image de votre choix">
                                 </div>
                             </div>
                             <div class="text-box">
-                                <p>Active Contact Form</p>
+                                <p>Memorable Occasions Event</p>
                             </div>
                         </div>
                         <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="630" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="1100">
                             <div class="icon-box">
                                 <div class="box">
-                                    <i class="fa fa-users"></i>
+                                    <img src="img/resources/terrains.png" alt="Image de votre choix">
                                 </div>
                             </div>
                             <div class="text-box">
-                                <p>MailChimp Support</p>
+                                <p>Exclusive Terrains</p>
                             </div>
                         </div>
-                        <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="325" data-y="top" data-voffset="630" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1200">
-                            <div class="icon-box">
-                                <div class="box">
-                                    <i class="fa fa-calculator "></i>
-                                </div>
-                            </div>
-                            <div class="text-box">
-                                <p>Free customer Support</p>
-                            </div>
-                        </div>
+
                         <div class="tp-caption  tp-resizeme  " data-x="left" data-hoffset="15" data-y="top" data-voffset="742" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="2000">
                             <img src="/img/slides/title-decor2.png" alt="Awesome Image" />
                         </div>
-                        <div class="tp-caption tp-resizeme  " data-x="left" data-hoffset="200" data-y="top" data-voffset="730" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="2300">
-                            <a href="#" class="thm-btn borderd arrow-push-in-right"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                        </div>
-                        <div class="tp-caption tp-resizeme  " data-x="left" data-hoffset="400" data-y="top" data-voffset="730" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="2600">
-                            <a href="pricing.html" class="thm-btn arrow-push-in-right"><span>Buy Now <i class="fa fa-caret-right"></i></span></a>
-                        </div>
+
+
                     </li>
                 </ul>
             </div>
@@ -134,12 +110,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 slider-bottom-left">
-                        <img src="/img/resources/home-banner-1.png" id="skin-banner-1" alt="Awesome Image" />
-                        <a href="pricing.html"><span>Join today</span></a>
+                        <img  id="skin-banner-1"  />
+
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 slider-bottom-right">
-                        <img src="/img/resources/home-banner-2.png" id="skin-banner-2" alt="Awesome Image" />
-                        <a href="contact.html" class="arrow-push-in-right"><span>Lets talk<i class="fa fa-caret-right"></i></span></a>
+                        <img id="skin-banner-2"  />
+                        <a class="arrow-push-in-right"><span><i class="fa fa-caret-right"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -147,19 +123,20 @@
         <section class="fitness-care-gym-area">
             <div class="container">
                 <div class="section-title text-center">
-                    <h1><span>Benifits of Xtra Time GYM</span></h1>
+                    <h1><span>Benifits of XtraTime</span></h1>
                 </div>
                 <div class="row">
                     <!--Start single item-->
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="single-item clearfix">
-                            <div class="left-box clearfix"></div>
-                            <div class="icon-holder">
-                                <i class="fc-icon ftc-icon-dumbbell"></i>
+                            <div class="left-box clearfix" style="display: flex; align-items: center;"></div>
+                            <div class="icon-holder" style="margin: auto;">
+                                <img src="/img/resources/booking.png" alt="Image 1" style="width: 90px; height: 90px;">
                             </div>
+
                             <div class="right-box">
-                                <h3>Instructional Videos</h3>
-                                <p>Xtra Time trainers provide our printable calendars, thats give you the means to stay organized & motivated through each program. Cross of one day at a time and see how far you've come!</p>
+                                <h3>Booking Sports Fields</h3>
+                                <p>Easily book sports fields on XtraTime for your favorite activities. Our platform allows you to quickly find and reserve fields throughout Tunisia, offering a simple and convenient booking experience.</p>
                             </div>
                         </div>
                     </div>
@@ -169,11 +146,11 @@
                         <div class="single-item clearfix">
                             <div class="left-box clearfix"></div>
                             <div class="icon-holder">
-                                <i class="fc-icon ftc-icon-calendar"></i>
+                                <img src="/img/resources/temp-worker.png" alt="Image 2">
                             </div>
                             <div class="right-box">
-                                <h3>Training Calendars</h3>
-                                <p>No training program is complete solution without a great meal plan. Our Xtra Time trainers provide a shopping lists, recipes, and even a great examples of weekly meal plans so.</p>
+                                <h3>Real-Time Availability</h3>
+                                <p>Check the availability of fields in real-time on XtraTime, allowing you to plan your sports activities according to your busy schedule. Book with confidence knowing that the field you want is available when you need it.</p>
                             </div>
                         </div>
                     </div>
@@ -183,11 +160,13 @@
                         <div class="single-item clearfix">
                             <div class="left-box clearfix"></div>
                             <div class="icon-holder">
-                                <i class="fc-icon ftc-icon-music-player"></i>
+                                <img src="/img/resources/sports.png" alt="Image 3">
                             </div>
                             <div class="right-box">
-                                <h3>Mobile App & Free WiFi</h3>
-                                <p>Choose your perfect work-out plan and track your workout with the press of a mobile app button, when ever u want. Finess Care up-coming mobile apps will make fitness fit in palm hand.</p>
+                                <h3>Instant Confirmation</h3>
+                                <p>After making your reservation on XtraTime, receive instant confirmation, ensuring that your field is reserved and ready to use. No need to worry about availability or delays, your field is waiting for you as soon as you need it.
+
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -197,16 +176,17 @@
                         <div class="single-item clearfix">
                             <div class="left-box clearfix"></div>
                             <div class="icon-holder">
-                                <i class="fc-icon ftc-icon-standing"></i>
+                                <img src="/img/resources/confirmation.png" alt="Image 4">
                             </div>
                             <div class="right-box">
-                                <h3>Community Support</h3>
-                                <p>Find friends and like-minded fitness buffs on BodySpace! With an army of supporters behind you, you'll never feel like you're training alone. Instructions to every exercise so you never walk.</p>
+                                <h3>Confirmation Instantanée</h3>
+                                <p>Après avoir effectué votre réservation sur XtraTime, recevez une confirmation instantanée, vous assurant ainsi que votre terrain est réservé et prêt à être utilisé. Plus besoin de se soucier de la disponibilité ou des retards, votre terrain vous attend dès que vous en avez besoin.</p>
                             </div>
                         </div>
                     </div>
                     <!--End single item-->
                 </div>
+
             </div>
         </section>
         <section class="support-area">
@@ -223,11 +203,13 @@
                             <div class="col-md-6 col-sm-6">
                                 <div class="single-item">
                                     <div class="icon-holder">
-                                        <i class="fa fa-database"></i>
+                                        <div class="box">
+                                            <img src="img/resources/pack.png" alt="Image de votre choix">
+                                        </div>
                                     </div>
                                     <div class="content">
-                                        <h3>Responsive Layout</h3>
-                                        <p>Visual Composer is a drag and drop frontend and backend page builder that will save you tons of time working on our site content</p>
+                                        <h3>Customized Packages</h3>
+                                        <p>Discover personalized packages at XtraTime tailored to your needs. Experience the difference today.</p>
                                     </div>
                                 </div>
                             </div>
@@ -236,11 +218,11 @@
                             <div class="col-md-6 col-sm-6">
                                 <div class="single-item">
                                     <div class="icon-holder">
-                                        <i class="fa fa-calculator"></i>
+                                        <img src="img/resources/shop.png" alt="Image de votre choix">
                                     </div>
                                     <div class="content">
-                                        <h3>BMI & IWC Calculator</h3>
-                                        <p>The Events Calendar is built to work out of the box configure the settings to match your needs and you'll be making events within less than 5 minutes.</p>
+                                        <h3>Varied Shops</h3>
+                                        <p>At XtraTime, explore a range of diverse shops offering everything from sports gear to wellness products. With something for everyone, our varied shops cater to all tastes and preferences. Discover the perfect find at XtraTime today.</p>
                                     </div>
                                 </div>
                             </div>
@@ -249,11 +231,11 @@
                             <div class="col-md-6 col-sm-6">
                                 <div class="single-item">
                                     <div class="icon-holder">
-                                        <i class="fa fa-codepen"></i>
+                                        <img src="img/resources/party.png" alt="Image de votre choix">
                                     </div>
                                     <div class="content">
-                                        <h3>Premium Plugins Free</h3>
-                                        <p>WooCommerce is built with developers in mind. It provides a strong, robust frame- work with which you can create a basic online store - or extend it as you need.</p>
+                                        <h3>Memorable Occasions Event</h3>
+                                        <p>Make memories that last a lifetime with XtraTime Events. From sports tournaments to corporate gatherings, our team ensures every occasion is unforgettable. Experience excellence with XtraTime."</p>
                                     </div>
                                 </div>
                             </div>
@@ -262,11 +244,11 @@
                             <div class="col-md-6 col-sm-6">
                                 <div class="single-item">
                                     <div class="icon-holder">
-                                        <i class="fa fa-users"></i>
+                                        <img src="img/resources/terrains.png" alt="Image de votre choix">
                                     </div>
                                     <div class="content">
-                                        <h3>Free Customer Support</h3>
-                                        <p>Xtra Time is always up to date. We constantly listen to our customers and we add new features every week. We take good care of your business</p>
+                                        <h3>Exclusive Terrains</h3>
+                                        <p>At XtraTime, our exclusive terrains offer unparalleled sporting experiences. From immaculately maintained fields to state-of-the-art facilities, these premium venues are reserved for those seeking the best. Elevate your game with XtraTime's exclusive terrains.</p>
                                     </div>
                                 </div>
                             </div>
@@ -276,835 +258,20 @@
                 </div>
             </div>
         </section>
-        <section class="workout-schedules-area">
-            <div class="container">
-                <div class="section-title">
-                    <h1><span>daily workout Schedules</span></h1>
-                </div>
-                <div class="row">
-                    <!--Start single item-->
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img alt="" src="/img/workout-schedules/1.jpg">
-                                <div class="overlay">
-                                    <div class="icon-holder">
-                                        <a href="#"><i class="fa fa-share"></i></a>
-                                    </div>
-                                </div>
-                                <div class="date">
-                                    <h4>Day<br>01</h4>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h3> Chest & Triceps<span>( Body Building )</span></h3>
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i> Duration : 1 Hour</li>
-                                    <li><i class="fa fa-user"></i>Stepthen Adams</li>
-                                </ul>
-                                <div class="schedules-list">
-                                    <h4>Chest :</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Incline dumbbell press - 4 sets of 8 to 10 reps. </li>
-                                        <li><i class="fa fa-check"></i>Flatbench barbell press - 4 sets of 8 to 12 reps. </li>
-                                        <li><i class="fa fa-check"></i>Incline dumbbell flies - 4 sets of 8 to 12 reps. </li>
-                                        <li><i class="fa fa-check"></i>Cable crossovers - 2 sets of 12 to 18 reps.</li>
-                                    </ul>
-                                </div>
-                                <div class="schedules-list bottom">
-                                    <h4>Triceps :</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Pushdowns - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Extensions using a rope - 2 sets of 12 to 18 reps.</li>
-                                    </ul>
-                                </div>
-                                <a href="single-workout.html" class="arrow-push-out-right"><span>View EXERCISE Plans <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img alt="" src="/img/workout-schedules/2.jpg">
-                                <div class="overlay">
-                                    <div class="icon-holder">
-                                        <a href="#"><i class="fa fa-share"></i></a>
-                                    </div>
-                                </div>
-                                <div class="date">
-                                    <h4>Day<br>02</h4>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h3>Back and Biceps<span>( Athletics )</span></h3>
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i> Duration : 1 Hour</li>
-                                    <li><i class="fa fa-user"></i>Rebecca Garza</li>
-                                </ul>
-                                <div class="schedules-list">
-                                    <h4>Back :</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Lat machine pulldowns - 4 sets of 8 to 10 reps.</li>
-                                        <li><i class="fa fa-check"></i>Close grip pulldowns - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Seated cable rows - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Hyper-extensions - 2 sets of 12 to 18 reps.</li>
-                                    </ul>
-                                </div>
-                                <div class="schedules-list bottom">
-                                    <h4>Biceps :</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Incline dumbbell curls - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Standing barbell curls - 2 sets of 12 to 18 reps.</li>
-                                    </ul>
-                                </div>
-                                <a href="single-workout.html" class="arrow-push-out-right"><span>View EXERCISE Plans <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="single-item last-item-center">
-                            <div class="img-holder">
-                                <img alt="" src="/img/workout-schedules/3.jpg">
-                                <div class="overlay">
-                                    <div class="icon-holder">
-                                        <a href="#"><i class="fa fa-share"></i></a>
-                                    </div>
-                                </div>
-                                <div class="date">
-                                    <h4>Day<br>03</h4>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h3>Shoulders, Biceps<span>( Fitness )</span></h3>
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i> Duration : 1 Hour</li>
-                                    <li><i class="fa fa-user"></i>Rebecca Garza</li>
-                                </ul>
-                                <div class="schedules-list">
-                                    <h4>Back :</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Barbell press - 4 sets of 8 to 10 reps.</li>
-                                        <li><i class="fa fa-check"></i>Standing side laterals - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Upright rows with barbel - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Hyper-extensions - 2 sets of 12 to 18 reps.</li>
-                                    </ul>
-                                </div>
-                                <div class="schedules-list bottom">
-                                    <h4>Biceps :</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Incline dumbbell curls - 4 sets of 8 to 12 reps.</li>
-                                        <li><i class="fa fa-check"></i>Standing barbell curls - 2 sets of 12 to 18 reps.</li>
-                                    </ul>
-                                </div>
-                                <a href="single-workout.html" class="arrow-push-out-right"><span>View EXERCISE Plans <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                </div>
-            </div>
-        </section>
-        <section class="health-care-package-area">
-            <div class="container">
-                <div class="section-title">
-                    <h1><span>Our Health Care Packages</span></h1>
-                </div>
-                <div class="health-care-pack-carousel owl-theme owl-carousel">
-                    <div class="item">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img src="/img/health-care-package/1.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <div class="top">
-                                    <div class="icon-holder pull-left">
-                                        <i class="fc-icon ftc-icon-weightlifter3"></i>
-                                    </div>
-                                    <div class="content-heading pull-left">
-                                        <h3>Body Building <span>($230.99)</span></h3>
-                                        <ul>
-                                            <li><i class="fa fa-circle"></i>01 Year Training </li>
-                                            <li><i class="fa fa-circle"></i>30 Min Session</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="package-list">
-                                    <h4>Package Includes:</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Fitness testing, Diet Plan</li>
-                                        <li><i class="fa fa-check"></i>Weekly motivation and accountability</li>
-                                        <li><i class="fa fa-check"></i>Ongoing nutrition support</li>
-                                        <li><i class="fa fa-check"></i>Training Calendars</li>
-                                        <li><i class="fa fa-check"></i>Free Wifi & Community Support</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button">
-                                <a class="pull-left black arrow-push-in-right" href="single-package.html"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                                <a class="pull-right arrow-push-in-right" href="pricing.html"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="single-item">
-                            <div class="img-holder offer">
-                                <img src="/img/health-care-package/2.jpg" alt="">
-                                <div class="offer-text">
-                                    <h1>50% Offer</h1>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="top">
-                                    <div class="icon-holder pull-left">
-                                        <i class="fc-icon ftc-icon-running"></i>
-                                    </div>
-                                    <div class="content-heading pull-left">
-                                        <h3>Fat Loss<span> (<del>$150</del>$75)</span></h3>
-                                        <ul>
-                                            <li><i class="fa fa-circle"></i>06 Month Training</li>
-                                            <li><i class="fa fa-circle"></i>30 Min Session</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="package-list">
-                                    <h4>Package Includes:</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Fitness testing, Diet Plan</li>
-                                        <li><i class="fa fa-check"></i>Weekly motivation and accountability</li>
-                                        <li><i class="fa fa-check"></i>Ongoing nutrition support</li>
-                                        <li><i class="fa fa-check"></i>Training Calendars</li>
-                                        <li><i class="fa fa-check"></i>Free Wifi & Community Support</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button">
-                                <a class="pull-left black arrow-push-in-right" href="single-package.html"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                                <a class="pull-right arrow-push-in-right" href="pricing.html"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="single-item last-item-center">
-                            <div class="img-holder">
-                                <img src="/img/health-care-package/3.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <div class="top">
-                                    <div class="icon-holder pull-left">
-                                        <i class="fc-icon ftc-icon-yoga13"></i>
-                                    </div>
-                                    <div class="content-heading pull-left">
-                                        <h3>Yoga & Streching<span> ($ 90)</span></h3>
-                                        <ul>
-                                            <li><i class="fa fa-circle"></i>01 Year Training</li>
-                                            <li><i class="fa fa-circle"></i>30 Min Session</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="package-list">
-                                    <h4>Package Includes:</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Fitness testing, Diet Plan</li>
-                                        <li><i class="fa fa-check"></i>Weekly motivation and accountability</li>
-                                        <li><i class="fa fa-check"></i>Ongoing nutrition support</li>
-                                        <li><i class="fa fa-check"></i>Training Calendars</li>
-                                        <li><i class="fa fa-check"></i>Free Wifi & Community Support</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button">
-                                <a class="pull-left black arrow-push-in-right" href="single-package.html"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                                <a class="pull-right arrow-push-in-right" href="pricing.html"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img src="/img/health-care-package/4.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <div class="top">
-                                    <div class="icon-holder pull-left">
-                                        <i class="fc-icon ftc-icon-weightlifter3"></i>
-                                    </div>
-                                    <div class="content-heading pull-left">
-                                        <h3>Weight Lifting <span>($180.99)</span></h3>
-                                        <ul>
-                                            <li><i class="fa fa-circle"></i>01 Year Training </li>
-                                            <li><i class="fa fa-circle"></i>30 Min Session</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="package-list">
-                                    <h4>Package Includes:</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Fitness testing, Diet Plan</li>
-                                        <li><i class="fa fa-check"></i>Weekly motivation and accountability</li>
-                                        <li><i class="fa fa-check"></i>Ongoing nutrition support</li>
-                                        <li><i class="fa fa-check"></i>Training Calendars</li>
-                                        <li><i class="fa fa-check"></i>Free Wifi & Community Support</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button">
-                                <a class="pull-left black arrow-push-in-right" href="single-package.html"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                                <a class="pull-right arrow-push-in-right" href="pricing.html"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="single-item">
-                            <div class="img-holder offer">
-                                <img src="/img/health-care-package/5.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <div class="top">
-                                    <div class="icon-holder pull-left">
-                                        <i class="fc-icon ftc-icon-kickboxing"></i>
-                                    </div>
-                                    <div class="content-heading pull-left">
-                                        <h3>Boxing Classes<span> ($380)</span></h3>
-                                        <ul>
-                                            <li><i class="fa fa-circle"></i>06 Month Training</li>
-                                            <li><i class="fa fa-circle"></i>30 Min Session</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="package-list">
-                                    <h4>Package Includes:</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Fitness testing, Diet Plan</li>
-                                        <li><i class="fa fa-check"></i>Weekly motivation and accountability</li>
-                                        <li><i class="fa fa-check"></i>Ongoing nutrition support</li>
-                                        <li><i class="fa fa-check"></i>Training Calendars</li>
-                                        <li><i class="fa fa-check"></i>Free Wifi & Community Support</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button">
-                                <a class="pull-left black arrow-push-in-right" href="single-package.html"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                                <a class="pull-right arrow-push-in-right" href="pricing.html"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="single-item last-item-center">
-                            <div class="img-holder">
-                                <img src="/img/health-care-package/6.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <div class="top">
-                                    <div class="icon-holder pull-left">
-                                        <i class="fc-icon ftc-icon-flexions"></i>
-                                    </div>
-                                    <div class="content-heading pull-left">
-                                        <h3>Dance Classes<span> ($160)</span></h3>
-                                        <ul>
-                                            <li><i class="fa fa-circle"></i>01 Year Training</li>
-                                            <li><i class="fa fa-circle"></i>30 Min Session</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="package-list">
-                                    <h4>Package Includes:</h4>
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Fitness testing, Diet Plan</li>
-                                        <li><i class="fa fa-check"></i>Weekly motivation and accountability</li>
-                                        <li><i class="fa fa-check"></i>Ongoing nutrition support</li>
-                                        <li><i class="fa fa-check"></i>Training Calendars</li>
-                                        <li><i class="fa fa-check"></i>Free Wifi & Community Support</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button">
-                                <a class="pull-left black arrow-push-in-right" href="single-package.html"><span>More Details <i class="fa fa-caret-right"></i></span></a>
-                                <a class="pull-right arrow-push-in-right" href="pricing.html"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="walking-area">
-            <div class="container">
-                <div class="row">
-                    <div id="walking-carousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#walking-carousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#walking-carousel" data-slide-to="1"></li>
-                            <li data-target="#walking-carousel" data-slide-to="2"></li>
-                            <li data-target="#walking-carousel" data-slide-to="3"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <div class="col-lg-12">
-                                    <div class="single-item">
-                                        <div class="walking">
-                                            <h1>8-Week’s Weight Loss Challenge</h1>
-                                            <ul>
-                                                <li><i class="fa fa-calendar"></i>20 Feb</li>
-                                                <li><i class="fa fa-clock-o"></i>16:00 - 20:00</li>
-                                            </ul>
-                                            <p>It would be perfect to do wit h your family, friends, co-workers anyone who wants to get and
-                                                <br>lose some weight in a healthy way! I have started a lot of diets and programs.</p>
-                                            <a href="single-workout.html" class="thm-btn borderd arrow-push-in-right"><span>More Details <i class="fa fa-caret-right"></i></span></a> &emsp; &emsp;
-                                            <a href="pricing.html" class="thm-btn arrow-push-in-right"><span>Buy Now <i class="fa fa-caret-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-lg-12">
-                                    <div class="single-item">
-                                        <div class="walking">
-                                            <h1>10 Best Muscle-Building Biceps Exercises</h1>
-                                            <ul>
-                                                <li><i class="fa fa-calendar"></i>20 Feb</li>
-                                                <li><i class="fa fa-clock-o"></i>16:00 - 20:00</li>
-                                            </ul>
-                                            <p>It would be perfect to do wit h your family, friends, co-workers anyone who wants to get and
-                                                <br>lose some weight in a healthy way! I have started a lot of diets and programs.</p>
-                                            <a href="single-workout.html" class="thm-btn borderd arrow-push-in-right"><span>More Details <i class="fa fa-caret-right"></i></span></a> &emsp; &emsp;
-                                            <a href="pricing.html" class="thm-btn arrow-push-in-right"><span>Buy Now <i class="fa fa-caret-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-lg-12">
-                                    <div class="single-item">
-                                        <div class="walking">
-                                            <h1>9 Ways You're Sabotaging Your Fat Loss</h1>
-                                            <ul>
-                                                <li><i class="fa fa-calendar"></i>20 Feb</li>
-                                                <li><i class="fa fa-clock-o"></i>16:00 - 20:00</li>
-                                            </ul>
-                                            <p>It would be perfect to do wit h your family, friends, co-workers anyone who wants to get and
-                                                <br>lose some weight in a healthy way! I have started a lot of diets and programs.</p>
-                                            <a href="single-workout.html" class="thm-btn borderd arrow-push-in-right"><span>More Details <i class="fa fa-caret-right"></i></span></a> &emsp; &emsp;
-                                            <a href="pricing.html" class="thm-btn arrow-push-in-right"><span>Buy Now <i class="fa fa-caret-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-lg-12">
-                                    <div class="single-item">
-                                        <div class="walking">
-                                            <h1>Score More: Two Proven Muscle Recovery Tips</h1>
-                                            <ul>
-                                                <li><i class="fa fa-calendar"></i>20 Feb</li>
-                                                <li><i class="fa fa-clock-o"></i>16:00 - 20:00</li>
-                                            </ul>
-                                            <p>It would be perfect to do wit h your family, friends, co-workers anyone who wants to get and
-                                                <br>lose some weight in a healthy way! I have started a lot of diets and programs.</p>
-                                            <a href="single-workout.html" class="thm-btn borderd arrow-push-in-right"><span>More Details <i class="fa fa-caret-right"></i></span></a> &emsp; &emsp;
-                                            <a href="pricing.html" class="thm-btn arrow-push-in-right"><span>Buy Now <i class="fa fa-caret-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="experienced-trainer-area">
-            <div class="container">
-                <div class="section-title text-center">
-                    <h1><span>Our experienced trainers</span></h1>
-                </div>
-                <div class="row">
-                    <!--Start single item-->
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img src="/img/experienced-trainer/1.jpg" alt="">
-                                <div class="overlay-content">
-                                    <ul>
-                                        <li><i class="fa fa-envelope"></i>Support&Healtcare.com</li>
-                                        <li><i class="fa fa-phone"></i>0422-2342134</li>
-                                        <li><i class="fa fa-cog"></i>Practising : 4+ years</li>
-                                    </ul>
-                                    <div class="overlay-buttom">
-                                        <div class="trainer-name">
-                                            <div class="name pull-left">
-                                                <h3>Stepthen Adams</h3>
-                                                <span>Ceo & Fitness Instructor</span>
-                                            </div>
-                                            <div class="icon-holder pull-right">
-                                                <i class="fc-icon ftc-icon-dumbbell"></i>
-                                            </div>
-                                        </div>
-                                        <p>Fitness & Body builders spend years, even decades, perfecting the human form. Now, you may not want into your routine.</p>
-                                        <div class="social-links">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                                            <a href="#"><i class="fa fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="trainer-name">
-                                    <div class="name pull-left">
-                                        <h3>Stepthen Adams</h3>
-                                        <span>Ceo & Fitness Instructor</span>
-                                    </div>
-                                    <div class="icon-holder pull-right">
-                                        <i class="fc-icon ftc-icon-dumbbell"></i>
-                                    </div>
-                                </div>
-                                <p>Fitness & Body builders spend years, even decades, perfecting the human form. Now, you may not want into your routine.</p>
-                                <div class="social-links">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    <a href="#"><i class="fa fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img src="/img/experienced-trainer/2.jpg" alt="">
-                                <div class="overlay-content">
-                                    <ul>
-                                        <li><i class="fa fa-envelope"></i>Support&Healtcare.com</li>
-                                        <li><i class="fa fa-phone"></i>0422-2342134</li>
-                                        <li><i class="fa fa-cog"></i>Practising : 4+ years</li>
-                                    </ul>
-                                    <div class="overlay-buttom">
-                                        <div class="trainer-name">
-                                            <div class="name pull-left">
-                                                <h3>Ashley Fletcher</h3>
-                                                <span>Fitness & Yoga Instructor</span>
-                                            </div>
-                                            <div class="icon-holder pull-right">
-                                                <i class="fc-icon ftc-icon-yoga13"></i>
-                                            </div>
-                                        </div>
-                                        <p>Fitness & Yoga s, but that doesn’t mean you shouldn’t incorporate some bodybuilding principles and workouts into your routine.</p>
-                                        <div class="social-links">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                                            <a href="#"><i class="fa fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="trainer-name">
-                                    <div class="name pull-left">
-                                        <h3>Ashley Fletcher</h3>
-                                        <span>Fitness & Yoga Instructor</span>
-                                    </div>
-                                    <div class="icon-holder pull-right">
-                                        <i class="fc-icon ftc-icon-yoga13"></i>
-                                    </div>
-                                </div>
-                                <p>Fitness & Yoga s, but that doesn’t mean you shouldn’t incorporate some bodybuilding principles and workouts into your routine.</p>
-                                <div class="social-links">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    <a href="#"><i class="fa fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img src="/img/experienced-trainer/3.jpg" alt="">
-                                <div class="overlay-content">
-                                    <ul>
-                                        <li><i class="fa fa-envelope"></i>Support&Healtcare.com</li>
-                                        <li><i class="fa fa-phone"></i>0422-2342134</li>
-                                        <li><i class="fa fa-cog"></i>Practising : 4+ years</li>
-                                    </ul>
-                                    <div class="overlay-buttom">
-                                        <div class="trainer-name">
-                                            <div class="name pull-left">
-                                                <h3>Ben Johnson</h3>
-                                                <span>Pro Body Builder</span>
-                                            </div>
-                                            <div class="icon-holder pull-right">
-                                                <i class="fc-icon ftc-icon-musculous"></i>
-                                            </div>
-                                        </div>
-                                        <p>Fitness & Body builders spend years, even decades, perfecting the human form. Now, you may not want into your routine.</p>
-                                        <div class="social-links">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                                            <a href="#"><i class="fa fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="trainer-name">
-                                    <div class="name pull-left">
-                                        <h3>Ben Johnson</h3>
-                                        <span>Pro Body Builder</span>
-                                    </div>
-                                    <div class="icon-holder pull-right">
-                                        <i class="fc-icon ftc-icon-musculous"></i>
-                                    </div>
-                                </div>
-                                <p>Fitness & Body builders spend years, even decades, perfecting the human form. Now, you may not want into your routine.</p>
-                                <div class="social-links">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    <a href="#"><i class="fa fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                    <!--Start single item-->
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        <div class="single-item">
-                            <div class="img-holder">
-                                <img src="/img/experienced-trainer/4.jpg" alt="">
-                                <div class="overlay-content">
-                                    <ul>
-                                        <li><i class="fa fa-envelope"></i>Support&Healtcare.com</li>
-                                        <li><i class="fa fa-phone"></i>0422-2342134</li>
-                                        <li><i class="fa fa-cog"></i>Practising : 4+ years</li>
-                                    </ul>
-                                    <div class="overlay-buttom">
-                                        <div class="trainer-name">
-                                            <div class="name pull-left">
-                                                <h3>Rebecca Garza</h3>
-                                                <span>Fitness & Body Builder</span>
-                                            </div>
-                                            <div class="icon-holder pull-right">
-                                                <i class="fc-icon ftc-icon-weightlifter3"></i>
-                                            </div>
-                                        </div>
-                                        <p>Fitness & Body builders spend years, even decades, perfecting the human form. Now, you may not want into your routine.</p>
-                                        <div class="social-links">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                                            <a href="#"><i class="fa fa-youtube"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="trainer-name">
-                                    <div class="name pull-left">
-                                        <h3>Rebecca Garza</h3>
-                                        <span>Fitness & Body Builder</span>
-                                    </div>
-                                    <div class="icon-holder pull-right">
-                                        <i class="fc-icon ftc-icon-weightlifter3"></i>
-                                    </div>
-                                </div>
-                                <p>Fitness & Body builders spend years, even decades, perfecting the human form. Now, you may not want into your routine.</p>
-                                <div class="social-links">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    <a href="#"><i class="fa fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End single item-->
-                </div>
-            </div>
-        </section>
-        <section class="daily-training-workout-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7 col-md-4 col-sm-3 col-xs-12">
-                        <div class="img-holder">
-                            <img src="/img/resources/i-phone.png" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-8 col-sm-9 col-xs-12">
-                        <div class="content">
-                            <h1>Plan your Daily training & workouts </h1>
-                            <p>It would be perfect to do with your family, friends, co-workers anyone who I have started a lot of diets and programs.</p>
-                            <ul>
-                                <li><i class="fa fa-check"></i>Fitness App That All Love</li>
-                                <li><i class="fa fa-check"></i>Control Changes for Best Result</li>
-                                <li><i class="fa fa-check"></i>Get your Dose of Fitness Now</li>
-                            </ul>
-                            <div class="google-play-app-store">
-                                <ul>
-                                    <li>
-                                        <a href="#"><img src="/img/resources/google-play.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img src="/img/resources/app-store.png" alt=""></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="faq-testimonial-section section-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="section-title">
-                            <h1><span>Satisfied Customers Say</span></h1>
-                        </div>
-                        <div class="testimonial-carousel-wrapper owl-carousel owl-theme">
-                            <div class="item">
-                                <div class="single-testimonial-carousel">
-                                    <div class="qoute-icon-box">
-                                        <img src="/img/resources/qoute-icon.png" alt="Awesome Image" />
-                                    </div>
-                                    <div class="testimonial-text-box">
-                                        <h3>Practice Puts Brains in Your Muscles</h3>
-                                        <p>Xtra Time Gym isn’t anything like a regular chain gym. The class based sessions are challenging, innovative, and fun led by highly talented trainers. The gym also has amazing equipment that you don’t find in most gyms like Kettlebells, battle ropes and sledges. </p>
-                                        <span class="name">Louis Williams</span>
-                                        <div class="review-box">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="single-testimonial-carousel">
-                                    <div class="qoute-icon-box">
-                                        <img src="/img/resources/qoute-icon.png" alt="Awesome Image" />
-                                    </div>
-                                    <div class="testimonial-text-box">
-                                        <h3>Practice Puts Brains in Your Muscles</h3>
-                                        <p>Xtra Time Gym isn’t anything like a regular chain gym. The class based sessions are challenging, innovative, and fun led by highly talented trainers. The gym also has amazing equipment that you don’t find in most gyms like Kettlebells, battle ropes and sledges. </p>
-                                        <span class="name">Louis Williams</span>
-                                        <div class="review-box">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="single-testimonial-carousel">
-                                    <div class="qoute-icon-box">
-                                        <img src="/img/resources/qoute-icon.png" alt="Awesome Image" />
-                                    </div>
-                                    <div class="testimonial-text-box">
-                                        <h3>Practice Puts Brains in Your Muscles</h3>
-                                        <p>Xtra Time Gym isn’t anything like a regular chain gym. The class based sessions are challenging, innovative, and fun led by highly talented trainers. The gym also has amazing equipment that you don’t find in most gyms like Kettlebells, battle ropes and sledges. </p>
-                                        <span class="name">Louis Williams</span>
-                                        <div class="review-box">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="section-title">
-                            <h1><span>FITNESS RELATED FAQ'S</span></h1>
-                        </div>
-                        <div class="accrodion-grp" data-grp-name="faq-accrodion">
-                            <div class="accrodion ">
-                                <div class="accrodion-title">
-                                    <h4 class="clearfix"><span>Make a shift to avoid diabetes.</span></h4>
-                                </div>
-                                <div class="accrodion-content">
-                                    <p>Over time, high blood sugar damages arteries and puts you at risk for heart disease. Your doctor should test your blood sugar if you are 45 or older, if you are pregnant, or if you're overweight and have other risk factors for diabetes.</p>
-                                </div>
-                            </div>
-                            <div class="accrodion ">
-                                <div class="accrodion-title">
-                                    <h4 class="clearfix"><span>Have more fruit and less fruit juice.</span></h4>
-                                </div>
-                                <div class="accrodion-content">
-                                    <p>Over time, high blood sugar damages arteries and puts you at risk for heart disease. Your doctor should test your blood sugar if you are 45 or older, if you are pregnant, or if you're overweight and have other risk factors for diabetes.</p>
-                                </div>
-                            </div>
-                            <div class="accrodion active">
-                                <div class="accrodion-title">
-                                    <h4 class="clearfix"><span>Ditch the cigarettes, real and electronic.</span></h4>
-                                </div>
-                                <div class="accrodion-content">
-                                    <p>Over time, high blood sugar damages arteries and puts you at risk for heart disease. Your doctor should test your blood sugar if you are 45 or older, if you are pregnant, or if you're overweight and have other risk factors for diabetes.</p>
-                                </div>
-                            </div>
-                            <div class="accrodion">
-                                <div class="accrodion-title">
-                                    <h4 class="clearfix"><span> Throw your heart a birthday party!</span></h4>
-                                </div>
-                                <div class="accrodion-content">
-                                    <p>Over time, high blood sugar damages arteries and puts you at risk for heart disease. Your doctor should test your blood sugar if you are 45 or older, if you are pregnant, or if you're overweight and have other risk factors for diabetes.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="subscribe-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5 col-sm-12 col-xs-12 hidden-sm">
-                        <div class="img-holder">
-                            <img src="/img/subscribe/trainers.png" alt="">
-                        </div>
-                    </div>
-                    <div class="col-md-7 col-sm-12 col-xs-12">
-                        <div class="subscribe-form">
-                            <h1 class="title">Subscribe us for Offers & Health Tips</h1>
-                            <form class="subscribe mailchimp-form" action="https://st.ourhtmldemo.com/template/fitness-care-html/fitness-care/inc/mailchimp/subscribe.php">
-                                <input class="name" type="text" name="fname" placeholder="Your Name">
-                                <input class="email" type="text" name="email" placeholder="Your Email">
-                                <button class="thm-btn arrow-push-out-right" type="submit"><span>Subscribe  Now <i class="fa fa-caret-right"></i></span></button>
-                            </form>
-                            <h1>Give us a Call  : <span>+1 212-212-2376</span></h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-        </section>
+
+
+
+
+
     {% endblock %}
-
-    {% block m %}
-    {% endblock %}
-
 
     {% block footer %}
         {% include 'home/frontIncludes/footer.html.twig' %}
     {% endblock %}
-
 </div>
+{% block JavaScript %}
+    {% include 'home/frontIncludes/javascript.html.twig' %}
+{% endblock %}
 </body>
 </html>

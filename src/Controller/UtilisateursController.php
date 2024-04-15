@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateurs;
+use App\Form\EditFrontType;
 use App\Form\UtilisateursType;
 use App\Repository\UtilisateursRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +61,7 @@ class UtilisateursController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_utilisateurs_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_front', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('utilisateurs/edit.html.twig', [
@@ -77,5 +79,20 @@ class UtilisateursController extends AbstractController
         }
 
         return $this->redirectToRoute('app_utilisateurs_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/utilisateur/modifier/{id}', name: 'modifier_utilisateur')]
+    public function modifier($id , UtilisateursRepository $userRepo, ManagerRegistry $doctrine, Request $request)
+    {
+        $user = $userRepo->find($id);
+        $em = $doctrine->getManager();
+        $frm = $this->createForm(EditFrontType::class, $user);
+        $frm->handleRequest($request);
+        if ($frm->isSubmitted()) {
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute("app_front");
+        }
+        return $this->renderForm('home/frontIncludes/modifier.html.twig', ["form" => $frm]);
     }
 }
