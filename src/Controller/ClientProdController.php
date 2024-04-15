@@ -275,6 +275,52 @@ public function removeFromCart(Request $request, string $ref): Response
 
 
 
+#[Route('/update-cart', name: 'update_cart')]
+public function updateCart(Request $request): Response
+{
+    // Récupérer les données envoyées depuis le client
+    $data = json_decode($request->getContent(), true);
+    $productId = $data['productId'];
+    $newQuantity = $data['newQuantity'];
+    
+    // Récupérer l'utilisateur actuel (fixe pour l'exemple)
+    $pseudo = 'dida';
+
+    // Récupérer l'utilisateur en utilisant son pseudo
+    $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
+
+    // Récupérer la commande de l'utilisateur
+    $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy(['iduser' => $utilisateur, 'status' => 'enAttente']);
+
+    if (!$commande) {
+        throw $this->createNotFoundException('Commande en cours non trouvée');
+    }
+
+    // Récupérer le produit commandé à mettre à jour de la base de données
+    $produitCommande = $this->getDoctrine()->getRepository(ProduitCommande::class)->findOneBy(['ref' => $productId, 'refCommande' => $commande->getRefCommande()]);
+
+    if (!$produitCommande) {
+        throw $this->createNotFoundException('Produit commandé non trouvé');
+    }
+
+    // Mettre à jour la quantité du produit dans le panier
+    $produitCommande->setQuantite($newQuantity);
+
+    // Enregistrer les modifications dans la base de données
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($produitCommande);
+    $entityManager->flush();
+
+    // Envoyer une réponse JSON indiquant que la mise à jour du panier s'est bien déroulée
+    return new JsonResponse(['message' => 'Mise à jour du panier réussie'], Response::HTTP_OK);
+}
+
+
+
+
+
+
+
 
 
 
