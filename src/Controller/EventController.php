@@ -243,7 +243,6 @@ public function participate(Request $request, EventRepository $eventRepository, 
     if (!$event) {
         throw $this->createNotFoundException('L\'événement n\'existe pas');
     }
-
     $user = $utilisateursRepository->findOneBy(['pseudo' => 'habib']);
 
     // Créer une nouvelle instance de Participation
@@ -351,5 +350,9 @@ public function generatePdf(EventRepository $eventRepository): Response
         ]
     );
 }
+
+
+
+
 
 }
