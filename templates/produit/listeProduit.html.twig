@@ -51,7 +51,7 @@
                                         </div>
 
                          <div class="table-responsive table-card mt-3 mb-1">
-                            <table class="table align-middle table-nowrap" id="customerTable">
+                            <table class="table align-middle table-nowrap" id="customerTable" >
                               <thead class="table-light">
                                 <tr>
                                    <th scope="col" style="width: 50px;">
@@ -87,7 +87,7 @@
     <td class="quantite">{{ produit.quantite }}</td>
     <td class="taille">{{ produit.taille }}</td>
     <td class="type sport">{{ produit.typeSport }}</td>
-    <td class="desc" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{ produit.description }}</td>
+    <td class="desc" style="max-width: 140px; white-space: pre-wrap; overflow-wrap: break-word; text-overflow: ellipsis; overflow: hidden;">{{ produit.description }}</td>
  <td class="image">
                     {% if produit.image %}
                         <img src="{{ asset('uploads/images/' ~ produit.image) }}" alt="Image du produit" style="max-width: 100px;">
@@ -286,6 +286,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<style>
 
+
+</style>
 
  {% endblock %}

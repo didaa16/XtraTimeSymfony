@@ -61,14 +61,20 @@ class ClientProdController extends AbstractController
     {
         // Récupérer le produit depuis la base de données en fonction de l'identifiant
         $produit = $this->getDoctrine()->getRepository(Produit::class)->find($ref);
+        // Exemple de récupération des produits associés basés sur le type de sport
+
+
 
         if (!$produit) {
             throw $this->createNotFoundException('Produit non trouvé');
         }
+        $relatedProducts = $this->getDoctrine()->getRepository(Produit::class)->findBy(['typesport' => $produit->getTypesport()]);
 
         // Rendre la vue avec les détails du produit
         return $this->render('client_prod/single-shop.html.twig', [
             'produit' => $produit,
+            'relatedProducts' => $relatedProducts,
+
         ]);
     }
    
