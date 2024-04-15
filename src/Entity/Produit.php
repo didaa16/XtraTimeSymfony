@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Regex ;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 
 
@@ -12,7 +14,9 @@ use Symfony\Component\Validator\Constraints\Regex;
  * Produit
  *
  * @ORM\Table(name="produit")
-   * @ORM\Entity(repositoryClass=App\Repository\ProduitRepository::class) */
+   * @ORM\Entity(repositoryClass=App\Repository\ProduitRepository::class) 
+ * @UniqueEntity(fields={"ref"}, message="Cette référence est déjà utilisée. Veuillez en choisir une autre.")
+*/
 
 class Produit
 {
