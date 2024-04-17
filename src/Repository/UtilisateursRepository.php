@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Utilisateurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +39,37 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+
+    public function findBySearch($search)
+    {
+        $queryBuilder = $this->createQueryBuilder('u');
+
+        if ($search) {
+            $queryBuilder->andWhere('u.pseudo LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
+
+    public function countUsersByRole(): array
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('roles', 'roles');
+        $rsm->addScalarResult('count', 'count');
+
+        $query = $this->getEntityManager()->createNativeQuery('
+        SELECT roles, COUNT(*) as count
+        FROM utilisateurs
+        GROUP BY roles
+    ', $rsm);
+
+        return $query->getResult();
+    }
+
 
 //    /**
 //     * @return Utilisateurs[] Returns an array of Utilisateurs objects

@@ -5,8 +5,39 @@
 
 {% block body %}
     <br><br><br><br>
-    <div class="main-content">
+    <style>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #e6e6e6;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+    <div>
         <h1>Utilisateurs index</h1>
+
+        <form method="GET" action="{{ path('app_utilisateurs_index') }}">
+            <input type="text" name="q" placeholder="Rechercher par pseudo">
+            <button type="submit">Rechercher</button>
+        </form>
+        <br><br><br>
 
         <table class="table">
             <thead>
@@ -48,6 +79,6 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_utilisateurs_new') }}">Create new</a>
+        <button><a href="{{ path('app_utilisateurs_new') }}">Create new</a></button>
     </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UtilisateursRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,10 +26,34 @@ class HomeController extends AbstractController
 
 
     #[Route('/back', name: 'app_back')]
-    public function back(): Response
+    public function back(UtilisateursRepository $userRepository): Response
     {
-        return $this->render('home/back.html.twig' ,[
-            'title' => 'welcome',
+        // 1. Extraire les données de la base de données
+        $usersByRole = $userRepository->countUsersByRole();
+
+        // 2. Préparer les données pour le graphique
+        $labels = [];
+        $data = [];
+        $totalUsers = 0;
+
+        // Calculer le nombre total d'utilisateurs
+        foreach ($usersByRole as $roleData) {
+            $totalUsers += $roleData['count'];
+        }
+
+        foreach ($usersByRole as $roleData) {
+            $role = $roleData['roles'];
+            $count = $roleData['count'];
+            $labels[] = $role;
+            $percentage = ($count / $totalUsers) * 100;
+            $data[] = round($percentage, 2);
+        }
+
+
+        // 3. Afficher le graphique
+        return $this->render('home/back.html.twig', [
+            'labels' => json_encode($labels),
+            'data' => json_encode($data),
         ]);
     }
 }

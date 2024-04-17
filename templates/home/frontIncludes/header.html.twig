@@ -167,7 +167,8 @@
                             <li>
                                 <a href="#" class="flip-flop-btn"><span>Welcome, {{ app.user.username }}!</span></a>
                                 <ul class="dropdown">
-                                    <li><a href="{{ path('modifier_utilisateur', {'id': app.user.id})}}">Profile</a></li>
+                                    <li><a href="{{ path('app_utilisateurs_display', {'id': app.user.id})}}">Profile</a></li>
+                                    <li><a href="{{ path('modifier_utilisateur', {'id': app.user.id})}}">Update Profile</a></li>
                                     <li><a href="{{ path('app_logout') }}">Logout</a></li>
                                 </ul>
                             </li>

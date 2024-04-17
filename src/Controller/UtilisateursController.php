@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateurs;
+use App\Form\editBackType;
 use App\Form\EditFrontType;
 use App\Form\UtilisateursType;
 use App\Repository\UtilisateursRepository;
@@ -17,12 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class UtilisateursController extends AbstractController
 {
     #[Route('/', name: 'app_utilisateurs_index', methods: ['GET'])]
-    public function index(UtilisateursRepository $utilisateursRepository): Response
+    public function index(UtilisateursRepository $utilisateursRepository, Request $request): Response
     {
+        $search = $request->query->get('q');
+        $utilisateurs = $utilisateursRepository->findBySearch($search);
+
         return $this->render('utilisateurs/index.html.twig', [
-            'utilisateurs' => $utilisateursRepository->findAll(),
+            'utilisateurs' => $utilisateurs,
         ]);
     }
+
 
     #[Route('/new', name: 'app_utilisateurs_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -51,17 +56,24 @@ class UtilisateursController extends AbstractController
             'utilisateur' => $utilisateur,
         ]);
     }
+    #[Route('/front/{id}', name: 'app_utilisateurs_display', methods: ['GET'])]
+    public function display(Utilisateurs $utilisateur): Response
+    {
+        return $this->render('utilisateurs/display.html.twig', [
+            'utilisateur' => $utilisateur,
+        ]);
+    }
 
     #[Route('/{id}/edit', name: 'app_utilisateurs_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Utilisateurs $utilisateur, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UtilisateursType::class, $utilisateur);
+        $form = $this->createForm(editBackType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_front', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_utilisateurs_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('utilisateurs/edit.html.twig', [
@@ -88,11 +100,52 @@ class UtilisateursController extends AbstractController
         $em = $doctrine->getManager();
         $frm = $this->createForm(EditFrontType::class, $user);
         $frm->handleRequest($request);
-        if ($frm->isSubmitted()) {
+
+        if ($frm->isSubmitted() && $frm->isValid()) {
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute("app_front");
         }
-        return $this->renderForm('home/frontIncludes/modifier.html.twig', ["form" => $frm]);
+
+        // Si le formulaire n'est pas valide, il sera automatiquement réaffiché avec les erreurs
+        return $this->render('home/frontIncludes/modifier.html.twig', [
+            "form" => $frm->createView(),
+        ]);
     }
+
+    #[Route('/statistiques/pie-chart', name: 'statistiques_pie_chart')]
+    public function pieChart(UtilisateursRepository $userRepository): Response
+    {
+        // 1. Extraire les données de la base de données
+        $usersByRole = $userRepository->countUsersByRole();
+
+        // 2. Préparer les données pour le graphique
+        $labels = [];
+        $data = [];
+        $totalUsers = 0;
+
+        // Calculer le nombre total d'utilisateurs
+        foreach ($usersByRole as $roleData) {
+            $totalUsers += $roleData['count'];
+        }
+
+        foreach ($usersByRole as $roleData) {
+            $role = $roleData['roles'];
+            $count = $roleData['count'];
+            $labels[] = $role;
+            $percentage = ($count / $totalUsers) * 100;
+            $data[] = round($percentage, 2);
+        }
+
+
+        // 3. Afficher le graphique
+        return $this->render('home/back.html.twig', [
+            'labels' => json_encode($labels),
+            'data' => json_encode($data),
+        ]);
+    }
+
+
+
+
 }
