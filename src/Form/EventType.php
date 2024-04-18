@@ -55,12 +55,12 @@ class EventType extends AbstractType
             ->add('idterrain', EntityType::class, [
                 'class' => Terrain::class,
                 'choice_label' => 'nom', // Use the 'nom' property as the choice label
-                // Add other options as needed
+               
             ])
           
             ->add('iduser', EntityType::class, [
                 'class' => Utilisateurs::class,
-                'choice_label' => 'nom', // Use the 'nom' property as the choice label
+                'choice_label' => 'nom', 
             ]);
             $builder->add('image', FileType::class, [
                 'label' => 'Charger une image',
