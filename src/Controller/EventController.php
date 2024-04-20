@@ -315,10 +315,9 @@ public function stat(EventRepository $eventRepository): Response
 
 
 
-//PDF
 
 
-
+//pdf
 #[Route('/events/pdf', name: 'event_pdf')]
 public function generatePdf(EventRepository $eventRepository): Response
 {
