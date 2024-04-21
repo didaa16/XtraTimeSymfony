@@ -1,66 +1,133 @@
+{# templates/registration/register.html.twig #}
+
 {% extends 'home/front.html.twig' %}
 
-{% block title %}Users{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block body %}
-    <br><br><br><br><br><br><br><br><br><br><br>
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6">
+                <h1 class="text-center">Register</h1>
+
+                {{ form_start(registrationForm, {'id': 'register-form', 'attr': {'onsubmit': 'toggleRegisterButton();'}}) }}
+
+                {# Display flash errors if any #}
                 {% for flash_error in app.flashes('verify_email_error') %}
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                 {% endfor %}
 
-                <h1 class="text-center">Register</h1>
-
+                {# Display form errors #}
                 {{ form_errors(registrationForm) }}
 
-                {{ form_start(registrationForm) }}
+                {# Display other form fields #}
                 <div class="mb-3">
                     {{ form_row(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.pseudo) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.nom) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.prenom) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.age, {'attr': {'class': 'form-control', 'placeholder': 'Age'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.age) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.numTel, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de téléphone'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.numTel) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.email) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.cin) }}</div>
                 </div>
                 <div class="mb-3">
-                    {{ form_row(registrationForm.plainPassword, { 'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
-                    <div class="error-message">{{ form_errors(registrationForm.plainPassword) }}</div>
+                    {{ form_row(registrationForm.plainPassword.first, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password', 'oninput': 'checkPasswordStrength(this.value)'}}) }}
+                    <progress id="password-strength" max="100" value="0"></progress>
+                    <span id="password-strength-text"></span>
                 </div>
+
+                <div class="mb-3">
+                    {{ form_row(registrationForm.plainPassword.second, {'label': 'Confirm Password', 'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
+                </div>
+
                 <div class="mb-3">
                     {{ form_row(registrationForm.roles) }}
-                    <div class="error-message">{{ form_errors(registrationForm.roles) }}</div>
                 </div>
                 <div class="mb-3">
                     {{ form_row(registrationForm.agreeTerms) }}
-                    <div class="error-message">{{ form_errors(registrationForm.agreeTerms) }}</div>
                 </div>
 
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+                <button type="submit" id="register-button" class="btn btn-lg btn-primary btn-block">Register</button>
                 {{ form_end(registrationForm) }}
             </div>
         </div>
     </div>
-    <br><br><br><br><br><br><br><br><br><br><br>
+
+    <script>
+        function checkPasswordStrength(password) {
+            var progressBar = document.getElementById("password-strength");
+            var strengthText = document.getElementById("password-strength-text");
+
+            var strength = 0;
+
+            // Check for lowercase characters
+            if (password.match(/[a-z]+/)) {
+                strength += 1;
+            }
+
+            // Check for uppercase characters
+            if (password.match(/[A-Z]+/)) {
+                strength += 1;
+            }
+
+            // Check for numbers
+            if (password.match(/[0-9]+/)) {
+                strength += 1;
+            }
+
+            // Check for special characters
+            if (password.match(/[$&+,:;=?@#|'<>.^*()%!-]+/)) {
+                strength += 1;
+            }
+
+            // Check for length greater than or equal to 8
+            if (password.length >= 8) {
+                strength += 1;
+            }
+
+            // Adjust the scoring system to match the desired categories
+            if (password.length < 8) {
+                strengthText.innerText = "Very Weak";
+            } else if (strength === 1) {
+                strengthText.innerText = "Very Weak";
+            } else if (strength === 2) {
+                strengthText.innerText = "Weak";
+            } else if (strength === 3) {
+                strengthText.innerText = "Medium";
+            } else if (strength === 4) {
+                strengthText.innerText = "Strong";
+            } else {
+                strengthText.innerText = "Very Strong";
+            }
+            //progressBar.style.borderRadius = 300px;
+            progressBar.value = (strength / 5) * 100;
+        }
+
+        function toggleRegisterButton() {
+            var passwordInput = document.getElementById('registrationForm_plainPassword_first');
+            var confirmPasswordInput = document.getElementById('registrationForm_plainPassword_second');
+
+            var password = passwordInput.value;
+            var confirmPassword = confirmPasswordInput.value;
+
+            var strengthText = document.getElementById("password-strength-text");
+            var strength = getPasswordStrength(password);
+
+            if (strengthText.innerText === "Weak" && password.trim() !== "") {
+                alert("Are you sure to register with this weak password?");
+            }
+        }
+    </script>
 {% endblock %}
