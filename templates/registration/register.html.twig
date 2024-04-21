@@ -5,6 +5,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    <br><br><br><br>
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6">
@@ -58,13 +59,17 @@
                 <div class="mb-3">
                     {{ form_row(registrationForm.agreeTerms) }}
                 </div>
-
+                <br>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.captcha) }}
+                </div>
                 <button type="submit" id="register-button" class="btn btn-lg btn-primary btn-block">Register</button>
                 {{ form_end(registrationForm) }}
             </div>
         </div>
     </div>
 
+    <br><br><br>
     <script>
         function checkPasswordStrength(password) {
             var progressBar = document.getElementById("password-strength");
@@ -131,3 +136,5 @@
         }
     </script>
 {% endblock %}
+
+
