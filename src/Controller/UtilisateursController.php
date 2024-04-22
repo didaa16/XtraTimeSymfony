@@ -13,10 +13,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 #[Route('/utilisateurs')]
 class UtilisateursController extends AbstractController
 {
+
+    private $passwordEncoder;
+
+    // Constructor injection of UserPasswordEncoderInterface
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     #[Route('/', name: 'app_utilisateurs_index', methods: ['GET'])]
     public function index(UtilisateursRepository $utilisateursRepository, Request $request): Response
     {
@@ -37,11 +48,18 @@ class UtilisateursController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hash the password before persisting the Utilisateur entity
+            $password = $form->get('password')->getData();
+            $encodedPassword = $this->passwordEncoder->encodePassword($utilisateur, $password);
+            $utilisateur->setPassword($encodedPassword);
+
+            $utilisateur->setRoles(['Livreur']);
             $entityManager->persist($utilisateur);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_utilisateurs_index', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->renderForm('utilisateurs/new.html.twig', [
             'utilisateur' => $utilisateur,

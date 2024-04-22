@@ -56,4 +56,12 @@ class HomeController extends AbstractController
             'data' => json_encode($data),
         ]);
     }
+
+    #[Route('/banned', name: 'app_banned')]
+    public function banned(): Response
+    {
+        return $this->render('home/banned.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

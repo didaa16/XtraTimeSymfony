@@ -8,9 +8,6 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
@@ -23,22 +20,7 @@ class UtilisateursType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo')
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Client' => 'Client',
-                    'Locateur' => 'Locateur',
-                    'Livreur' => 'Livreur',
-                ],
-                'multiple' => true, // Allow selecting multiple roles
-                'expanded' => true, // Render roles as checkboxes
-                'constraints' => [
-                    new NotBlank(),
-                    new Count(['max' => 1]),
-                ],
-            ])
-
-            ->add('password', PasswordType::class)
+            ->add('pseudo', TextType::class)
             ->add('nom', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
@@ -101,8 +83,19 @@ class UtilisateursType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('isVerified')
-        ;
+            ->add('password', PasswordType::class, [
+                'mapped' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

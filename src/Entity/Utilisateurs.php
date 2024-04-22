@@ -50,6 +50,9 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $banned = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -226,6 +229,18 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->nom;
+    }
+
+    public function isBanned(): ?bool
+    {
+        return $this->banned;
+    }
+
+    public function setBanned(?bool $banned): static
+    {
+        $this->banned = $banned;
+
+        return $this;
     }
 
 

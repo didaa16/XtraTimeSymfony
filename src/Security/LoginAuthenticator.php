@@ -44,27 +44,24 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Récupérer l'utilisateur authentifié
         $user = $token->getUser();
 
-        // Vérifier les rôles de l'utilisateur
-        if (in_array('Admin', $user->getRoles())) {
-            // Rediriger l'administrateur vers la partie back
-            return new RedirectResponse($this->urlGenerator->generate('app_back'));
-        } elseif (in_array('Client', $user->getRoles())) {
-            // Rediriger l'utilisateur vers la partie front
-            return new RedirectResponse($this->urlGenerator->generate('app_front'));
+        if ($user->isBanned()){
+            return new RedirectResponse($this->urlGenerator->generate('app_banned'));
         }
-        elseif (in_array('Locateur', $user->getRoles())) {
-            // Rediriger l'utilisateur vers la partie front
-            return new RedirectResponse($this->urlGenerator->generate('app_front'));
+        else{
+            if (in_array('Admin', $user->getRoles())) {
+                return new RedirectResponse($this->urlGenerator->generate('app_back'));
+            } elseif (in_array('Client', $user->getRoles())) {
+                return new RedirectResponse($this->urlGenerator->generate('app_front'));
+            }
+            elseif (in_array('Locateur', $user->getRoles())) {
+                return new RedirectResponse($this->urlGenerator->generate('app_front'));
+            }
+            elseif (in_array('Livreur', $user->getRoles())) {
+                return new RedirectResponse($this->urlGenerator->generate('app_front'));
+            }
         }
-        elseif (in_array('Livreur', $user->getRoles())) {
-            // Rediriger l'utilisateur vers la partie front
-            return new RedirectResponse($this->urlGenerator->generate('app_front'));
-        }
-
-        // Rediriger vers une page par défaut si l'utilisateur n'a ni le rôle admin ni le rôle user
         return new RedirectResponse($this->urlGenerator->generate('app_front'));
     }
 
