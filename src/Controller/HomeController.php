@@ -2,13 +2,39 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateurs;
 use App\Repository\UtilisateursRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use League\OAuth2\Client\Provider\Facebook;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
+
+    private $provider;
+
+    private $github_provider;
+
+
+    public function __construct()
+    {
+        $this->provider = new Facebook([
+            'clientId' => $_ENV['FCB_ID'],
+            'clientSecret' => $_ENV['FCB_SECRET'],
+            'redirectUri' => $_ENV['FCB_CALLBACK'],
+            'graphApiVersion' => 'v19.0',
+        ]);
+    }
+
+
+
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
@@ -64,4 +90,55 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    #[Route('/fcb-login', name: 'fcb_login')]
+    public function fcbLogin(): Response
+    {
+
+        $helper_url=$this->provider->getAuthorizationUrl();
+
+        return $this->redirect($helper_url);
+    }
+
+    #[Route('/fcb-callback', name: 'fcb_callback')]
+    public function fcbCallBack(UtilisateursRepository $userDb, EntityManagerInterface $manager): Response
+    {
+        $token = $this->provider->getAccessToken('authorization_code', [
+            'code' => $_GET['code']
+        ]);
+        try {
+            $user = $this->provider->getResourceOwner($token);
+            $userData = $user->toArray(); // Convert user object to array
+            $pseudo = $userData['id'];
+            $email = $userData['email'];
+            $nom = $userData['first_name'];
+            $prenom = $userData['last_name'];
+            $userExist = $userDb->findOneByEmail($email);
+            if ($userExist) {
+                return $this->render('home/front.html.twig', [
+                    'title' => 'welcome',
+                ]);
+            } else {
+                $newUser = new Utilisateurs();
+                $newUser->setPseudo($pseudo)
+                    ->setRoles(["Client"])
+                    ->setNom($nom)
+                    ->setPrenom($prenom)
+                    ->setEmail($email)
+                    ->setIsVerified(true)
+                    ->setPassword(sha1(str_shuffle('abscdop123390hHHH;:::OOOI')));
+                $manager->persist($newUser);
+                $manager->flush();
+                return $this->render('home/front.html.twig', [
+                    'title' => 'welcome',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+
+    }
+
+
+
 }

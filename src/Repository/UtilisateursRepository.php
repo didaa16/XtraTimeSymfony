@@ -53,6 +53,17 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function findOneByEmail($search)
+    {
+        $queryBuilder = $this->createQueryBuilder('u');
+
+        if ($search) {
+            $queryBuilder->andWhere('u.email LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 
 
     public function countUsersByRole(): array
