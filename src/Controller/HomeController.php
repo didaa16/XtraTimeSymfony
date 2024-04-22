@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -19,12 +20,14 @@ class HomeController extends AbstractController
 {
 
     private $provider;
+    private $tokenStorage;
 
-    private $github_provider;
-
-
-    public function __construct()
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
+        // Assign tokenStorage parameter to the class property
+        $this->tokenStorage = $tokenStorage;
+
+        // Initialize Facebook provider
         $this->provider = new Facebook([
             'clientId' => $_ENV['FCB_ID'],
             'clientSecret' => $_ENV['FCB_SECRET'],
@@ -113,11 +116,11 @@ class HomeController extends AbstractController
             $email = $userData['email'];
             $nom = $userData['first_name'];
             $prenom = $userData['last_name'];
-            $userExist = $userDb->findOneByEmail($email);
+            $userExist = $userDb->findBySearch($pseudo);
             if ($userExist) {
-                return $this->render('home/front.html.twig', [
-                    'title' => 'welcome',
-                ]);
+                $existingUser = $userExist[0]; // Assuming $userExist is an array of Utilisateurs objects, retrieve the first one
+                $token = new UsernamePasswordToken($existingUser, null, 'main', $existingUser->getRoles());
+                $this->tokenStorage->setToken($token);
             } else {
                 $newUser = new Utilisateurs();
                 $newUser->setPseudo($pseudo)
@@ -129,14 +132,15 @@ class HomeController extends AbstractController
                     ->setPassword(sha1(str_shuffle('abscdop123390hHHH;:::OOOI')));
                 $manager->persist($newUser);
                 $manager->flush();
-                return $this->render('home/front.html.twig', [
-                    'title' => 'welcome',
-                ]);
+                $token = new UsernamePasswordToken($newUser, null, 'main', $newUser->getRoles());
+                $this->tokenStorage->setToken($token);
             }
+            return $this->render('home/front.html.twig', [
+                'title' => 'welcome',
+            ]);
         } catch (\Throwable $th) {
             dd($th->getMessage());
         }
-
     }
 
 
