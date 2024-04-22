@@ -14,7 +14,16 @@ class CommandeController extends AbstractController
     public function AfficherCommande(CommandeRepository $repository)
     {
         $commande = $repository->findAll(); //select *
-        return $this->render('commande/listeCommande.html.twig', ['commandes' => $commande]);
+         // Récupérer le nombre de commandes pour chaque statut
+    $nbCommandesEnAttente = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'enAttente']);
+    $nbCommandesEnCours = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'enCours']);
+    $nbCommandesLivre = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'livrée']);
+
+        return $this->render('commande/listeCommande.html.twig', [
+            'nbCommandesEnAttente' => $nbCommandesEnAttente,
+        'nbCommandesEnCours' => $nbCommandesEnCours,
+        'nbCommandesLivre' => $nbCommandesLivre,
+            'commandes' => $commande]);
     }
 
     

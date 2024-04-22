@@ -36,8 +36,8 @@
     <div class="d-flex align-items-center justify-content-between">
         <h3 class="mb-0">Commande #{{ commande.refCommande }}</h3>
         <div class="flex-shrink-0">
-            <a href="apps-invoices-details.html" class="btn btn-success btn-lg custom-btn"><i class="ri-download-2-fill align-middle me-1"></i> PRINT</a>
-        </div>
+<a href="{{ path('generate_pdf', {'refCommande': commande.refCommande }) }}" class="btn btn-success btn-lg custom-btn"><i class="ri-download-2-fill align-middle me-1"></i> PRINT</a>
+</div>
     </div>
 </div>
 
@@ -51,7 +51,6 @@
                                              <th class="sort" data-sort="ref">Réference</th>
                                              <th class="sort" data-sort="marque">Marque</th>
                                              <th class="sort" data-sort="prix">Prix</th>
-                                             <th class="sort" data-sort="quantite">Quantité</th>
                                              <th class="sort" data-sort="taille">Taille</th>
                                              <th class="sort" data-sort="type sport">Type sport</th>
                                              <th class="sort" data-sort="desc">Description</th>
@@ -72,7 +71,6 @@
                     <td>{{ produit.ref }}</td>
                     <td>{{ produit.marque }}</td>
                     <td>{{ produit.prix }}</td>
-                    <td>{{ produit.quantite }}</td>
                     <td>{{ produit.taille }}</td>
                     <td>{{ produit.typeSport }}</td>
     <td class="desc" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{ produit.description }}</td>

@@ -2,6 +2,8 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <section class="inner-banner pattern-3" style="margin-top: 0px;">
     <div class="container text-center">
         <h2>Votre commande</h2>
@@ -89,7 +91,7 @@
 
 <div class="update-cart-box clearfix">
     <div class="pull-right">
-        <button type="button" class="thm-btn update-cart">Mise à jour Commande</button> &emsp;
+        {# <button type="button" class="thm-btn update-cart">Mise à jour Commande</button> &emsp; #}
 <a href="{{ path('app_payment', {'refCommande': commande.refCommande}) }}" class="thm-btn thm-blue-bg">PASSER À LA CAISSE</a>
     </div>
 </div>
@@ -103,6 +105,46 @@
 
 
 
+<script>
+    // Wait for the DOM to be ready
+    $(document).ready(function() {
+        // Attach a click event handler to the update-cart button
+        $('.update-cart').on('click', function() {
+            // Prepare the data to be sent in the AJAX request
+            var quantities = {};
+
+            // Loop through each product input field and get its reference and quantity
+            $('.product-quantity').each(function() {
+                var ref = $(this).data('ref');
+                var quantity = $(this).val();
+                quantities[ref] = quantity;
+            });
+
+            // Send the AJAX request to update the cart
+            $.ajax({
+                url: '/update-cart',
+                type: 'POST',
+                data: {
+                    quantities: quantities
+                },
+                success: function(response) {
+                    // Handle the success response from the server
+                    if (response.success) {
+                        // Reload the page or update the cart view
+                        location.reload();
+                    } else {
+                        // Display an error message to the user
+                        alert('Failed to update the cart. Please try again.');
+                    }
+                },
+                error: function() {
+                    // Handle errors in the AJAX request
+                    alert('An error occurred while updating the cart. Please try again.');
+                }
+            });
+        });
+    });
+</script>
 
 
 

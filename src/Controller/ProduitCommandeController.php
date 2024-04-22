@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Commande;
 use App\Entity\ProduitCommande;
 use App\Entity\Produit;
+use Symfony\Component\HttpFoundation\Request; // Import de la classe Request
+use TCPDF;
+use Dompdf\Dompdf;
+use Fpdf\Fpdf;
+
 
 class ProduitCommandeController extends AbstractController
 {
@@ -52,6 +57,50 @@ class ProduitCommandeController extends AbstractController
             'produits' => $produits,
         ]);
     }
+
+
+    #[Route('/generate/pdf/{refCommande}', name: 'generate_pdf')]
+public function generatePdf($refCommande): Response
+{
+    // Récupérer les données de la commande
+    $entityManager = $this->getDoctrine()->getManager();
+    $commande = $entityManager->getRepository(Commande::class)->findOneBy(['refCommande' => $refCommande]);
+
+    // Afficher les produits en utilisant leur référence (ref)
+    $produitsCommande = $entityManager->getRepository(ProduitCommande::class)->findBy(['refCommande' => $commande->getRefCommande()]);
+    
+    $produits = [];
+    foreach ($produitsCommande as $produitCommande) {
+        $refProduit = $produitCommande->getRef();
+        // Sélectionner le produit par sa référence (ref)
+        $produit = $entityManager->getRepository(Produit::class)->findOneBy(['ref' => $refProduit]);
+        if ($produit) {
+            $produits[] = $produit;
+        }
+    }
+
+    // Créer un nouveau PDF
+    $pdf = new TCPDF();
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->AddPage();
+    
+    // Générer le contenu du PDF à partir du template Twig
+    $html = $this->renderView('produit_commande/pdf_template.html.twig', [
+        'commande' => $commande,
+        'produits' => $produits,
+    ]);
+    
+    // Vider le tampon de sortie
+    ob_clean();
+    
+    // Ajouter le contenu au PDF
+    $pdf->writeHTML($html);
+    
+    // Télécharger le PDF
+    $fileName = 'Commande_' . $commande->getRefCommande() . '.pdf';
+$pdf->Output($fileName, 'D');
+}
 
 
 

@@ -215,6 +215,71 @@
 </script>-->
 
 
+
+<div class="row text-center" style="margin-left: 60px;" >
+    <div class="col-md-4 mb-4">
+        <div class="card bg-warning-light card-widget">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium mb-1">Commandes en attente</p>
+                        <h4 class="mb-0">{{ nbCommandesEnAttente }}</h4>
+                    </div>
+                    <div class="flex-shrink-0 ms-2">
+                        <div class="bg-warning-alt-shape bg-soft-warning-alt-shape rounded-circle">
+                            <i class="ri-shopping-cart-2-line text-warning fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-info-light card-widget">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium mb-1">Commandes en cours</p>
+                        <h4 class="mb-0">{{ nbCommandesEnCours }}</h4>
+                    </div>
+                    <div class="flex-shrink-0 ms-2">
+                        <div class="bg-info-alt-shape bg-soft-info-alt-shape rounded-circle">
+                            <i class="ri-truck-line text-info fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success-light card-widget">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium mb-1">Commandes livrées</p>
+                        <h4 class="mb-0">{{ nbCommandesLivre }}</h4>
+                    </div>
+                    <div class="flex-shrink-0 ms-2">
+                        <div class="bg-success-alt-shape bg-soft-success-alt-shape rounded-circle">
+                            <i class="ri-checkbox-circle-line text-success fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 <script>
    document.addEventListener("DOMContentLoaded", function() {
     const filterButtons = document.querySelectorAll('.filter-status');
@@ -332,6 +397,26 @@
 .my-rech {
     margin-right:100px; /* Ajoutez la valeur de la marge souhaitée */
 }
+.card-widget {
+    width: 100%;
+    max-width: 300px; /* Ajustez la largeur maximale selon vos besoins */
+    margin-right: 15px; /* Marge entre les widgets */
+    border-radius: 10px; /* Bordure arrondie */
+    transition: all 0.3s ease; /* Transition fluide pour l'effet de survol */
+    font-size: 19px;
+        background-color: #cfe8d5; /* Couleur de fond des widgets */
+
+}
+
+.card-widget:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Augmentez les valeurs x, y et blur-radius pour une ombre plus grande */
+    transform: translateY(-6px); /* Légère translation vers le haut au survol */
+}
+
+
+
+
+
 
 </style>
 

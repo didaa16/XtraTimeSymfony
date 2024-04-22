@@ -10,6 +10,8 @@ use App\Entity\ProduitCommande;
 use App\Entity\Produit;
 use App\Repository\CommandeRepository;
 use Symfony\Component\HttpFoundation\Request;
+use TCPDF;
+
 
 
 
@@ -86,7 +88,47 @@ class LivreurController extends AbstractController
         return $this->redirectToRoute('commandeDetL', ['refCommande' => $refCommande]);
     }
 
-
+    #[Route('/generateL/pdf/{refCommande}', name: 'generate_pdf_livreur')]
+    public function generatePdfL($refCommande): Response
+    {
+        // Récupérer les données de la commande
+        $entityManager = $this->getDoctrine()->getManager();
+        $commande = $entityManager->getRepository(Commande::class)->findOneBy(['refCommande' => $refCommande]);
+    
+        // Afficher les produits en utilisant leur référence (ref)
+        $produitsCommande = $entityManager->getRepository(ProduitCommande::class)->findBy(['refCommande' => $commande->getRefCommande()]);
+        
+        $produits = [];
+        foreach ($produitsCommande as $produitCommande) {
+            $refProduit = $produitCommande->getRef();
+            // Sélectionner le produit par sa référence (ref)
+            $produit = $entityManager->getRepository(Produit::class)->findOneBy(['ref' => $refProduit]);
+            if ($produit) {
+                $produits[] = $produit;
+            }
+        }
+    
+        // Créer un nouveau PDF
+        $pdf = new TCPDF();
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->AddPage();
+        
+        // Générer le contenu du PDF à partir du template Twig
+        $html = $this->renderView('livreur/pdf_template_livreur.html.twig', [
+            'commande' => $commande,
+            'produits' => $produits,
+        ]);
+        
+        // Vider le tampon de sortie
+        ob_clean();
+        
+        // Ajouter le contenu au PDF
+        $pdf->writeHTML($html);
+        
+        // Télécharger le PDF
+        $fileName = 'livraison_' . $commande->getRefCommande() . '.pdf';
+        $pdf->Output($fileName, 'D');    }
 
 
 

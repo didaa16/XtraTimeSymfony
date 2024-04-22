@@ -2,6 +2,8 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
+<script src="https://js.stripe.com/v3/"></script>
+
 <section class="inner-banner pattern-3" style="margin-top: 0px; ">
         <div class="container text-center">
             <h2>PAIEMENT</h2>
@@ -31,7 +33,7 @@
                     </div>
                      <div class="card" style="border: 1px solid #ccc; border-radius: 5px; padding: 20px;">
                     <div class="card-body">
-                        <form method="post" action="{{ path('process_payment') }}" id="paymentForm">
+<form method="post" action="{{ path('app_payment', {'refCommande': refCommande}) }}" id="paymentForm">
                             <div class="form-group">
     <label for="card_number">Numéro de carte*</label>
     <input type="password" class="form-control" id="card_number" name="card_number" placeholder="**** **** **** ****" required pattern="\d{16}" title="Le numéro de carte doit contenir 16 chiffres">
@@ -186,7 +188,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </style>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var stripe = Stripe('pk_test_51OqJbyP8fZ7mtZrf3jcyFIrvs7dUiVDNlcghK4u9zLNY8BLLZuc0ezkfc1af19aLSyeCRNbQIhDLAHR9fo2rGIRG00j19Anzg0');
 
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            stripe.confirmCardPayment('{{ clientSecret }}', {
+                payment_method: {
+                    card: {
+                        number: document.getElementById('card_number').value,
+                        exp_month: document.getElementById('expiration_month').value,
+                        exp_year: document.getElementById('expiration_year').value,
+                        cvc: document.getElementById('cvc').value
+                    }
+                }
+            }).then(function(result) {
+                if (result.error) {
+                    // Gérer les erreurs de paiement
+                    console.error(result.error.message);
+                }else {
+                    // Si le paiement est réussi, rediriger vers la page de succès de paiement
+                    window.location.href = '{{ path('payment_success') }}';
+                } 
+            });
+        });
+    });
+</script>
 
 
 

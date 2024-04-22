@@ -18,6 +18,10 @@ use App\Entity\Commande;
 use App\Entity\ProduitCommande;
 use App\Entity\Utilisateurs;
 use App\Repository\ProduitCommandeRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Knp\Component\Pager\PaginatorInterface;
+
+
 
 
 class ClientProdController extends AbstractController
@@ -25,34 +29,45 @@ class ClientProdController extends AbstractController
     
     #[Route('/ClientProd', name: 'ClientProd')]
     public function ClientProd(Request $request, ProduitRepository $repository)
-{
-    // Récupération des données de formation depuis la base de données
-    $produits = $repository->findAll(); // Fetches all products
-    
-    $sortBy = $request->query->get('sort_by', 'default'); // Récupérer l'option de tri ou utiliser une valeur par défaut
+    {
+        // Récupération de l'option de tri de la requête ou utilisation de la valeur par défaut
+        $sortBy = $request->query->get('sort_by', 'default');
 
-    
+        // Récupération des produits triés
+        $produits = $this->getProduitsTries($sortBy, $repository);
 
-
-    switch ($sortBy) {
-        
-        case 'price_asc':
-            $produits = $repository->findBy([], ['prix' => 'ASC']);
-            break;
-        case 'price_desc':
-            $produits = $repository->findBy([], ['prix' => 'DESC']);
-            break;
-        case 'name_asc':
-            $produits = $repository->findBy([], ['nom' => 'ASC']);
-            break;
-        default:
-            $produits = $repository->findAll();
+            // Filtrer les produits en fonction des prix minimum et maximum
+    $minPrice = $request->query->get('min_price');
+    $maxPrice = $request->query->get('max_price');
+    if ($minPrice !== null && $maxPrice !== null) {
+        $produits = $repository->findByPriceRange($minPrice, $maxPrice);
     }
-    // Rendu de la vue avec les données de formation
-    return $this->render('Client_prod/shop.html.twig', [
-        'produits' => $produits, // Pass the products array
-    ]);
-}
+
+    
+        
+
+        // Rendu de la vue avec les données des produits
+        return $this->render('Client_prod/shop.html.twig', [
+            'produits' => $produits,
+        ]);
+    }
+
+    // Fonction pour récupérer les produits triés en fonction de l'option sélectionnée
+    private function getProduitsTries($sortBy, $repository)
+    {
+        switch ($sortBy) {
+            case 'price_asc':
+                return $repository->findBy([], ['prix' => 'ASC']);
+            case 'price_desc':
+                return $repository->findBy([], ['prix' => 'DESC']);
+            case 'name_asc':
+                return $repository->findBy([], ['nom' => 'ASC']);
+            // Par défaut, retourner tous les produits
+            default:
+                return $repository->findAll();
+        }
+
+    }
 
 
 

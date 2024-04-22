@@ -1,5 +1,8 @@
 {% extends 'back.html.twig' %}
 {% block body %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
+
  <div class="main-content">
 <div class="page-content">
                 <div class="container-fluid">
@@ -146,14 +149,15 @@
 
                                         <div class="d-flex justify-content-end">
                                             <div class="pagination-wrap hstack gap-2">
-                                                <a class="page-item pagination-prev disabled" href="javascript:void(0);">
-                                                    Precedement
-                                                </a>
-                                                <ul class="pagination listjs-pagination mb-0"></ul>
-                                                <a class="page-item pagination-next" href="javascript:void(0);">
-                                                    Suivant
-                                                </a>
-                                            </div>
+    <a class="page-item pagination-prev disabled" href="javascript:void(0);">
+        Précédemment
+    </a>
+    <ul class="pagination listjs-pagination mb-0"></ul>
+    <a class="page-item pagination-next" href="javascript:void(0);">
+        Suivant
+    </a>
+</div>
+
                                         </div>
                                     </div>
                                 </div><!-- end card -->
@@ -183,6 +187,19 @@
 
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser List.js avec la table des produits
+        var productList = new List('customerList', {
+            pagination: true, // Activer la pagination
+            page: 1, // Page initiale
+            paginationClass: 'pagination-wrap', // Classe CSS pour l'enveloppe de pagination
+            searchClass: 'search', // Classe CSS pour la zone de recherche
+            listClass: 'list', // Classe CSS pour la liste des produits
+            pageLength: 10 // Nombre d'éléments par page
+        });
+    });
+</script>
 
 
 

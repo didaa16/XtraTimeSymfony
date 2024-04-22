@@ -32,13 +32,15 @@
                                   <div class="col-md-12">
                                      <p class="number-of-product pull-left">Showing 1-12 of 34 Results</p>
                                      <div class="select-box pull-right">
-    <select class="selectpicker" onchange="window.location.href = this.value;">
-        <option value="{{ path('ClientProd', {'sort_by': 'default'}) }}">Tri par défaut</option>
-        <option value="{{ path('ClientProd', {'sort_by': 'price_asc'}) }}">Tri par prix ascendant</option>
-        <option value="{{ path('ClientProd', {'sort_by': 'price_desc'}) }}">Tri par prix descendant</option>
-        <option value="{{ path('ClientProd', {'sort_by': 'name_asc'}) }}">Tri par nom (A-Z)</option>
-    </select>
+   <select class="selectpicker" onchange="handleChange(this)">
+    <option value="{{ path('ClientProd', {'sort_by': 'default'}) }}" {% if app.request.query.get('sort_by', 'default') == 'default' %}selected{% endif %}>Tri par défaut</option>
+    <option value="{{ path('ClientProd', {'sort_by': 'price_asc'}) }}" {% if app.request.query.get('sort_by') == 'price_asc' %}selected{% endif %}>Tri par prix ascendant</option>
+    <option value="{{ path('ClientProd', {'sort_by': 'price_desc'}) }}" {% if app.request.query.get('sort_by') == 'price_desc' %}selected{% endif %}>Tri par prix descendant</option>
+    <option value="{{ path('ClientProd', {'sort_by': 'name_asc'}) }}" {% if app.request.query.get('sort_by') == 'name_asc' %}selected{% endif %}>Tri par nom (A-Z)</option>
+</select>
+
 </div>
+
 
                                 </div>
                                 </div>
@@ -123,11 +125,12 @@
                             </div>
                             <div class="range-slider-price" id="range-slider-price"></div>
                             <div class="form-group clearfix">
-                                <button type="button">FILTRE</button>
+    <button type="submit">Filtrer</button>
                                 <p>PRIX: $
-                                    <input type="text" class="val-box" id="min-value-rangeslider" readonly> $
-                                    <input type="text" class="val-box" id="max-value-rangeslider" readonly>
-                                </p>
+    <input type="text" class="val-box" id="min-value-rangeslider" value="0" readonly> $
+    <input type="text" class="val-box" id="max-value-rangeslider" value="100" readonly>
+</p>
+
                             </div>
                         </div>
                         
@@ -277,12 +280,11 @@
     }
 
     // Fonction pour gérer le changement d'option
-    function handleChange(select) {
-        var sortBy = select.value;
-        window.location.href = "{{ path('ClientProd') }}?sort_by=" + sortBy;
-        
-        // Appel de la fonction pour mettre à jour le texte du sélecteur
-        updateSelectText(select);
+   function handleChange(select) {
+        var selectedOptionText = select.options[select.selectedIndex].textContent; // Récupérer le texte de l'option sélectionnée
+        $(select).siblings('.dropdown-toggle').text(selectedOptionText); // Mettre à jour le texte du sélecteur
+        var sortBy = select.value; // Récupérer la valeur sélectionnée
+        window.location.href = sortBy; // Redirection vers l'URL correspondant au tri sélectionné
     }
 </script>
 
@@ -337,6 +339,8 @@
 
 
 
+<script>
+</script>
 
 
 
