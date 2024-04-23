@@ -255,19 +255,7 @@
     <!-- /.section-padding sidebar-pages -->
 
 
-<script>
-    $(document).ready(function(){
-        // Détecter le clic sur le lien d'ajout au panier
-        $('a.add-to-cart').on('click', function(e){
-            e.preventDefault(); // Empêcher le lien de suivre son URL
 
-            // Récupérer le nom du produit à partir de l'attribut data-nom du lien
-            var produitNom = $(this).data('nom');
-
-            // Afficher une notification ou un popup
-            alert('Vous avez ajouté "' + produitNom + '" à votre commande.');
-        });
-    });
 </script>
 
 

@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints\Valid;
 use App\Entity\Ratingprod; // Ajout de l'importation manquante
 use Symfony\Component\HttpFoundation\File\UploadedFile; // Importez UploadedFile
+use Knp\Component\Pager\PaginatorInterface;
 
 
 

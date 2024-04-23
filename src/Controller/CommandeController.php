@@ -19,7 +19,7 @@ class CommandeController extends AbstractController
     $nbCommandesEnCours = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'enCours']);
     $nbCommandesLivre = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'livrée']);
 
-        return $this->render('commande/listeCommande.html.twig', [
+        return $this->render('commande/listeCommande.html.twig',   [
             'nbCommandesEnAttente' => $nbCommandesEnAttente,
         'nbCommandesEnCours' => $nbCommandesEnCours,
         'nbCommandesLivre' => $nbCommandesLivre,

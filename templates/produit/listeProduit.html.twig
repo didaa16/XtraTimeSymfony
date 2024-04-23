@@ -1,7 +1,5 @@
 {% extends 'back.html.twig' %}
 {% block body %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
 
  <div class="main-content">
 <div class="page-content">
@@ -134,7 +132,9 @@
         <!--end modal -->
     </td>
 </tr>
+
 {% endfor %}
+
 
         </tbody>
     </table>
@@ -148,9 +148,9 @@
 
 
                                         <div class="d-flex justify-content-end">
-                                            <div class="pagination-wrap hstack gap-2">
-    <a class="page-item pagination-prev disabled" href="javascript:void(0);">
-        Précédemment
+                                           <div class="pagination-wrap hstack gap-2">
+    <a class="page-item pagination-prev" href="javascript:void(0);">
+        Précédent
     </a>
     <ul class="pagination listjs-pagination mb-0"></ul>
     <a class="page-item pagination-next" href="javascript:void(0);">
@@ -187,19 +187,85 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialiser List.js avec la table des produits
-        var productList = new List('customerList', {
-            pagination: true, // Activer la pagination
-            page: 1, // Page initiale
-            paginationClass: 'pagination-wrap', // Classe CSS pour l'enveloppe de pagination
-            searchClass: 'search', // Classe CSS pour la zone de recherche
-            listClass: 'list', // Classe CSS pour la liste des produits
-            pageLength: 10 // Nombre d'éléments par page
+        var options = {
+            valueNames: ['nomProduit', 'ref', 'marque', 'prix', 'quantite', 'taille', 'type sport', 'desc', 'image', 'action'],
+            page: 1,
+            pagination: true,
+            pageLength: 5 // Assurez-vous que cette valeur est définie à 5
+        };
+
+        var productList = new List('customerList', options);
+
+        // Ajouter des écouteurs d'événements pour le tri lorsque les en-têtes de colonne sont cliqués
+        document.querySelectorAll('.sort').forEach(function(header) {
+            header.addEventListener('click', function() {
+                var sortBy = this.getAttribute('data-sort');
+                productList.sort(sortBy, { order: 'asc' });
+            });
         });
     });
 </script>
+
+
+
+
+
+
+
+
+ <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var options = {
+    valueNames: ['nomProduit', 'ref', 'marque', 'prix', 'quantite', 'taille', 'type sport', 'desc', 'image', 'action'],
+    page: 1,
+    pagination: true,
+    pageLength: 5 // Assurez-vous que cette valeur est définie à 5
+};
+
+    var productList = new List('customerList', options);
+});
+ </script>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Récupérer les boutons de pagination
+    const prevButton = document.querySelector('.pagination-prev');
+    const nextButton = document.querySelector('.pagination-next');
+
+    // Ajouter des écouteurs d'événements sur les boutons de pagination
+    prevButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        // Décrémentez le numéro de page
+        productList.prev();
+    });
+
+    nextButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        // Incrémentez le numéro de page
+        productList.next();
+    });
+});
+
+
+ </script>
+
 
 
 
