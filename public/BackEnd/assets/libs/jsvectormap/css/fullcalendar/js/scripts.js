@@ -14,7 +14,21 @@
 window.onload = () => {
     let elementCalendrier = document.getElementById("calendrier")
     let calendrier = new FullCalendar.Calendar(elementCalendrier,{
-        plugins:['dayGrid']
+        plugins: ['dayGrid','timeGrid','list','interaction'],
+        defaultView: 'timeGridWeek',
+        locale: 'fr',
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,list'
+        },
+        buttonText: {
+            today: 'Aujourd\'hui',
+            month: 'Mois',
+            week: 'Semaine',
+            list: 'Liste'
+        },
+
     })
     calendrier.render()
 

@@ -436,13 +436,32 @@ public function generateQrCode($idevent, EventRepository $eventRepository): Resp
 
 
   //Calendrier
-  #[Route('/calendar', name: 'app_calendar')]
-  public function calendar(): Response
-  {
-      return $this->render('event/calendar.html.twig', [
-          'controller_name' => 'EventController',
-      ]);
-  }
+  #[Route('/cc', name: 'app_calendar')]
+public function calendar(EventRepository $eventRepository): Response
+{
+    // Récupérer les événements depuis le repository
+    $events = $eventRepository->findAll();
+
+    // Formater les données des événements pour le template Twig
+    $formattedEvents = [];
+    foreach ($events as $event) {
+        $formattedEvents[] = [
+            'id' => $event->getIdevent(),
+            'title' => $event->getTitre(),
+            'start' => $event->getDatedebut()->format('Y-m-d H:i:s'),
+            'end' => $event->getDatefin()->format('Y-m-d H:i:s'),
+            // Ajouter d'autres propriétés d'événement si nécessaire
+        ];
+    }
+    $data = json_encode($formattedEvents);
+    
+    return $this->render('event/calendar.html.twig', compact('data'));
+
+   
+   
+}
+
+
 
 
 
