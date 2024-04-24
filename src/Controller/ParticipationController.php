@@ -51,6 +51,32 @@ public function event_delete($idparticipation, ParticipationRepository $reposito
 
  
 
+//stat 
+#[Route('/nbr', name: 'nbr_participation')]
+public function nbr(): Response
+{
+    $entityManager = $this->getDoctrine()->getManager();
 
+    // Fetch all participations
+    $participations = $entityManager->getRepository(Participation::class)->findAll();
+
+    // Initialize an array to hold event participation counts
+    $eventParticipationCounts = [];
+
+    // Count participations per event
+    foreach ($participations as $participation) {
+        $eventName = $participation->getIdevent()->getTitre();
+
+        if (!isset($eventParticipationCounts[$eventName])) {
+            $eventParticipationCounts[$eventName] = 0;
+        }
+
+        $eventParticipationCounts[$eventName]++;
+    }
+
+    return $this->render('participation/stat.html.twig', [
+        'eventParticipationCounts' => $eventParticipationCounts,
+    ]);
+}
 
 }
