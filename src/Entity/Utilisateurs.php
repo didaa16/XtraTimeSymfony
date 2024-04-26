@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 #[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,6 +20,9 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
+
+    #[ORM\Column(length: 255, unique: true)] // Ajout de la contrainte unique
+    private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
@@ -43,9 +47,6 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?int $numTel = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
