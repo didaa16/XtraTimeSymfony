@@ -29,6 +29,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 
 
@@ -43,13 +44,50 @@ class EventController extends AbstractController
     }
 
 
-    //afficher 
+   /* //afficher 
     #[Route('/Affiche_event', name: 'event_Affiche')]
     public function Affiche(EventRepository $repository): Response
     {
         $events = $repository->findAll(); // Fetch all events
         return $this->render('event/Afficheevent.html.twig', ['e' => $events]);
-    }
+    }*/
+//pagination+aff
+#[Route('/Affiche_event', name: 'event_Affiche')]
+public function Affiche(EventRepository $repository, Request $request): Response
+{
+    // Utilise QueryBuilder pour construire la requête
+    $queryBuilder = $repository->createQueryBuilder('e');
+
+    // Détermine le numéro de page à afficher à partir de la requête (défaut : page 1)
+    $page = $request->query->getInt('page', 1);
+
+    // Détermine le nombre d'éléments par page
+    $perPage = 5;
+
+    // Construit la requête avec orderBy si nécessaire
+    $queryBuilder->orderBy('e.idevent', 'DESC'); // Exemple de tri par ID
+
+    // Crée l'objet Paginator avec la requête construite
+    $paginator = new Paginator($queryBuilder);
+
+    // Définit l'offset et le nombre d'éléments max pour la pagination
+    $paginator
+        ->getQuery()
+        ->setFirstResult(($page - 1) * $perPage)
+        ->setMaxResults($perPage);
+
+    // Récupère les résultats paginés
+    $paginatedEvents = $paginator->getIterator();
+
+    // Rend la vue avec les résultats paginés et les informations de pagination
+    return $this->render('event/Afficheevent.html.twig', [
+        'e' => $paginatedEvents,
+        'currentPage' => $page,
+    ]);
+}
+
+
+
 
 
      //ajouter 
@@ -463,8 +501,34 @@ public function calendar(EventRepository $eventRepository): Response
 
 
 
+//partc_stat
+//stat 
+#[Route('/nbr', name: 'nbr_participation')]
+public function nbr(): Response
+{
+    $entityManager = $this->getDoctrine()->getManager();
 
+    // Fetch all participations
+    $participations = $entityManager->getRepository(Participation::class)->findAll();
 
+    // Initialize an array to hold event participation counts
+    $eventParticipationCounts = [];
+
+    // Count participations per event
+    foreach ($participations as $participation) {
+        $eventName = $participation->getIdevent()->getTitre();
+
+        if (!isset($eventParticipationCounts[$eventName])) {
+            $eventParticipationCounts[$eventName] = 0;
+        }
+
+        $eventParticipationCounts[$eventName]++;
+    }
+
+    return $this->render('event/eventsByMonth.html.twig', [
+        'eventParticipationCounts' => $eventParticipationCounts, // Données pour le second graphique
+    ]);
+}
 
 
 }

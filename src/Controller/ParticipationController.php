@@ -6,6 +6,8 @@ use App\Repository\ParticipationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Participation;
+
 
 class ParticipationController extends AbstractController
 {
@@ -48,6 +50,7 @@ public function event_delete($idparticipation, ParticipationRepository $reposito
 }
 
  
+
 
 
 }
