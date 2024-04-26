@@ -11,7 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -192,6 +194,58 @@ class UtilisateursController extends AbstractController
         $response->headers->set('Content-Type', $contentType);
 
         return $response;
+    }
+
+    #[Route('/update-profile-picture', name: 'update_profile_picture')]
+    public function updateProfilePicture(Request $request, EntityManagerInterface $entityManager, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
+    {
+        $user = $this->getUser();
+
+        // Get the profile picture file from the form
+        $profilePictureFile = $request->files->get('profile_picture');
+
+        if ($profilePictureFile instanceof UploadedFile) {
+            $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$profilePictureFile->guessExtension();
+
+            try {
+                $profilePictureFile->move(
+                    $this->getParameter('kernel.project_dir').'/assets/profilePics',
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                dd($e->getMessage());
+            }
+
+            // Update the profile picture URL in the user entity
+            $user->setPictureUrl('profilePics/'.$newFilename);
+
+            // Persist the updated user entity
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+
+        }
+
+        return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+    }
+
+    #[Route('/delete-profile-picture', name: 'delete_profile_picture')]
+    public function deletePicture(EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        // Set the pictureUrl to NULL
+        $user->setPictureUrl('profilePics/random.jpg');
+
+        // Persist the updated user entity
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // Redirect to a success page or wherever needed
+        return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
     }
 
 
