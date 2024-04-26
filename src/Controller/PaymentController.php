@@ -20,6 +20,8 @@ use App\Entity\Utilisateurs;
 use App\Repository\ProduitCommandeRepository;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 class PaymentController extends AbstractController
 {
@@ -53,6 +55,7 @@ return $this->render('payment/check.html.twig', [
     'clientSecret' => $clientSecret // Assurez-vous que cette variable est transmise au modèle Twig
 ]);
         } else {
+            
             // Si aucune commande n'est trouvée, vous pouvez renvoyer un message d'erreur ou rediriger l'utilisateur
             // Dans cet exemple, nous redirigeons l'utilisateur vers une autre page
             return $this->redirectToRoute('ClientProd'); // Rediriger l'utilisateur vers la page d'accueil par exemple
@@ -75,11 +78,25 @@ return $this->render('payment/check.html.twig', [
      }
 
      #[Route('/payment/success', name: 'payment_success')]
-public function paymentSuccess(): Response
-{
-    // Rendre la vue de confirmation de commande
-    return $this->render('payment/success.html.twig');
-}
+     public function paymentSuccess(): Response
+     {
+        $pseudo = 'dida';
+
+         // Créer une nouvelle commande pour l'utilisateur
+         $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
+         $nouvelleCommande = new Commande();
+         $nouvelleCommande->setIduser($utilisateur);
+         $nouvelleCommande->setPrix(0); // Prix de 0 pour la nouvelle commande
+         $nouvelleCommande->setStatus('enAttente');
+     
+         // Persister la nouvelle commande
+         $entityManager = $this->getDoctrine()->getManager();
+         $entityManager->persist($nouvelleCommande);
+         $entityManager->flush();
+     
+         // Rendre la vue de confirmation de commande
+         return $this->render('payment/success.html.twig');
+     }
 
       
         
