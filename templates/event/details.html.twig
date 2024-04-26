@@ -78,18 +78,19 @@
                             </ul>
                         </div>
                         <a href="{{ path('app_participate', {'eventId': event.idevent}) }}" class="thm-btn">Participer</a>
+
+
+
+                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Votre code HTML existant -->
 
     <script>
-        // Fonction pour mettre à jour le temps restant
         function updateRemainingTime(eventDate, eventId) {
-            // Récupérer la date et l'heure actuelles
             var now = new Date().getTime();
 
             // Calculer la différence entre la date de l'événement et la date actuelle
@@ -142,6 +143,23 @@
             </div>
         </div>
     </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer la date actuelle
+        var now = new Date().getTime();
+
+        // Récupérer la date de début de l'événement (convertir la date de l'événement en millisecondes)
+        var eventStartDate = new Date('{{ event.datedebut|date('Y-m-d H:i:s') }}').getTime();
+
+        // Vérifier si la date de début est antérieure à la date actuelle
+        if (eventStartDate < now) {
+            // Si la date de début est passée, désactiver le lien "Participer"
+            var participateButton = document.querySelector('.thm-btn'); // Sélectionner le lien "Participer"
+            participateButton.setAttribute('disabled', 'disabled'); // Ajouter l'attribut disabled pour le désactiver
+        }
+    });
+</script>
 
 
     

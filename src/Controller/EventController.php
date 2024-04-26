@@ -19,7 +19,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Dompdf\Dompdf;
+use Endroid\QrCodeBundle\Response\QrCodeResponse;
+use Endroid\QrCode\Factory\QrCodeFactory;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 
 
 
@@ -232,10 +240,12 @@ public function details($idevent, EventRepository $eventRepository): Response
         'event' => $event,
     ]);
 }
+//paticipate
 
 #[Route('/participate/{eventId}', name: 'app_participate')]
-public function participate(Request $request, EventRepository $eventRepository, UserRepository $utilisateursRepository, $eventId): Response
+public function participate( MailerInterface $mailer,Request $request, EventRepository $eventRepository, UserRepository $utilisateursRepository, $eventId): Response
 {
+    
     // Récupérer l'événement à partir de son ID
     $event = $eventRepository->find($eventId);
 
@@ -257,31 +267,69 @@ public function participate(Request $request, EventRepository $eventRepository, 
     $entityManager->persist($participation);
     $entityManager->flush();
 
+
+      // Prepare and send confirmation email
+      $email = (new Email())
+      ->from('lynda.mtiri@esprit.tn') // Set sender email address
+      ->to('') // Set recipient email address
+      ->subject('Confirmation de participation') // Set email subject
+      ->text('Vous avez participé à l\'événement ' . $event->getTitre()); // Set email body  
+  
+  // Send the email
+  $mailer->send($email);
+
     // Rediriger l'utilisateur vers la page de l'événement
     return $this->redirectToRoute('event_Affiche_front', ['id' => $eventId]);
 }
 
 
+/*
+#[Route('/participate/{eventId}', name: 'app_participate')]
+public function participate(
+    Request $request,
+    EventRepository $eventRepository,
+    UserRepository $userRepository,
+    MailerInterface $mailer, // Inject MailerInterface
+    $eventId
+): Response {
+    // Récupérer l'événement à partir de son ID
+    $event = $eventRepository->find($eventId);
 
-#[Route('/events/calendar', name: 'event_calendar')]
-public function calendar(): Response
-{
-    $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
-
-    $formattedEvents = [];
-    foreach ($events as $event) {
-        $formattedEvents[] = [
-            'title' => $event->getTitre(),
-            'start' => $event->getDatedebut()->format('Y-m-d'),
-            'end' => $event->getDatefin()->format('Y-m-d'),
-            // Ajoutez d'autres informations d'événement si nécessaire
-        ];
+    // Vérifier si l'événement existe
+    if (!$event) {
+        throw $this->createNotFoundException('L\'événement n\'existe pas');
     }
+    
+    // Fetch the user from UserRepository
+    $user = $userRepository->findOneBy(['pseudo' => 'habib']);
+    
+    // Créer une nouvelle instance de Participation
+    $participation = new Participation();
 
-    return $this->render('event/calendar.html.twig', [
-        'events' => json_encode($formattedEvents),
-    ]);
+    // Set the user and event
+    $participation->setIduser($user);
+    $participation->setIdevent($event);
+
+    // Enregistrer la participation dans la base de données
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($participation);
+    $entityManager->flush();
+
+    // Prepare and send confirmation email
+    $email = (new Email())
+        ->from('mohamed.bsila@esprit.tn') // Set sender email address
+        ->to('lynda.mtiri@esprit.tn') // Set recipient email address
+        ->subject('Confirmation de participation') // Set email subject
+        ->text('Vous avez participé à l\'événement ' . $event->getTitre()); // Set email body
+    
+    // Send the email
+    $mailer->send($email);
+
+    // Rediriger l'utilisateur vers la page de l'événement
+    return $this->redirectToRoute('event_Affiche_front', ['id' => $eventId]);
 }
+*/
+
 
 
 
@@ -349,6 +397,52 @@ public function generatePdf(EventRepository $eventRepository): Response
         ]
     );
 }
+
+
+
+
+   
+
+
+
+  
+//qrcode 
+
+
+#[Route('/generate_qr_code/{idevent}', name: 'generate_qr_code')]
+public function generateQrCode($idevent, EventRepository $eventRepository): Response
+{
+    // Récupérer l'événement à partir de son ID
+    $event = $eventRepository->find($idevent);
+
+    // Vérifier si l'événement existe
+    if (!$event) {
+        throw $this->createNotFoundException('Event not found');
+    }
+
+    // Générer le contenu du QR code avec les informations de l'événement
+    $qrCodeContent = 'Informations sur l\'événement : ' . $event->getTitre() . ', Date : ' . $event->getDatedebut()->format('Y-m-d');
+
+    // Créer le QR code en utilisant le bundle ou l'API choisi
+    $qrCode = new QrCode($qrCodeContent);
+
+    // Utiliser un écrivain (writer) pour obtenir le résultat du QR code sous forme d'objet ResultInterface
+    $writer = new PngWriter();
+    $qrCodeResult = $writer->write($qrCode);
+
+    // Retourner le QR code dans une réponse HTTP
+    return new QrCodeResponse($qrCodeResult);
+}
+
+
+  //Calendrier
+  #[Route('/calendar', name: 'app_calendar')]
+  public function calendar(): Response
+  {
+      return $this->render('event/calendar.html.twig', [
+          'controller_name' => 'EventController',
+      ]);
+  }
 
 
 

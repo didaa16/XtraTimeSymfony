@@ -1,31 +1,30 @@
-{% block head %}
-{# head du template Twig #}
+<!DOCTYPE html>
+<html lang="fr">
     <head>
-        <!-- Autres balises <head> -->
-        <script src="{{ asset('build/fullcalendar/core/main.js') }}"></script>
-        <script src="{{ asset('build/fullcalendar/daygrid/main.js') }}"></script>
-        <link href="{{ asset('build/fullcalendar/daygrid/main.css') }}" rel="stylesheet" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Utilisation de FullCalendar</title>
+
+        <!--Fichiers CSS-->
+        
+        <link href="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/core/main.css" rel="stylesheet" type="text/css" />
+
+
+        <link rel="stylesheet" href="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/daygrid/main.css">
+        <link rel="stylesheet" href="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/timegrid/main.css">
+        <link rel="stylesheet" href="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/list/main.css">
+        <link rel="stylesheet" href="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/css/styles.css">
     </head>
+    <body>
+        <div id="calendrier"></div>
 
-
-{% endblock %}
-
-
-{% block body %}
-<div id="calendar"></div>
-{% endblock %}
-
-{% block javascripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ '@fullcalendar/daygrid' ],
-            events: {{ events|raw }}
-        });
-        
-        calendar.render();
-    });
-</script>
-{% endblock %}
+        <!--Fichiers JS-->
+        <script src="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/core/main.js"></script>
+        <script src="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/daygrid/main.js"></script>
+        <script src="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/timegrid/main.js"></script>
+        <script src="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/list/main.js"></script>
+        <script src="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/interaction/main.js"></script>
+        <script src="/BackEnd/assets/libs/jsvectormap/css/fullcalendar/js/scripts.js"></script>
+    </body>
+</html>

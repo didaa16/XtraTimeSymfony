@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile; // Import UploadedFile
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+// Import TCPDF
+use TCPDF;
 
 class SponsoController extends AbstractController
 {
@@ -199,4 +201,30 @@ public function Bdetails($idsponso, SponsoRepository $sponsoRepository): Respons
     ]);
 }
 
+//pdf 
+   
+#[Route('/download-pdf', name: 'app_download_pdf')]
+    public function downloadPdf(SponsoRepository $repository)
+    {
+        // Récupérer tous les certificats
+        $sponso = $repository->findAll();
+    
+        // Générer le contenu du PDF
+        $html = $this->renderView('sponso/SponsoPdf.html.twig', ['sponso' => $sponso]);
+    
+        // Générer le PDF
+        $pdf = new \TCPDF();
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->AddPage();
+        $pdf->writeHTML($html);
+        $pdfContent = $pdf->Output('', 'S');
+    
+        // Envoyer le PDF en réponse
+        $response = new Response($pdfContent);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Sponsors.pdf"');
+        
+        return $response;
+    }    
 }
