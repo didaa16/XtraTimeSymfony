@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateurs;
+use App\Form\VerificationCodeType;
 use App\Repository\UtilisateursRepository;
+use App\Service\SmsGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\Facebook;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Notifier\TexterInterface;
 
 class HomeController extends AbstractController
 {
@@ -142,6 +147,57 @@ class HomeController extends AbstractController
             dd($th->getMessage());
         }
     }
+
+    #[Route('/resetPassword', name: 'reset_password', methods: ['GET'])]
+    public function resetPassword(Request $request, SmsGenerator $smsGenerator, SessionInterface $session): Response
+    {
+        $verificationCode = random_int(100000, 999999);
+
+        $session->set('verification_code', $verificationCode);
+
+        $phoneNumber = '+21629082789';
+        $name = 'XtraTime User';
+        $text = "Hello $name, this is your secret code to reset your password: $verificationCode";
+
+        $smsGenerator->sendSms($phoneNumber, $name, $text);
+
+        return $this->render('home/verify_verification_code.html.twig', [
+            'code' => $verificationCode,
+        ]);
+    }
+
+
+    #[Route('/verifyVerificationCode', name: 'verify_verification_code')]
+    public function verifyVerificationCodeForm(Request $request, SessionInterface $session): Response
+    {
+        $form = $this->createForm(VerificationCodeType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $submittedCode = $form->get('verify_verification_code')->getData();
+            $storedCode = $session->get('verification_code');
+
+            if ($submittedCode == $storedCode) {
+                // Redirect to reset password page
+                return $this->redirectToRoute('reset_password');
+            } else {
+                // Display error message
+                $error = 'Invalid verification code. Please try again.';
+                return $this->render('home/verify_verification_code.html.twig', [
+                    'form' => $form->createView(),
+                    'error' => $error,
+                ]);
+            }
+        }
+
+        return $this->render('home/verify_verification_code.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+
 
 
 

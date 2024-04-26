@@ -10,8 +10,11 @@ use App\Repository\UtilisateursRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -162,6 +165,35 @@ class UtilisateursController extends AbstractController
             'data' => json_encode($data),
         ]);
     }
+
+
+    #[Route('/profilePics/{filename}', name: 'app_utilisateurs_profile_pic')]
+    public function profilePic(string $filename): Response
+    {
+        // Chemin complet de l'image
+        $filePath = $this->getParameter('kernel.project_dir') . '/assets/profilePics/' . $filename;
+
+        // Vérifier si le fichier existe
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('The file does not exist');
+        }
+
+        // Récupérer l'extension du fichier
+        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+        // Créer une instance File pour garantir que le nom du fichier est valide
+        $file = new File($filePath);
+
+        // Créer une réponse pour renvoyer le fichier
+        $response = new BinaryFileResponse($file);
+
+        // Définir le type de contenu de la réponse en fonction de l'extension du fichier
+        $contentType = $fileExtension;
+        $response->headers->set('Content-Type', $contentType);
+
+        return $response;
+    }
+
 
 
 

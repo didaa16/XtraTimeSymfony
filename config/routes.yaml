@@ -10,3 +10,7 @@ app_utilisateurs_display:
   path: '/utilisateur/{id}'
   controller: 'App\Controller\UtilisateursController::display'
   methods: ['GET']
+
+
+
+

@@ -8,6 +8,7 @@ use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -141,6 +142,19 @@ class RegistrationFormType extends AbstractType
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3(),
                 'action_name' => 'user',
+            ])
+            ->add('picture_url', FileType::class, [
+                'mapped' => false,
+                'required' => false, // Profile picture is not mandatory
+                'label' => 'Profile Picture',
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Image([
+                        'maxSize' => '5M',
+                        'maxSizeMessage' => 'The maximum allowed file size is 5MB.',
+                        'mimeTypes' => ['image/*'],
+                        'mimeTypesMessage' => 'Please upload a valid image file.',
+                    ]),
+                ],
             ]);
     }
 

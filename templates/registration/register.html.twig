@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <h1 class="text-center">Register</h1>
 
-                {{ form_start(registrationForm, {'id': 'register-form', 'attr': {'onsubmit': 'toggleRegisterButton();'}}) }}
+                {{ form_start(registrationForm, {'id': 'register-form', 'attr': {'onsubmit': 'toggleRegisterButton();', 'enctype': 'multipart/form-data'}}) }}
 
                 {# Display flash errors if any #}
                 {% for flash_error in app.flashes('verify_email_error') %}
@@ -44,15 +44,16 @@
                     {{ form_row(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN'}}) }}
                 </div>
                 <div class="mb-3">
+                    {{ form_row(registrationForm.picture_url, {'label': 'Profile Picture', 'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
                     {{ form_row(registrationForm.plainPassword.first, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password', 'oninput': 'checkPasswordStrength(this.value)'}}) }}
                     <progress id="password-strength" max="100" value="0"></progress>
                     <span id="password-strength-text"></span>
                 </div>
-
                 <div class="mb-3">
                     {{ form_row(registrationForm.plainPassword.second, {'label': 'Confirm Password', 'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
                 </div>
-
                 <div class="mb-3">
                     {{ form_row(registrationForm.roles) }}
                 </div>
@@ -136,5 +137,3 @@
         }
     </script>
 {% endblock %}
-
-

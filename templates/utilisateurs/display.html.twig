@@ -1,56 +1,168 @@
-{% extends 'home/front.html.twig' %}
+    {% extends 'home/front.html.twig' %}
 
-{% block title %}Utilisateurs{% endblock %}
+    {% block title %}Utilisateurs{% endblock %}
+    {% block styles %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style type="text/css">
+            body{
+                margin-top:20px;
+                color: #1a202c;
+                text-align: left;
+                background-color: #e2e8f0;
+            }
+            .main-body {
+                padding: 15px;
+            }
+            .card {
+                box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+            }
 
-{% block body %}
-    <div class="main-content">
-    <br><br><br><br><br>
-        <h1>Utilisateurs</h1>
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0 solid rgba(0,0,0,.125);
+                border-radius: .25rem;
+            }
 
-        <table class="table">
-            <tbody>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ utilisateur.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Cin</th>
-                <td>{{ utilisateur.cin }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ utilisateur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ utilisateur.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ utilisateur.age }}</td>
-            </tr>
-            <tr>
-                <th>NumTel</th>
-                <td>{{ utilisateur.numTel }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ utilisateur.email }}</td>
-            </tr>
-            <tr>
-                <th>IsVerified</th>
-                <td>{{ utilisateur.isVerified ? 'Yes' : 'No' }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <br><br><br><br>
+            .card-body {
+                flex: 1 1 auto;
+                min-height: 1px;
+                padding: 1rem;
+            }
 
-        <button><a href="{{ path('modifier_utilisateur', {'id': app.user.id})}}">Update</a></button>
+            .gutters-sm {
+                margin-right: -8px;
+                margin-left: -8px;
+            }
 
-        <br><br><br><br>
-    </div>
-{% endblock %}
+            .gutters-sm>.col, .gutters-sm>[class*=col-] {
+                padding-right: 8px;
+                padding-left: 8px;
+            }
+            .mb-3, .my-3 {
+                margin-bottom: 1rem!important;
+            }
+
+            .bg-gray-300 {
+                background-color: #e2e8f0;
+            }
+            .h-100 {
+                height: 100%!important;
+            }
+            .shadow-none {
+                box-shadow: none!important;
+            }
+
+        </style>
+    {% endblock %}
+
+    {% block body %}
+        <body>
+        <br><br>
+
+        <div class="container">
+            <div class="main-body">
+                <h3>Web Design</h3>
+                <div class="progress mb-3" style="height: 5px">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <img src="{{ path('app_utilisateurs_profile_pic', {'filename': app.user.pictureUrl|split('/')|last}) }}" alt="Admin" class="rounded-circle" width="150">
+                                    <div class="mt-3">
+                                        <h4>{{ app.user.pseudo }}</h4>
+                                        <p class="text-secondary mb-1">{{ app.user.nom ~' '~app.user.prenom }}</p>
+                                        {% for role in app.user.roles %}
+                                        <p class="text-muted font-size-sm">{{ role }}</p>
+                                            {% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                        <button class="btn btn-primary">Follow</button>
+                                        <button class="btn btn-outline-primary">Message</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">First Name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ app.user.nom}}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Last Name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{app.user.prenom }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ app.user.email }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Age</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ app.user.age }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Phone</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        (216){{ app.user.numTel }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">CIN</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ app.user.cin }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <button class="btn btn-primary">Edit Profile</button>
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+
+        </script>
+        </body>
+    {% endblock %}

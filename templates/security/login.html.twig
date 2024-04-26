@@ -49,9 +49,19 @@
 
                     <div class="custom-div">
                         <a href="{{ path('fcb_login') }}" style="display: flex;">
-                            <i class="fa fa-facebook" style="margin-left: 35px; margin-top: 15px"></i>
+                            <i class="fa fa-facebook" style="margin-left: 35px; margin-top: 16px"></i>
                             <p style="margin-left: 10px; margin-top: 9px">Sign in with Facebook</p>
                         </a>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-md-6 text-center">
+                            <h3 class="mb-0">Don't have an account?</h3>
+                            <a href="{{ path('app_register') }}" class="btn btn-link">SIGN UP</a>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <h3 class="mb-0">Forget your password?</h3>
+                            <a href="{{ path('reset_password') }}" class="btn btn-link">Reset Password</a>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -59,12 +69,7 @@
 
 
 
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-6 text-center">
-                <h3 class="mb-0">Don't have an account?</h3>
-                <a href="{{ path('app_register') }}" class="btn btn-link">SIGN UP</a>
-            </div>
-        </div>
+
 
     </div>
     <br><br><br><br><br><br><br><br><br><br><br>

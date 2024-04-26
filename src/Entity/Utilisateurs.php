@@ -53,6 +53,9 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $banned = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pictureUrl = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -239,6 +242,18 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBanned(?bool $banned): static
     {
         $this->banned = $banned;
+
+        return $this;
+    }
+
+    public function getPictureUrl(): ?string
+    {
+        return $this->pictureUrl;
+    }
+
+    public function setPictureUrl(?string $pictureUrl): static
+    {
+        $this->pictureUrl = $pictureUrl;
 
         return $this;
     }
