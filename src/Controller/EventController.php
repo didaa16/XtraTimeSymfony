@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Component\HttpFoundation\File\File; // Importez la classe File
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
@@ -279,11 +279,14 @@ public function details($idevent, EventRepository $eventRepository): Response
     ]);
 }
 //paticipate
-
 #[Route('/participate/{eventId}', name: 'app_participate')]
-public function participate( MailerInterface $mailer,Request $request, EventRepository $eventRepository, UserRepository $utilisateursRepository, $eventId): Response
-{
-    
+public function participate(
+    MailerInterface $mailer,
+    Request $request,
+    EventRepository $eventRepository,
+    UserRepository $utilisateursRepository,
+    $eventId
+): Response {
     // Récupérer l'événement à partir de son ID
     $event = $eventRepository->find($eventId);
 
@@ -291,12 +294,12 @@ public function participate( MailerInterface $mailer,Request $request, EventRepo
     if (!$event) {
         throw $this->createNotFoundException('L\'événement n\'existe pas');
     }
+
+    // Récupérer l'utilisateur
     $user = $utilisateursRepository->findOneBy(['pseudo' => 'habib']);
 
     // Créer une nouvelle instance de Participation
     $participation = new Participation();
-
-    // Set the user and event
     $participation->setIduser($user);
     $participation->setIdevent($event);
 
@@ -305,21 +308,31 @@ public function participate( MailerInterface $mailer,Request $request, EventRepo
     $entityManager->persist($participation);
     $entityManager->flush();
 
+    // Préparer et envoyer l'e-mail de confirmation avec l'image de l'événement en pièce jointe
+    $email = (new Email())
+        ->from('lynda.mtiri@esprit.tn') // Adresse e-mail de l'expéditeur
+        ->to('lynda.mtiri@esprit.tn') // Adresse e-mail du destinataire
+        ->subject('Confirmation de participation') // Objet de l'e-mail
+        ->text('Vous avez participé à l\'événement ' . $event->getTitre()); // Corps de l'e-mail
 
-      // Prepare and send confirmation email
-      $email = (new Email())
-      ->from('lynda.mtiri@esprit.tn') // Set sender email address
-      ->to('') // Set recipient email address
-      ->subject('Confirmation de participation') // Set email subject
-      ->text('Vous avez participé à l\'événement ' . $event->getTitre()); // Set email body  
-  
-  // Send the email
-  $mailer->send($email);
+    // Chemin complet de l'image de l'événement
+    $imagePath = $this->getParameter('image_directory') . '/' . $event->getImage();
+
+    // Vérifier si le fichier image existe
+    if (file_exists($imagePath)) {
+        // Créer une instance de la classe File à partir du chemin de l'image
+        $imageFile = new File($imagePath);
+
+        // Attacher l'image à l'e-mail
+        $email->attachFromPath($imageFile->getPathname(), $imageFile->getFilename());
+    }
+
+    // Envoyer l'e-mail
+    $mailer->send($email);
 
     // Rediriger l'utilisateur vers la page de l'événement
     return $this->redirectToRoute('event_Affiche_front', ['id' => $eventId]);
 }
-
 
 /*
 #[Route('/participate/{eventId}', name: 'app_participate')]

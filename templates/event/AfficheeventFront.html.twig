@@ -67,9 +67,7 @@
                             <p>Début : {{ event.datedebut|date('Y-m-d H:i:s') }}</p>
                             <!--  temps elli p9aa -->
                            
-                            {% if event.datedebut|date('U') < 'now'|date('U') %}
-                                <p class="glitch">Cet événement est déjà passé</p>
-                            {% endif %}
+                           
                             <a href="{{ path('event_front_details', {'idevent': event.idevent}) }}" class="thm-btn">Voir les détails</a>
                             <!-- Bouton  mt3 code QR -->
                             <a href="#" onclick="generateAndShowQrCode('{{ event.idevent }}', '{{ event.titre }}')">Afficher le code QR</a>

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <!-- Mirrored from st.ourhtmldemo.com/template/fitness-care-html/fitness-care/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 24 Mar 2024 13:36:45 GMT -->
 <head>
     <meta charset="UTF-8">
@@ -182,23 +180,17 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="blog-v1.html" class="flip-flop-btn"><span data-hover="BLOG">BLOG</span></a>
+                                <a href="{{ path('test_chat_gpt') }}" class="flip-flop-btn"><span data-hover="Chat_GPT">Chat GPT</span></a>
                                 
                             </li>
                             <li>
                                 <a href="{{ path('sponso_Affiche_front') }}" class="flip-flop-btn"><span data-hover="Sponsors">Sponsors</span></a>
-                                <div class="megamenu Sponsors">
-                                
+                                <div class="megamenu Sponsors"> 
                                 </div>
                             </li>
                             <li>
-                                <a href="shop.html" class="flip-flop-btn"><span data-hover="SHOP">SHOP</span></a>
-                                <ul class="dropdown">
-                                    <li><a href="shop-full.html">Shop Products</a></li>
-                            
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                
-                                </ul>
+                                <a href="{{ path('app_calendar') }}"  class="flip-flop-btn"><span data-hover="Calendrier">Calendrier</span></a>
+                               
                             </li>
                             <li><a href="{{ path('event_Affiche_front') }}" class="flip-flop-btn"><span data-hover="Events">Events</span></a></li>
                             <li><a href="contact.html" class="flip-flop-btn"><span data-hover="CONTACT">CONTACT</span></a></li>
@@ -213,7 +205,8 @@
                     </div>
                 </nav>
             </div>
-        </div><!-- /.header-menu-wrapper -->
+        </div>
+        <!-- header-menu-wrapper -->
 
         <div class="search-box collapse" id="search-box">
             <div class="container">
