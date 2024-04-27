@@ -9,6 +9,9 @@ use App\Service\SmsGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\Facebook;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -20,6 +23,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class HomeController extends AbstractController
 {
@@ -27,10 +31,14 @@ class HomeController extends AbstractController
     private $provider;
     private $tokenStorage;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, ParameterBagInterface $parameterBag)
     {
         // Assign tokenStorage parameter to the class property
         $this->tokenStorage = $tokenStorage;
+
+        // Assign parameterBag parameter to the class property
+        $this->parameterBag = $parameterBag;
+
 
         // Initialize Facebook provider
         $this->provider = new Facebook([
@@ -109,37 +117,58 @@ class HomeController extends AbstractController
     }
 
     #[Route('/fcb-callback', name: 'fcb_callback')]
-    public function fcbCallBack(UtilisateursRepository $userDb, EntityManagerInterface $manager): Response
+    public function fcbCallback(UtilisateursRepository $userDb, EntityManagerInterface $manager, SluggerInterface $slugger): Response
     {
         $token = $this->provider->getAccessToken('authorization_code', [
             'code' => $_GET['code']
         ]);
+
         try {
             $user = $this->provider->getResourceOwner($token);
-            $userData = $user->toArray(); // Convert user object to array
-            $pseudo = $userData['id'];
-            $email = $userData['email'];
-            $nom = $userData['first_name'];
-            $prenom = $userData['last_name'];
-            $userExist = $userDb->findBySearch($pseudo);
-            if ($userExist) {
-                $existingUser = $userExist[0]; // Assuming $userExist is an array of Utilisateurs objects, retrieve the first one
-                $token = new UsernamePasswordToken($existingUser, null, 'main', $existingUser->getRoles());
+            $user = $user->toArray(); // Convert user object to array
+
+            $pseudo = $user['id'];
+            $email = $user['email'];
+            $nom = $user['first_name'];
+            $prenom = $user['last_name'];
+            $pictureUrl = $user['picture_url'];
+
+            // Download the profile picture
+            $httpClient = HttpClient::create();
+            $response = $httpClient->request('GET', $pictureUrl);
+            $content = $response->getContent();
+
+            // Save the profile picture to the directory
+            $directory = 'C:\Users\PC\OneDrive\Bureau\XtraTimeSymfony\assets\profilePics';
+            $fileName = $pseudo . '.jpg'; // You can adjust the file name if needed
+            $filePath = $directory . '/' . $fileName;
+            file_put_contents($filePath, $content);
+
+            // Check if the user already exists
+            $existingUser = $userDb->findBySearch($pseudo);
+            if ($existingUser) {
+                // If user exists, set the existing user's token
+                $token = new UsernamePasswordToken($existingUser[0], null, 'main', $existingUser[0]->getRoles());
                 $this->tokenStorage->setToken($token);
             } else {
+                // If user doesn't exist, create a new user
                 $newUser = new Utilisateurs();
                 $newUser->setPseudo($pseudo)
                     ->setRoles(["Client"])
                     ->setNom($nom)
                     ->setPrenom($prenom)
                     ->setEmail($email)
+                    ->setPictureUrl($filePath) // Set the file path here
                     ->setIsVerified(true)
                     ->setPassword(sha1(str_shuffle('abscdop123390hHHH;:::OOOI')));
                 $manager->persist($newUser);
                 $manager->flush();
+
+                // Set the new user's token
                 $token = new UsernamePasswordToken($newUser, null, 'main', $newUser->getRoles());
                 $this->tokenStorage->setToken($token);
             }
+
             return $this->render('home/front.html.twig', [
                 'title' => 'welcome',
             ]);
@@ -147,6 +176,8 @@ class HomeController extends AbstractController
             dd($th->getMessage());
         }
     }
+
+
 
     #[Route('/resetPassword', name: 'reset_password', methods: ['GET'])]
     public function resetPassword(Request $request, SmsGenerator $smsGenerator, SessionInterface $session): Response

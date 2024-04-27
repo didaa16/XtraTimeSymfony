@@ -135,7 +135,7 @@ class UtilisateursController extends AbstractController
         }
 
         // Si le formulaire n'est pas valide, il sera automatiquement réaffiché avec les erreurs
-        return $this->render('home/frontIncludes/modifier.html.twig', [
+        return $this->render('utilisateurs/modifier.html.twig', [
             "form" => $frm->createView(),
         ]);
     }
@@ -200,10 +200,10 @@ class UtilisateursController extends AbstractController
         return $response;
     }
 
-    #[Route('/update-profile-picture', name: 'update_profile_picture')]
-    public function updateProfilePicture(Request $request, EntityManagerInterface $entityManager, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
+    #[Route('/update-profile-picture/{id}', name: 'update_profile_picture')]
+    public function updateProfilePicture($id, UtilisateursRepository $utilisateursRepository, Request $request, EntityManagerInterface $entityManager, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
     {
-        $user = $this->getUser();
+        $user = $utilisateursRepository->find($id);
 
         // Get the profile picture file from the form
         $profilePictureFile = $request->files->get('profile_picture');
@@ -236,10 +236,10 @@ class UtilisateursController extends AbstractController
         return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
     }
 
-    #[Route('/delete-profile-picture', name: 'delete_profile_picture')]
-    public function deletePicture(EntityManagerInterface $entityManager): Response
+    #[Route('/delete-profile-picture/{id}', name: 'delete_profile_picture')]
+    public function deletePicture($id, UtilisateursRepository $utilisateursRepository, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
+        $user = $utilisateursRepository->find($id);
 
         // Set the pictureUrl to NULL
         $user->setPictureUrl('profilePics/random.jpg');
