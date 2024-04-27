@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateurs;
 use App\Form\editBackType;
 use App\Form\EditFrontType;
+use App\Form\EditPassType;
 use App\Form\UtilisateursType;
 use App\Repository\UtilisateursRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,8 +18,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use function PHPUnit\Framework\equalTo;
 
 
 #[Route('/utilisateurs')]
@@ -246,6 +250,40 @@ class UtilisateursController extends AbstractController
 
         // Redirect to a success page or wherever needed
         return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+    }
+
+    #[Route('/utilisateur/modifierPass/{id}', name: 'modifier_pass_utilisateur')]
+    public function modifierPass(Utilisateurs $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    {
+        $frm = $this->createForm(EditPassType::class);
+        $frm->handleRequest($request);
+        if ($frm->isSubmitted() && $frm->isValid()) {
+            if ($hasher->isPasswordValid( $user, $frm->getData()['plainPassword'] ) ) {
+                $user->setPassword(
+                    $hasher->hashPassword(
+                        $user,
+                        $frm->getData()['newPassword']
+                    )
+                );
+                $manager->persist($user);
+                $manager->flush();
+                $this->addFlash(
+                    'Success',
+                    'Password is updated'
+                );
+                return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+            }else{
+                $this->addFlash(
+                    'Warrning',
+                    'Password is not updated'
+                );
+                return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+            }
+        }
+        // Si le formulaire n'est pas valide, il sera automatiquement réaffiché avec les erreurs
+        return $this->render('utilisateurs/modifierPass.html.twig', [
+            "form" => $frm->createView(),
+        ]);
     }
 
 

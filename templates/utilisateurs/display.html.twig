@@ -1,7 +1,7 @@
     {% extends 'home/front.html.twig' %}
 
     {% block title %}Utilisateurs{% endblock %}
-    {% block styles %}
+    {% block st %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
         <style type="text/css">
@@ -102,6 +102,16 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <br><br>
+                        <div class="card mt-3">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <a href="{{ path('modifier_pass_utilisateur', {'id': app.user.id}) }}">
+                                        <button type="submit" class="btn btn-outline-primary btn-block" style="font-size: 16px"> <i class="fa fa-gear"></i> Confidentiality </button>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                         <br>
                     </div>
