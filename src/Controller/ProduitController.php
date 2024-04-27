@@ -185,6 +185,24 @@ public function supprimer(Request $request, $ref): Response
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 #modifier
 #[Route('/modifierProduit/{ref}', name: 'modifierProduit')]

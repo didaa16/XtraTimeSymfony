@@ -192,6 +192,9 @@
 
 
 
+    <!-- Votre contenu HTML existant -->
+
+   
 
 
 
@@ -369,6 +372,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkAll = document.getElementById('checkAll');
+            const checkboxes = document.querySelectorAll('input[name="chk_child"]');
+
+            checkAll.addEventListener('change', function() {
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = checkAll.checked;
+                });
+            });
+
+            const tableRows = document.querySelectorAll('#customerTable tbody tr');
+
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const idCell = row.querySelector('.id');
+                    const idLink = idCell.querySelector('a');
+                    if (idLink) {
+                        idLink.click();
+                    }
+                });
+            });
+        });
+    </script>
 <style>
 
 

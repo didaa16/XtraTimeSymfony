@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use Symfony\Component\Validator\Constraints\Valid;
-use App\Entity\Ratingprod; // Ajout de l'importation manquante
+use App\Entity\Ratingprod; 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\Commande;
 use App\Entity\ProduitCommande;
@@ -36,16 +36,6 @@ class ClientProdController extends AbstractController
         // Récupération des produits triés
         $produits = $this->getProduitsTries($sortBy, $repository);
 
-            // Filtrer les produits en fonction des prix minimum et maximum
-    $minPrice = $request->query->get('min_price');
-    $maxPrice = $request->query->get('max_price');
-    if ($minPrice !== null && $maxPrice !== null) {
-        $produits = $repository->findByPriceRange($minPrice, $maxPrice);
-    }
-
-    
-        
-
         // Rendu de la vue avec les données des produits
         return $this->render('Client_prod/shop.html.twig', [
             'produits' => $produits,
@@ -68,6 +58,17 @@ class ClientProdController extends AbstractController
         }
 
     }
+
+private function filterProductsByPrice($minPrice, $maxPrice)
+    {
+        // Récupérer les produits dans la plage de prix spécifiée
+        $filteredProducts = $this->getDoctrine()->getRepository(Produit::class)
+            ->findByPriceRange($minPrice, $maxPrice);
+
+        return $filteredProducts;
+    }
+
+
 
 
 
