@@ -96,16 +96,18 @@
     </style>
 </head>
 <body>
-    <img src="/img/shop/testLogo.jpg" alt="Logo" class="logo">
+    <img src="/BackEnd/assets/images/logoWeb - Copie.jpg" alt="Logo" class="logo">
     <div class="container">
         <div class="header">
-            <h1>Reçu de commande</h1>
+            <h1>Liste des Sponsors</h1>
         </div>
         <table>
             <thead>
                 <tr>
                     <th>Nom </th>
                     <th>Telephone</th>
+                     <th>Email</th>
+                      <th>Image</th>
                    
                 </tr>
             </thead>
@@ -114,8 +116,11 @@
                 <tr>
                     <td>{{ sponso.nom }}</td>
                     <td>{{ sponso.tel }}</td>
+                      <td>{{ sponso.email }}</td>
+             <td><img src="{{ asset('uploads/images/' ~ sponso.image) }}" alt="Image du sponsor" style="max-width: 100px;"></td>
 
-                   
+
+                                                                  
                 </tr>
             {% endfor %}
             </tbody>
@@ -128,7 +133,7 @@
  | Téléphone: +(216) 56 788 168 </p>
         </div>
     </div>
-        <img src="/img/shop/artlogo-co.jpg" class="logoSig">
+        <img src="/BackEnd/assets/images/signature.jpg" class="logoSig">
 
 </body>
 </html>

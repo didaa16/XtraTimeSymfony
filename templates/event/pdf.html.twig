@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+    <link rel="shortcut icon" href="/BackEnd/assets/images/xtra.png">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,6 +31,9 @@
     </style>
 </head>
 <body>
+    <div style="text-align: center;">
+        <img src="/BackEnd/assets/images/xtra.png" alt="Logo XtraTime" style="max-width: 200px;">
+    </div>
     <h1 class="center">Liste des événements</h1>
     <table>
         <thead>
@@ -38,7 +43,6 @@
                 <th>Date de fin</th>
                 <th>Terrain</th>
                 <th>Sponsor</th>
-                <th>Image</th> <!-- Ajout de la colonne pour l'image -->
                 <!-- Ajoutez d'autres colonnes si nécessaire -->
             </tr>
         </thead>
@@ -50,11 +54,13 @@
                     <td>{{ event.datefin|date('d/m/Y H:i') }}</td>
                     <td>{{ event.idterrain.nom }}</td>
                     <td>{{ event.idsponso.nom }}</td>
-                    <td><img src="{{ absolute_url(asset('uploads/' ~ event.image)) }}" alt="Image de l'événement" style="max-width: 100px;"></td> <!-- Affichage de l'image -->
+                   
                     <!-- Affichez d'autres données d'événement si nécessaire -->
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+          <img src="/BackEnd/assets/images/signature.jpg" class="logoSig">
+
 </body>
 </html>
