@@ -27,7 +27,6 @@
     </section>
 
 
-
     
     <section class="sidebar-pages popular-shop-item">
         <div class="container">
@@ -103,13 +102,12 @@
 </div>
 
 
-                            <ul class="post-pagination list-inline text-center">
-                                <li><a href="#"><i class="fa fa-caret-left"></i></a></li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-                            </ul>
+
+
+    
+
+
+
                         </div>
                         <!-- /.inner-page-wrapper -->
                     </div>
@@ -349,15 +347,15 @@ $(function() {
         max: 2000,
         values: [75, 300],
         slide: function(event, ui) {
-            $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            $("#amount").val(ui.values[0] + " DT - " + ui.values[1] + " DT"); // Modifier cette ligne
             // Appel de la fonction de filtrage des produits à chaque changement de valeur du slider
             filterProducts(ui.values[0], ui.values[1]);
         }
     });
 
     // Initialisation du champ de texte
-    $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-        " - $" + $("#slider-range").slider("values", 1));
+    $("#amount").val($("#slider-range").slider("values", 0) +
+        " DT - " + $("#slider-range").slider("values", 1) + " DT"); // Modifier cette ligne
 
     // Fonction de filtrage des produits
     function filterProducts(minPrice, maxPrice) {
@@ -371,6 +369,7 @@ $(function() {
         });
     }
 });
+
 </script>
 
 
@@ -475,6 +474,46 @@ $(function() {
     font-weight: 900;
     margin: 0;
 }
+
+.custom-pagination {
+    margin-top: 20px;
+}
+
+.pagination-list {
+    padding: 0;
+    margin: 0;
+}
+
+.pagination-item {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.pagination-item a, .pagination-item span {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #555; /* Couleur par défaut pour les numéros de page */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.pagination-item a:hover {
+    background-color: ##ebff87;
+}
+
+.pagination-item.active span {
+    background-color: #a6c311; /* Couleur verte pour la page active */
+    color: #fff; /* Texte en blanc pour la page active */
+}
+
+.pagination-item.disabled span, .pagination-item.disabled a {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
 
 
 

@@ -20,6 +20,7 @@ use App\Entity\Utilisateurs;
 use App\Repository\ProduitCommandeRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 
 
@@ -28,13 +29,24 @@ class ClientProdController extends AbstractController
 {
     
     #[Route('/ClientProd', name: 'ClientProd')]
-    public function ClientProd(Request $request, ProduitRepository $repository)
+    public function ClientProd(Request $request, ProduitRepository $repository, PaginatorInterface $paginator)
     {
         // Récupération de l'option de tri de la requête ou utilisation de la valeur par défaut
         $sortBy = $request->query->get('sort_by', 'default');
 
         // Récupération des produits triés
         $produits = $this->getProduitsTries($sortBy, $repository);
+        // Récupération de tous les produits
+    $produitsQuery = $repository->findAll();
+
+// Paginer les résultats
+$produits = $paginator->paginate(
+    $produitsQuery, // Requête de récupération des produits
+    $request->query->getInt('page', 1), // Numéro de page à afficher
+    6 // Nombre d'éléments par page
+);
+
+
 
         // Rendu de la vue avec les données des produits
         return $this->render('Client_prod/shop.html.twig', [
@@ -182,7 +194,6 @@ private function getRatingCountForProduct(string $ref): int
         $entityManager->persist($produitCommande);
         $entityManager->flush();
         // Ajouter un message flash pour indiquer que le produit a été ajouté avec succès
-    $this->addFlash('success', 'Produit ajouté avec succès');
     
         // Rediriger l'utilisateur vers la page shop après l'ajout au panier
         return $this->redirectToRoute('ClientProd'); 

@@ -67,10 +67,14 @@ private $description;
  * @var float|null
  *
  * @ORM\Column(name="prix", type="float", nullable=true)
-*  @Assert\NotBlank(message="Le prix ne peut pas être vide.")
+ * @Assert\NotBlank(message="Le prix ne peut pas être vide.")
  * @Assert\GreaterThan(
  *     value=0,
  *     message="Le prix doit être supérieur à zéro."
+ * )
+ * @Assert\LessThan(
+ *     value=2000,
+ *     message="Le prix doit être inférieur à 2000."
  * )
  */
 private $prix;

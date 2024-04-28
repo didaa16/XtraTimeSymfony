@@ -122,7 +122,8 @@ $entityManager->flush();
 
 
       
-
+// Add a flash message to indicate successful payment
+$this->addFlash('success', 'Votre paiement a été effectué avec succès.');
 
         // Redirect the user to a payment success page
         return $this->redirectToRoute('payment_success');
