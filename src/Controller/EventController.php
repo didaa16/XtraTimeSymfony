@@ -55,6 +55,8 @@ class EventController extends AbstractController
 #[Route('/Affiche_event', name: 'event_Affiche')]
 public function Affiche(EventRepository $repository, Request $request): Response
 {
+    $searchQuery = $request->query->get('q');
+
     // Utilise QueryBuilder pour construire la requête
     $queryBuilder = $repository->createQueryBuilder('e');
 
@@ -83,6 +85,8 @@ public function Affiche(EventRepository $repository, Request $request): Response
     return $this->render('event/Afficheevent.html.twig', [
         'e' => $paginatedEvents,
         'currentPage' => $page,
+        'searchQuery' => $searchQuery, // Pass the searchQuery to the template
+
     ]);
 }
 
@@ -540,6 +544,50 @@ public function nbr(): Response
 
     return $this->render('event/eventsByMonth.html.twig', [
         'eventParticipationCounts' => $eventParticipationCounts, // Données pour le second graphique
+    ]);
+}
+
+//recherche
+#[Route('/search_event', name: 'event_search')]
+public function search(EventRepository $repository, Request $request): Response
+{
+    $query = $request->query->get('q'); // Récupérer le terme de recherche depuis la requête GET
+
+    // Utilise QueryBuilder pour construire la requête
+    $queryBuilder = $repository->createQueryBuilder('e');
+
+    // Filtrer les événements selon le terme de recherche
+    if ($query) {
+        $queryBuilder->where('e.titre LIKE :query')
+            ->setParameter('query', '%' . $query . '%');
+    }
+
+    // Détermine le numéro de page à afficher à partir de la requête (défaut : page 1)
+    $page = $request->query->getInt('page', 1);
+
+    // Détermine le nombre d'éléments par page
+    $perPage = 5;
+
+    // Construit la requête avec orderBy si nécessaire
+    $queryBuilder->orderBy('e.idevent', 'DESC');
+
+    // Crée l'objet Paginator avec la requête construite
+    $paginator = new Paginator($queryBuilder);
+
+    // Définit l'offset et le nombre d'éléments max pour la pagination
+    $paginator
+        ->getQuery()
+        ->setFirstResult(($page - 1) * $perPage)
+        ->setMaxResults($perPage);
+
+    // Récupère les résultats paginés
+    $paginatedEvents = $paginator->getIterator();
+
+    // Rend la vue avec les résultats paginés et les informations de pagination
+    return $this->render('event/Afficheevent.html.twig', [
+        'e' => $paginatedEvents,
+        'currentPage' => $page,
+        'searchQuery' => $query, // Passer le terme de recherche à la vue
     ]);
 }
 

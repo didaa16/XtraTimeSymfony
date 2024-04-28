@@ -44,10 +44,10 @@
                                             </div>
                                             <div class="col-sm">
                                                 <div class="d-flex justify-content-sm-end">
-                                                    <div class="search-box ms-2">
-                                                        <input type="text" class="form-control search" placeholder="Search...">
-                                                        <i class="ri-search-line search-icon"></i>
-                                                    </div>
+                                                <form action="{{ path('event_search') }}" method="GET">
+    <input type="text" name="q" class="form-control" placeholder="Rechercher par titre..." value="{{ searchQuery }}">
+</form>
+                                           
                                                 </div>
                                             </div>
                                         </div>
@@ -148,31 +148,21 @@
 {% endblock %}
 
 {% block JavaScript %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('.search');
-            const rows = document.querySelectorAll('#customerTable tbody tr');
+        $(document).ready(function() {
+            // Sélection du champ de recherche par son nom
+            var searchInput = $('input[name="q"]');
 
-            searchInput.addEventListener('input', function(event) {
-                const searchTerm = event.target.value.toLowerCase();
-
-                rows.forEach(row => {
-                    let isVisible = false;
-                    row.querySelectorAll('td').forEach(cell => {
-                        // Exclure la colonne "idevent" de la recherche
-                        if (!cell.classList.contains('idevent')) {
-                            const cellText = cell.textContent.toLowerCase();
-                            if (cellText.includes(searchTerm)) {
-                                isVisible = true;
-                            }
-                        }
-                    });
-                    row.style.display = isVisible ? 'table-row' : 'none';
-                });
+            // Détecter les événements de frappe sur le champ de recherche
+            searchInput.on('keyup', function() {
+                // Soumettre automatiquement le formulaire lors de la frappe d'une touche
+                $(this).closest('form').submit();
             });
         });
     </script>
 
+  
     <!-- Ajoutez le lien de téléchargement PDF ici -->
     <a href="{{ path('event_pdf') }}" class="btn btn-primary">Télécharger PDF</a>
 

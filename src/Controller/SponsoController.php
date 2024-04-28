@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile; // Import UploadedFile
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-// Import TCPDF
+use Symfony\Component\HttpFoundation\JsonResponse;
 use TCPDF;
 
 class SponsoController extends AbstractController
@@ -226,5 +226,30 @@ public function Bdetails($idsponso, SponsoRepository $sponsoRepository): Respons
         $response->headers->set('Content-Disposition', 'attachment; filename="Sponsors.pdf"');
         
         return $response;
-    }    
+    }  
+    
+    #[Route('/search_sponso', name: 'sponso_search', methods: ['GET'])]
+    public function search(Request $request, SponsoRepository $repository): JsonResponse
+    {
+        $query = $request->query->get('q');
+    
+        // Effectuer une recherche dans la base de données en fonction de la requête
+        $results = $repository->findBySearchQuery($query); // Vous devrez implémenter cette méthode dans votre repository
+    
+        // Formatter les résultats en JSON
+        $formattedResults = [];
+        foreach ($results as $result) {
+            $formattedResults[] = [
+                'nom' => $result->getNom(),
+                'tel' => $result->getTel(),
+                'email' => $result->getEmail(),
+                'image' => $result->getImage(),
+                // Ajouter d'autres champs si nécessaire
+            ];
+        }
+    
+        return new JsonResponse($formattedResults);
+    }
+    
+
 }
