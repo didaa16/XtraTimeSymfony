@@ -31,7 +31,7 @@ class EnvoyerSmsCommand extends Command
     {
         $abonnements = $this->abonnementRepository->findAbonnementsExpireDansDeuxJours();
         $twilioAccountSid = 'AC294826a0d7e01332b57990ad5f8149d6';
-        $twilioAuthToken = 'ac5f577e5b9b37e9e6114295d4cab892';
+        $twilioAuthToken =  'ac5f577e5b9b37e9e6114295d4cab892';
         $twilioNumber = '+13392290039';
     
         $twilio = new Client($twilioAccountSid, $twilioAuthToken);
