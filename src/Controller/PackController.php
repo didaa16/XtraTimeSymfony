@@ -216,7 +216,7 @@ public function exportToExcel(PackRepository $packRepo): StreamedResponse
 }
 
 #[Route('/search', name: 'pack_search_ajax', methods: ['GET'])]
-public function search(Request $request, PackRepository $packRepository)
+public function  search(Request $request, PackRepository $packRepository)
     {
         $searchText = $request->query->get('searchText');
 
