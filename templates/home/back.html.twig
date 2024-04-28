@@ -15,7 +15,7 @@
         {% include 'home/backIncludes/stylesheets.html.twig' %}
         <style>
             .chart-container {
-                height: 480px;
+                height: 500px;
                 width: 420px;
                 overflow: hidden; /* Désactiver le défilement vertical */
             }
@@ -24,8 +24,13 @@
                 white-space: nowrap;
             }
             .card {
-                margin-right: 10px; /* Adjust as needed */
-                margin-bottom: 10px; /* Adjust as needed */
+                margin-right: 120px; /* Adjust as needed */
+                margin-bottom: 120px; /* Adjust as needed */
+            }
+
+            .card-white {
+                margin-right: 30px; /* Adjust as needed */
+                margin-bottom: 30px; /* Adjust as needed */
             }
 
         </style>
@@ -91,17 +96,27 @@
                     </div>
                 </div>
             </div>
-
+            <div class="container">
+                <div class="card-white" style="height:600px; width:450px; display:inline-block;">
+                    <div class="card-body chart-container">
+                        <h4 class="card-title">Demandes de réinitialisation de mot de passe</h4>
+                        <canvas id="reset-request-chart" height="320" width="320"></canvas>
+                    </div>
+                </div>
+            </div>
 
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var ctx1 = document.getElementById('user-role-chart').getContext('2d');
                     var ctx2 = document.getElementById('verification-status-chart').getContext('2d');
+                    var ctx3 = document.getElementById('reset-request-chart').getContext('2d');
                     var labels = {{ labels|raw }};
                     var data = {{ data|raw }};
                     var verificationLabels = {{ verificationLabels|raw }};
                     var verificationData = {{ verificationData|raw }};
+                    var resetRequestLabels = {{ resetRequestLabels|raw }};
+                    var resetRequestData = {{ resetRequestData|raw }};
 
                     // Chart for users by role
                     var userRoleChart = new Chart(ctx1, {
@@ -158,6 +173,30 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: false
+                        }
+                    });
+
+                    // Chart for reset request by month
+                    var resetRequestChart = new Chart(ctx3, {
+                        type: 'bar',
+                        data: {
+                            labels: resetRequestLabels,
+                            datasets: [{
+                                label: 'Reset Password Requests',
+                                data: resetRequestData,
+                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
                         }
                     });
                 });

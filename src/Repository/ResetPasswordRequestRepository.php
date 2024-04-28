@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\ResetPasswordRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\Repository\ResetPasswordRequestRepositoryTrait;
@@ -30,4 +32,32 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
     {
         return new ResetPasswordRequest($user, $expiresAt, $selector, $hashedToken);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function countRequestsByMonth(): array
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('month', 'month');
+        $rsm->addScalarResult('count', 'count');
+
+        $query = $this->getEntityManager()->createNativeQuery('
+        SELECT MONTH(requested_at) as month, COUNT(*) as count
+        FROM reset_password_request
+        GROUP BY MONTH(requested_at)
+    ', $rsm);
+
+        return $query->getResult();
+    }
+
+
+
+
+
+
+
+
+
+
 }

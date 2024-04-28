@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateurs;
 use App\Form\VerificationCodeType;
+use App\Repository\ResetPasswordRequestRepository;
 use App\Repository\UtilisateursRepository;
 use App\Service\SmsGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,19 +63,18 @@ class HomeController extends AbstractController
             'title' => 'welcome',
         ]);
     }
+
     #[Route('/back', name: 'app_back')]
-    public function back(UtilisateursRepository $userRepository): Response
+    public function back(UtilisateursRepository $userRepository, ResetPasswordRequestRepository $resetPasswordRequestRepository): Response
     {
-        // Fetch data from the database
         $usersByRole = $userRepository->countUsersByRole();
         $verificationStatus = $userRepository->countVerificationStatus();
+        $resetRequestsByMonth = $resetPasswordRequestRepository->countRequestsByMonth();
 
-        // Prepare data for the chart (users by role)
         $labels = [];
         $data = [];
         $totalUsers = 0;
 
-        // Calculate the total number of users
         foreach ($usersByRole as $roleData) {
             $totalUsers += $roleData['count'];
         }
@@ -87,12 +87,9 @@ class HomeController extends AbstractController
             $data[] = round($percentage, 2);
         }
 
-        // Prepare data for the chart (verification status)
         $verificationLabels = [];
         $verificationData = [];
-        $totalUsers = 0;
 
-        // Calculate the total number of users
         foreach ($verificationStatus as $statusData) {
             $totalUsers += $statusData['count'];
         }
@@ -105,14 +102,36 @@ class HomeController extends AbstractController
             $verificationData[] = round($percentage, 2);
         }
 
-        // Render the template with the chart data
+        $allMonths = [
+            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        $resetRequestLabels = [];
+        $resetRequestData = [];
+
+        foreach ($allMonths as $month) {
+            $resetRequestLabels[] = $month;
+            $resetRequestData[] = 0;
+        }
+
+        foreach ($resetRequestsByMonth as $requestData) {
+            $month = $requestData['month'];
+            $count = $requestData['count'];
+            $index = (int)$month - 1; // Month index starts from 1
+            if ($index >= 0 && $index < count($resetRequestLabels)) {
+                $resetRequestData[$index] = $count;
+            }
+        }
+
         return $this->render('home/back.html.twig', [
             'labels' => json_encode($labels),
             'data' => json_encode($data),
             'verificationLabels' => json_encode($verificationLabels),
             'verificationData' => json_encode($verificationData),
+            'resetRequestLabels' => json_encode($resetRequestLabels),
+            'resetRequestData' => json_encode($resetRequestData),
         ]);
     }
+
     #[Route('/banned', name: 'app_banned')]
     public function banned(): Response
     {
