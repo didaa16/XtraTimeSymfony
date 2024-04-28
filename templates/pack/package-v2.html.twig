@@ -1,0 +1,159 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+
+<div class="search-box collapse" id="search-box">
+    <div class="container">
+        <form action="#">
+            <input type="text" placeholder="To Search Start Typing...">
+        </form>
+    </div>
+</div>
+
+<section class="inner-banner pattern-3">
+    <div class="container text-center">
+        <h2>Our Packages</h2>
+        <p>We offer various subscription packages</p>
+    </div>
+</section>
+<section class="bread-cumb">
+    <div class="container text-center">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><span>Packages</span></li>
+        </ul>
+    </div>
+    <div class="row meta-info">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="select-box pull-right">
+                <select class="selectpicker">
+                    <option>Default Sorting</option>
+                    <option>Sort By Duration</option>
+                    <option>Sort By Pack Name</option>
+                    <option>Sort By Reduction</option>
+                </select>
+            </div>
+        </div>
+    </div>
+      </div>
+</section>
+<section class="sidebar-pages ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-8">
+                <div class="sidebar-page-content section-padding pb0">
+                    <div class="inner-page-wrapper health-care-package-area package-v2 section-padding pt0 white-bg">
+                        <div class="section-title text-left">
+                            <h1><span>Book & Have Fun</span></h1>
+                        </div>
+                        <div class="row card-container">
+                            {% for pack in packs %}
+                            <div class="col-md-6 card" data-duree="{{ pack.duree }}" data-nompack="{{ pack.nom }}" data-reduction="{{ pack.reduction }}">
+                                <div class="single-item">
+                                    <div class="img-holder">
+                                        <img style="width: 200px; height: 200px;" src="{{ asset('images/' ~ pack.image) }}">
+                                    </div>
+                                    <div class="content">
+                                        <div class="top">
+                                            <div class="content-heading pull-left text-center">
+                                                <h3>{{ pack.nom }}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="package-list">
+                                            <h4>Package Includes:</h4>
+                                            <ul>
+                                                <li><i class="fa fa-check"></i>Durée de ce Pack {{ pack.duree }}</li>
+                                                <li><i class="fa fa-check"></i>Reduction par {{ pack.reduction }} %</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="button">
+                                        <a class="pull-left black arrow-push-in-right" href="{{ path('MoreDetailsPack', {'idp': pack.idp} ) }}"><span>More Details <i class="fa fa-caret-right"></i></span></a>
+                                        <a class="pull-right arrow-push-in-right" href="{{ path('app_abonnement_form', {'idp': pack.idp}) }}"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <div class="sidebar-wrapper section-padding">
+                    <div class="single-sidebar search-widget">
+                        <div class="title">
+                            <h3>Search Keywords</h3>
+                        </div>
+                        <form action="#" id="searchForm">
+                            <input type="text" placeholder="Search For Keywords" id="searchInput">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const packageItems = document.querySelectorAll('.single-item');
+
+        searchInput.addEventListener('input', function() {
+            const searchText = this.value.trim().toLowerCase();
+
+            packageItems.forEach(item => {
+                const packName = item.querySelector('.content-heading h3').textContent.trim().toLowerCase();
+
+                if (packName.includes(searchText)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectBox = document.querySelector('.selectpicker');
+        const cardContainer = document.querySelector('.card-container');
+
+        selectBox.addEventListener('change', function() {
+            const selectedOption = this.value;
+            const cards = Array.from(cardContainer.querySelectorAll('.card'));
+
+            if (selectedOption === 'Default Sorting') {
+                // Ne rien faire, garder l'ordre par défaut
+            } else if (selectedOption === 'Sort By Duration') {
+                // Trier les cartes par durée
+                cards.sort((a, b) => {
+                    const durationA = a.getAttribute('data-duree');
+                    const durationB = b.getAttribute('data-duree');
+                    return durationA.localeCompare(durationB);
+                });
+            } else if (selectedOption === 'Sort By Pack Name') {
+                // Trier les cartes par nom de pack
+                cards.sort((a, b) => {
+                    const packNameA = a.getAttribute('data-nompack');
+                    const packNameB = b.getAttribute('data-nompack');
+                    return packNameA.localeCompare(packNameB);
+                });
+            } else if (selectedOption === 'Sort By Reduction') {
+                // Trier les cartes par réduction
+                cards.sort((a, b) => {
+                    const reductionA = parseFloat(a.getAttribute('data-reduction'));
+                    const reductionB = parseFloat(b.getAttribute('data-reduction'));
+                    return reductionB - reductionA;
+                });
+            }
+
+            // Réorganiser les cartes dans le conteneur
+            cardContainer.innerHTML = '';
+            cards.forEach(card => cardContainer.appendChild(card));
+        });
+    });
+</script>
+
+{% endblock %}

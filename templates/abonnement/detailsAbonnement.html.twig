@@ -1,0 +1,96 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+
+<title>Détails de l'abonnement</title>
+<style>
+  .center {
+    text-align: center;
+    margin-top: 20px; /* Ajustez la marge selon vos besoins */
+  }
+
+  .details {
+    width: 50%; /* Ajustez la largeur de la boîte selon vos besoins */
+    margin: 0 auto; /* Centre horizontalement */
+    border: 1px solid #ccc; /* Ajoute une bordure pour la clarté */
+    padding: 20px; /* Ajoute un peu d'espace à l'intérieur de la boîte */
+  }
+</style>
+</head>
+<body>
+
+<div class="center">
+    <h1>Détails de l'abonnement</h1>
+    <ul>
+        <strong>Nom de l'utilisateur :</strong> {{ nomUser }}
+        </ul>
+         <ul>
+        <strong>Numéro de téléphone :</strong> {{ numTel }}
+        </ul>
+         <ul>
+        <strong>Date de début :</strong> {{ dateDebut ? dateDebut|date('d/m/Y') : 'Non spécifiée' }}
+        </ul>
+         <ul>
+        <strong>Nom du terrain :</strong> {{ nomTerrain ? nomTerrain : 'Non spécifié' }} 
+        </ul>
+         <ul>
+        <strong>Nom du pack :</strong> {{ nomPack ? nomPack : 'Non spécifié' }}
+        </ul>
+         <ul>
+        <strong>Prix avant réduction :</strong> {{ prixAvantReduction ? prixAvantReduction ~ ' DT' : 'Non calculé' }}
+        </ul>
+         <ul>
+        <strong>Prix après réduction :</strong> {{ prixApresReduction ? prixApresReduction ~ ' DT' : 'Non calculé' }}
+        </ul>
+    
+
+    <div>
+        <button href="" type="button" onclick="AnnulerAbonnement();" class="btn btn-secondary">Annuler</button>
+        <button  href="" type="button" onclick="confirmerAbonnement();" class="btn btn-primary">Confirmer</button>
+    </div>
+  
+</div>
+
+<script>
+    function confirmerAbonnement() {
+        // Récupérer le numéro de téléphone à partir d'une variable JavaScript
+        var numTel = "+21652354494";
+
+        // Envoyer une requête AJAX pour appeler l'action dans votre contrôleur Symfony
+      $.ajax({
+    url: "/envoyer-sms", // URL complète de l'action envoyer_sms
+    method: 'POST',
+    data: {numTel: numTel},
+    success: function(response) {
+        // Gérer la réponse si nécessaire
+        alert("Abonnement confirmé avec succès !");
+        window.location.href = "{{ path('app_front') }}";
+    },
+    error: function(xhr, status, error) {
+        // Gérer les erreurs ici
+        console.error(xhr.responseText);
+    }
+});
+
+    }
+</script>
+
+
+<script>
+    function AnnulerAbonnement() {
+    // Afficher une boîte de dialogue pour confirmer l'annulation de l'abonnement
+    if (confirm("Cher Client, Voulez-vous modifier votre abonnement  ?")) {
+        // Si l'utilisateur confirme, rediriger vers la route de suppression de l'abonnement
+        window.location.href = "{{ path('app_abonnement_edit', {'id': abonnement.id }) }}" ; // Utiliser abonnementId
+    } else {
+        // Si l'utilisateur annule, rediriger vers la page d'accueil
+        window.location.href = "{{ path('app_abonnement_deleteP', {'id': abonnement.id }) }}";
+       // // Utiliser abonnementId
+    }
+}
+
+</script>
+
+
+
+{% endblock %}

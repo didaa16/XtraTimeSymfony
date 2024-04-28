@@ -1,0 +1,16 @@
+#index:
+
+
+envoyer_sms:
+    path: '/envoyer-sms'
+    controller: App\Controller\AbonnementController::envoyerSmsConfirmation
+    methods: ['POST']
+
+pack_search_ajax:
+    path: '/pack/search'
+    controller: 'App\Controller\PackController::search'
+    methods: ['GET']
+
+
+#    path: /
+#    controller: App\Controller\DefaultController::index

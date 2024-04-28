@@ -1,0 +1,110 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+   <div class="search-box collapse" id="search-box">
+            <div class="container">
+                <form action="#">
+                    <input type="text" placeholder="To Search Start Typing...">
+                </form>
+            </div>
+        </div> 
+   <section class="inner-banner pattern-3">
+        <div class="container text-center">
+            <h2>Single Package Detail</h2>
+          
+        </div>
+    </section>
+
+     <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Packages</a></li>
+                <li><span>Single Package Detail</span></li>
+            </ul>
+        </div>
+    </section>
+
+
+       <section class="sidebar-pages health-care-package-area single-package-page white-bg pt0 pb0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-8">
+                    <div class="sidebar-page-content section-padding pb0">
+                        <div class="inner-page-wrapper section-padding pt0 white-bg">
+                            <div class="section-title text-left">
+                                <h1><span>{{ pack.nom }}</span></h1>
+                            </div>
+                         <img style="width: 200px; height: 200px;"  src="{{ asset('images/' ~ pack.image) }}">
+                            <div class="single-item">
+                                <div class="content clearfix">
+                                    <div class="box">
+                                        <div class="top">
+                                           
+                                            <div class="content-heading pull-left">
+                                                <h3>{{ pack.nom }} </h3>
+                                        
+                                            </div>
+                                        </div>
+                                        <div class="package-list clearfix">
+                                            <h4>Package Includes:</h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <ul>
+                                                        <li><i class="fa fa-check"></i>{{ pack.duree }}</li>
+                                                        <li><i class="fa fa-check"></i>{{ pack.Reduction }}</li>
+                                                      
+                                                    </ul>
+
+                                                    
+                                                </div>
+                                                <!-- /.col-md-6 -->
+                                            
+                                                <!-- /.col-md-6 -->
+                                            </div>
+
+                                              <h4>Description du Pack:</h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <ul>
+                                                     <li><i class="fa fa-circle"></i>{{ pack.description }} </li>
+                                                      
+                                                    </ul>
+                                                 </div>
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+                                    </div>
+                                    <!-- /.box -->
+                                   
+                                    <!-- /.img-box -->
+                                </div>
+                            </div>
+                            <!-- /.single-item -->
+                            <div class="cta-box clearfix">
+                                <div class="pull-left">
+                                    <a href="{{ path('app_abonnement_form', {'idp': pack.idp}) }}" class="thm-btn arrow-push-out-right"><span>Join Now <i class="fa fa-caret-right"></i></span></a>
+                                </div>
+                                <!-- /.pull-left -->
+                             
+                                <!-- /.pull-right -->
+                            </div>
+                            <!-- /.cta-box -->
+                            
+                            <!-- /.related-product-box -->
+                        </div>
+                        <!-- /.inner-page-wrapper -->
+                    </div>
+                    <!-- /.sidebar-page-content -->
+                </div>
+                <!-- /.col-lg-9 -->
+               
+                <!-- /.col-lg-3 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+
+{% endblock %}

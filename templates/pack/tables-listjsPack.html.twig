@@ -1,0 +1,266 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                        <h4 class="mb-sm-0">Listjs</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                <li class="breadcrumb-item active">Listjs</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0">Add, Edit & Remove</h4>
+                        </div><!-- end card header -->
+
+                        <div class="card-body">
+                            <a href="{{ path('app_pack_export_excel') }}" class="btn btn-primary">Exporter en Excel</a>
+                            <div class="listjs-table" id="customerList">
+                                <div class="row g-4 mb-3">
+                                    <div class="col-sm-auto">
+                                        <div>
+                                            <a href="{{ path('app_pack_new') }}" class="btn btn-success add-btn">
+                                                <i class="ri-add-line align-bottom me-1"></i> Ajouter
+                                            </a>
+                                            <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <div class="d-flex justify-content-sm-end">
+                                            <div class="search-box ms-2">
+                                                <input type="text" id="searchInput" class="form-control search" placeholder="Rechercher par nom de pack...">
+                                                <div id="searchResults"></div>
+                                                <i class="ri-search-line search-icon"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive table-card mt-3 mb-1">
+                                    <table class="table align-middle table-nowrap" id="customerTable">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col" style="width: 50px;">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                                    </div>
+                                                </th>
+                                                <th class="sort" data-sort="idP">idP</th>
+                                                <th class="sort" data-sort="nom">Nom du Pack</th>
+                                                <th class="sort" data-sort="description">Description</th>
+                                                <th class="sort" data-sort="reduction">Reduction</th>
+                                                <th class="sort" data-sort="duree">Duree</th>
+                                                <th class="sort" data-sort="image">Image</th>
+                                                <th class="sort" data-sort="action">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="customerTableBody">
+                                            {% for pack in packs %}
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                                                    </div>
+                                                </th>
+                                                <td>{{ pack.idp }}</td>
+                                                <td data-pack-name="{{ pack.nom }}">{{ pack.nom }}</td>
+                                                <td>{{ pack.description }}</td>
+                                                <td>{{ pack.reduction }}</td>
+                                                <td>{{ pack.duree }}</td>
+                                                <td class="image">
+                                                    {% if pack.image %}
+                                                    <img src="{{ asset('images/' ~ pack.image) }}" alt="Image du pack" style="max-width: 50px;">
+                                                    {% else %}
+                                                    <span>Pas d'image</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex gap-2">
+                                                        <div class="edit">
+                                                            <li class="nav-item">
+                                                                <a href="{{ path('app_pack_edit', {'idp': pack.idp}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                                                            </li>
+                                                        </div>
+                                                        <div class="remove">
+                                                            <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal{{ pack.idP }}" data-pack-id="{{ pack.idP }}">Supprimer</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- Modal -->
+                                            <div class="modal fade zoomIn" id="deleteRecordModal{{ pack.idP }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="mt-2 text-center">
+                                                                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                                                                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                                                                    <h4>Êtes-vous sûr ?</h4>
+                                                                    <p class="text-muted mx-4 mb-0">Voulez-vous vraiment supprimer cet élément ?</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                                                                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Annuler</button>
+                                                                <button type="button" class="btn btn w-sm btn-danger remove-item-btn" data-bs-dismiss="modal" data-pack-id="{{ pack.idp }}" data-delete-url="{{ path('app_pack_delete', {'idp': pack.idp}) }}">Oui, supprimer !</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end modal -->
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="noresult" style="display: none">
+                                        <div class="text-center">
+                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                            <h5 class="mt-2">Sorry! No Result Found</h5>
+                                            <p class="text-muted mb-0">We've searched more than 150+ Orders We did not find any orders for you search.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <div class="pagination-wrap hstack gap-2">
+                                        <a class="page-item pagination-prev disabled" href="javascript:void(0);">Previous</a>
+                                        <ul class="pagination listjs-pagination mb-0"></ul>
+                                        <a class="page-item pagination-next" href="javascript:void(0);">Next</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card -->
+                    </div>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const customerTableBody = document.getElementById('customerTableBody');
+        const actionColumnIndex = 7; // L'index de la colonne "Action" dans le tableau
+        let initialActionColumnContent = '';
+
+        // Fonction pour récupérer le contenu initial de la colonne "Action"
+        function getInitialActionColumnContent() {
+            const rows = customerTableBody.getElementsByTagName('tr');
+            if (rows.length > 0) {
+                const firstRowCells = rows[0].getElementsByTagName('td');
+                if (firstRowCells.length > actionColumnIndex) {
+                    initialActionColumnContent = firstRowCells[actionColumnIndex].innerHTML;
+                }
+            }
+        }
+
+        // Appel de la fonction pour récupérer le contenu initial au chargement de la page
+        getInitialActionColumnContent();
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var searchText = this.value.trim();
+            fetch('{{ path('pack_search_ajax') }}?searchText=' + searchText)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la recherche');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var html = '';
+                    data.forEach(function(pack) {
+                        html += '<tr>';
+                        html += '<td><div class="form-check"><input class="form-check-input" type="checkbox" id="packCheck_' + pack.idp + '" value="' + pack.idp + '"></div></td>';
+                        html += '<td>' + pack.idp + '</td>';
+                        html += '<td data-pack-nom="' + pack.nom + '">' + pack.nom + '</td>';
+                        html += '<td data-pack-description="' + pack.description + '">' + pack.description + '</td>';
+                        html += '<td data-pack-reduction="' + pack.reduction + '">' + pack.reduction + '</td>';
+                        html += '<td data-pack-duree="' + pack.duree + '">' + pack.duree + '</td>';
+                        html += '<td data-pack-image="' + pack.image + '"><img src="{{ asset('images/') }}' + pack.image + '" alt="Image du pack" style="max-width: 50px;"></td>';
+                        html += '<td>'; // Ouvrir la colonne pour les boutons d'action
+                        html += '<div class="d-flex gap-2">';
+                        html += '<div class="edit">';
+                        html += '<li class="nav-item">';
+                        html += '<a href="#" class="btn btn-sm btn-primary edit-btn">Modifier</a>';
+                        html += '</li>';
+                        html += '</div>';
+                        html += '<div class="remove">';
+                        html += '<button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-pack-id="' + pack.idP + '">Supprimer</button>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</td>'; // Fermer la colonne pour les boutons d'action
+                        html += '</tr>';
+                    });
+
+                    customerTableBody.innerHTML = html;
+                    updateDeleteButtons(); // Mettre à jour les événements des boutons de suppression
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la recherche:', error);
+                });
+        });
+
+        // Rétablir le contenu initial de la colonne "Action" lorsque la recherche est effacée ou ne donne aucun résultat
+        document.getElementById('searchInput').addEventListener('change', function() {
+            if (this.value.trim() === '') {
+                const rows = customerTableBody.getElementsByTagName('tr');
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    if (cells.length > actionColumnIndex) {
+                        cells[actionColumnIndex].innerHTML = initialActionColumnContent;
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.remove-item-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const packId = this.getAttribute('data-pack-id');
+                if (packId) {
+                    fetch(this.getAttribute('data-delete-url'), {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ idp: packId })
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '{{ path("app_pack_show") }}';
+                            } else {
+                                console.error('La suppression du pack a échoué.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Une erreur s\'est produite lors de la suppression du pack:', error);
+                        });
+                } else {
+                    console.error('ID du pack à supprimer non trouvé.');
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+
+ <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+      <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Ajouter des produits</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Ajouter des produits</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+<!-- formulaire -->
+<form action="" method="post" class="row g-3" enctype="multipart/form-data">
+    {{ form_start(form) }}
+    <div class="col-md-12">
+        {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter le nom du pack'}}) }}
+         {{ form_errors(form.nom) }} {# Affiche les erreurs spécifiques au champ nom #}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.reduction, 'Reduction', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.reduction, {'attr': {'class': 'form-control', 'placeholder': 'Enter la référence du pack'}}) }}
+ {{ form_errors(form.reduction) }} {# Affiche les erreurs spécifiques au champ nom #}
+    </div>
+
+
+<div class="col-md-6">
+        {{ form_label(form.duree, 'Durée', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.duree, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.duree) }} {# Affiche les erreurs spécifiques au champ typesport #}
+    </div>
+
+
+
+
+    
+
+    <div class="col-md-12">
+        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description du pack'}}) }}
+         {{ form_errors(form.description) }} {# Affiche les erreurs spécifiques au champ nom #}
+
+    </div>
+   <div class="col-md-6">
+    <!-- Champ de chargement d'image avec hauteur fixe -->
+    <div class="d-flex align-items-center justify-content-center h-100" style="min-height: 150px;">
+        <div>
+            {{ form_label(form.image, 'Charger une image', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.image, {'attr': {'class': 'form-control', 'accept': 'image/*', 'onchange': 'previewImage(this)'}}) }}
+            <span id="image-error" class="text-danger" style="display: none;">Veuillez sélectionner une image.</span>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <!-- Aperçu de l'image -->
+    {% if ancienneImage %}
+        <img id="image-preview" src="{{ asset('images/' ~ ancienneImage) }}" alt="Ancienne image" style="max-height: 200px;">
+    {% endif %}
+</div>
+    <div class="col-md-6">
+        <!-- Aperçu de l'image -->
+        <img id="image-preview" src="#" alt="Image Preview" style="max-height: 200px; display: none;">
+    </div>
+</div>
+
+
+
+
+    <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary" onclick="return validateForm()">Ajouter</button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</form>
+<!-- end formulaire -->
+
+<!-- Assurez-vous que le script est inclus après le formulaire dans le DOM -->
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('image-preview');
+        const imageError = document.getElementById('image-error');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block'; // Afficher l'aperçu de l'image
+                imageError.style.display = 'none'; // Cacher le message d'erreur s'il y en a un
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none'; // Cacher l'aperçu de l'image si aucun fichier n'est sélectionné
+            imageError.style.display = 'block'; // Afficher le message d'erreur si aucun fichier n'est sélectionné
+        }
+    }
+</script>
+   
+                  
+
+
+
+
+                      </div>
+                        </div>
+                          </div>
+
+{% endblock %}

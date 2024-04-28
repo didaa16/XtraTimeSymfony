@@ -1,0 +1,110 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+<div class="search-box collapse" id="search-box">
+            <div class="container">
+                <form action="#">
+                    <input type="text" placeholder="To Search Start Typing...">
+                </form>
+            </div>
+        </div>
+
+
+         <section class="inner-banner pattern-3">
+        <div class="container text-center">
+            <h2>Subscription Page</h2>
+            
+        </div>
+    </section>
+
+
+     <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Package</a></li>
+                <li><span>Subscription Page</span></li>
+            </ul>
+        </div><
+    </section>
+
+   <section class="checkout-section section-padding cart-section">
+    <div class="container">
+        <div class="row clearfix">
+            <!--Form Column-->
+            {{ form_start(form) }}
+            <div class="col-md-6 col-sm-12 col-xs-12 column form-column">
+                <div class="section-title text-left">
+                    <h1><span> Abonnez-vous </span></h1>
+                </div>
+                <div class="default-form billing-info-form">
+                    <div class="row clearfix">
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-label">Nom*</div>
+
+                            {{ form_widget(form.nomuser, { 'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.nomuser) }}
+
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-label">Numero du Tel*</div>
+                            {{ form_widget(form.numtel, { 'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.numtel) }}
+
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-label">Nom du Terrain*</div>
+                            {{ form_widget(form.terrain, {'attr': {'class': 'form-control'}, 'placeholder': 'Choisir', 'data-placeholder': 'Choisir'}) }}
+                            {{ form_errors(form.terrain) }}
+                        </div>
+
+   <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-label">Nom du Pack*</div>
+{{ form_widget(form.nompack, { 'attr': {'disabled': 'disabled'} }) }}          
+  {{ form_errors(form.nompack) }}
+
+   </div>
+
+
+
+
+{{ form_row(form.idp, { 'attr': {'style': 'display: none;'} }) }}
+
+
+
+
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="field-label">Date de debut de l'Abonnement*</div>
+                            {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.date) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-16">
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </div>
+            </div>
+            
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Écouter les changements dans le champ terrain
+        $('select[name="abonnement[terrain]"]').change(function() {
+            // Vérifier si une option autre que "Choisir" a été sélectionnée
+            if ($(this).val() !== '') {
+                // Supprimer l'option "Choisir" de la liste déroulante
+                $('select[name="abonnement[terrain]"] option[value=""]').remove();
+            }
+        });
+    });
+</script>
+{% endblock %}
