@@ -39,12 +39,7 @@ class ClientProdController extends AbstractController
         // Récupération de tous les produits
     $produitsQuery = $repository->findAll();
 
-// Paginer les résultats
-$produits = $paginator->paginate(
-    $produitsQuery, // Requête de récupération des produits
-    $request->query->getInt('page', 1), // Numéro de page à afficher
-    6 // Nombre d'éléments par page
-);
+
 
 
 
