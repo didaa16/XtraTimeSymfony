@@ -70,30 +70,76 @@ private function filterProductsByPrice($minPrice, $maxPrice)
 
 
 
+/* details */
 
-
-    #[Route('/MoreDetailsShop/{ref}', name: 'MoreDetailsShop')]
+#[Route('/MoreDetailsShop/{ref}', name: 'MoreDetailsShop')]
     public function MoreDetailsShop($ref): Response
     {
-        // Récupérer le produit depuis la base de données en fonction de l'identifiant
+        // Retrieve the product from the database based on the identifier
         $produit = $this->getDoctrine()->getRepository(Produit::class)->find($ref);
-        // Exemple de récupération des produits associés basés sur le type de sport
-
-
 
         if (!$produit) {
-            throw $this->createNotFoundException('Produit non trouvé');
+            throw $this->createNotFoundException('Product not found');
         }
+
+        // Example: Fetching related products based on the type of sport
         $relatedProducts = $this->getDoctrine()->getRepository(Produit::class)->findBy(['typesport' => $produit->getTypesport()]);
 
-        // Rendre la vue avec les détails du produit
+        // Calculate the average rating for the product
+        $averageRating = $this->calculateAverageRating($ref);
+        $ratingCount = $this->getRatingCountForProduct($ref);
+
+
+        // Render the view with the product details
         return $this->render('client_prod/single-shop.html.twig', [
             'produit' => $produit,
             'relatedProducts' => $relatedProducts,
-
+            'averageRating' => $averageRating,
+            'ratingCount' => $ratingCount,
         ]);
     }
-   
+
+    // Fonction calcul average
+    private function calculateAverageRating(string $ref): float
+    {
+    // Récupérer les évaluations du produit à partir de la base de données
+    $ratings = $this->getDoctrine()->getRepository(Ratingprod::class)->findBy(['ref' => $ref]);
+
+    // Initialiser la somme des notes et le nombre d'évaluations
+    $totalRating = 0;
+    $totalRatingsCount = count($ratings);
+
+    // Calculer la somme des notes
+    foreach ($ratings as $rating) {
+        $totalRating += $rating->getRating();
+    }
+
+    // Calculer la note moyenne (éviter la division par zéro)
+    $averageRating = $totalRatingsCount > 0 ? round($totalRating / $totalRatingsCount, 1) : 0;
+
+    return $averageRating;
+    }
+
+
+
+// Méthode pour récupérer le nombre de ratings pour un produit spécifique
+private function getRatingCountForProduct(string $ref): int
+{
+    $entityManager = $this->getDoctrine()->getManager();
+
+    // Utilisez votre propre méthode pour récupérer les ratings associés au produit
+    // Supposons que vous ayez une entité Rating avec une propriété productRef qui stocke la référence du produit
+    $ratings = $this->getDoctrine()->getRepository(Ratingprod::class)->findBy(['ref' => $ref]);
+
+    // Compter le nombre de ratings
+    $ratingCount = count($ratings);
+
+    return $ratingCount;
+}
+
+
+
+
 
 
 
@@ -135,6 +181,8 @@ private function filterProductsByPrice($minPrice, $maxPrice)
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($produitCommande);
         $entityManager->flush();
+        // Ajouter un message flash pour indiquer que le produit a été ajouté avec succès
+    $this->addFlash('success', 'Produit ajouté avec succès');
     
         // Rediriger l'utilisateur vers la page shop après l'ajout au panier
         return $this->redirectToRoute('ClientProd'); 
@@ -332,16 +380,75 @@ public function updateCart(Request $request): Response
     return new JsonResponse(['message' => 'Mise à jour du panier réussie'], Response::HTTP_OK);
 }
 
+/* rating */
 
 
+#[Route('/rate-product/{ref}', name: 'rate_product')]
+public function rateProduct(Request $request, string $ref): Response
+{
+    // Récupérez la note de la requête
+    $ratingValue = $request->request->get('rating');
 
+   
+    $pseudo = 'dida';
 
+    // Récupérez l'utilisateur en utilisant son pseudo
+    $user = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
 
+    if (!$user) {
+        // Redirigez l'utilisateur vers la page de connexion s'il n'est pas connecté
+        // Remplacez 'login_route' par le nom de votre route de connexion
+        return $this->redirectToRoute('login_route');
+    }
 
+    // Récupérez le produit à noter
+    $produit = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['ref' => $ref]);
 
+    // Vérifiez si le produit existe
+    if (!$produit) {
+        throw $this->createNotFoundException('Produit non trouvé');
+    }
 
+    // Vérifiez si l'utilisateur a déjà noté ce produit
+    $rating = $this->getDoctrine()->getRepository(Ratingprod::class)->findOneBy(['ref' => $produit, 'iduser' => $user]);
+    if ($rating) {
+        // Mettez à jour la note existante
+        $rating->setRating($ratingValue);
+    } else {
+        // Créez une nouvelle instance de Ratingprod
+        $rating = new Ratingprod();
+        $rating->setRating($ratingValue);
+        $rating->setIduser($user);
+        $rating->setRef($produit);
+    }
+   
+    // Récupérez l'EntityManager
+    $entityManager = $this->getDoctrine()->getManager();
+
+    // Persistez la note
+    $entityManager->persist($rating);
+
+    // Enregistrez les modifications dans la base de données
+    $entityManager->flush();
+     // Récupérez toutes les notes pour le produit
+     $ratings = $this->getDoctrine()->getRepository(Ratingprod::class)->findBy(['ref' => $produit]);
 
     
+ 
+
+    // Redirigez l'utilisateur vers la page de détails du produit après la notation
+    return $this->redirectToRoute('MoreDetailsShop', ['ref' => $ref]);
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -25,19 +25,33 @@
 </section>
 
 <!--Checkout Section-->
+
 <section class="checkout-section section-padding cart-section">
+ {% for message in app.flashes('success') %}
+        <div class="container mt-3">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Paiement réussi!</h4>
+                <p>{{ message }}</p>
+                <hr>
+                <p class="mb-0">Merci pour votre commande. Nous traitons actuellement votre demande.</p>
+            </div>
+        </div>
+    {% endfor %}
     <div class="container">
+    
         <div class="row clearfix">
+        
             <!--Form Column-->
             <div class="col-md-6 col-sm-12 col-xs-12 column form-column">
+            
                 <div class="section-title text-left">
                     <h1><span>Paiement Avec Stripe</span></h1>
                 </div>
                 <div class="card" style="border: 1px solid #ccc; border-radius: 5px; padding: 20px;">
                     <div class="card-body">
+                    
                         <form id='checkout-form' method='post' action="{{ path('app_stripe_charge') }}">             
                             <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
-                            <label for="card-element" class="mb-5">Checkout Forms</label>
                             <br>
                             <div id="card-element" class="form-control" ></div>
                             <button 
@@ -114,25 +128,28 @@
     var cardElement = elements.create('card');
     cardElement.mount('#card-element');
 
-    function createToken() {
-        document.getElementById("pay-btn").disabled = true;
-        stripe.createToken(cardElement).then(function(result) {
-            if (result.error) {
-                document.getElementById("pay-btn").disabled = false;
-                alert(result.error.message);
-            } else {
-                // Créer un nouvel élément de formulaire pour stocker le token
-                var tokenInput = document.createElement('input');
-                tokenInput.setAttribute('type', 'hidden');
-                tokenInput.setAttribute('name', 'stripeToken');
-                tokenInput.setAttribute('value', result.token.id);
-                // Ajouter l'élément de formulaire au formulaire existant
-                document.getElementById('checkout-form').appendChild(tokenInput);
-                // Soumettre le formulaire avec le nouveau token
-                document.getElementById('checkout-form').submit();
-            }
-        });
-    }
+   function createToken() {
+    document.getElementById("pay-btn").disabled = true;
+    stripe.createToken(cardElement).then(function(result) {
+        if (result.error) {
+            document.getElementById("pay-btn").disabled = false;
+            alert(result.error.message);
+        } else {
+            // Create a hidden form input to store the token
+            var tokenInput = document.createElement('input');
+            tokenInput.setAttribute('type', 'hidden');
+            tokenInput.setAttribute('name', 'stripeToken');
+            tokenInput.setAttribute('value', result.token.id);
+            // Append the form input to the existing form
+            document.getElementById('checkout-form').appendChild(tokenInput);
+            // Prevent the default form submission behavior
+            event.preventDefault();
+            // Submit the form with the new token
+            document.getElementById('checkout-form').submit();
+        }
+    });
+}
+
 </script>
 
 

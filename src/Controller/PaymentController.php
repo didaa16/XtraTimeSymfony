@@ -18,8 +18,11 @@ use App\Entity\Commande;
 use App\Entity\ProduitCommande;
 use App\Entity\Utilisateurs;
 use App\Repository\ProduitCommandeRepository;
-use Stripe;
+use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Stripe\Charge;
+
+
 
 class PaymentController extends AbstractController
 {
@@ -59,94 +62,78 @@ class PaymentController extends AbstractController
 
 
     #[Route('/stripe/create-charge', name: 'app_stripe_charge', methods: ['POST'])]
-public function createCharge(Request $request)
-{
-    // Récupérer l'utilisateur actuel
-    $pseudo = 'dida';
-    $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
-
-    // Récupérer la commande en cours de l'utilisateur (en supposant qu'il n'y a qu'une seule commande en attente)
-    $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy([
-        'iduser' => $utilisateur,
-        'status' => 'enAttente'
-    ]);
-
-    // Vérifier si une commande existe pour cet utilisateur
-    if (!$commande) {
-        // Gérer l'erreur, par exemple, rediriger l'utilisateur vers une page d'erreur
-        return $this->redirectToRoute('error_page');
-    }
-
-    // Récupérer le prix de la commande de l'utilisateur
-    $montant = $commande->getPrix() * 100; // Convertir le montant en centimes (Stripe exige le montant en plus petite unité monétaire)
-    
-    // Créer la charge Stripe avec le montant de la commande
-    Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
-    Stripe\Charge::create([
-        "amount" => $montant,
-        "currency" => "usd",
-        "source" => $request->request->get('stripeToken'),
-        "description" => "Binaryboxtuts Payment Test"
-    ]);
-
-    // Ajouter un message flash pour indiquer que le paiement a réussi
-    $this->addFlash(
-        'success',
-        'Payment Successful!'
-    );
-    // Rediriger l'utilisateur vers une page de confirmation de paiement
-// Ajouter un message flash pour indiquer que le paiement a réussi
-$this->addFlash('success', 'Payment Successful!');
-
-// Rediriger l'utilisateur vers une page de confirmation de paiement
-return $this->redirectToRoute('payment_success');}
-
-    
-
-
-
-
-
-
-
-
-
-     #[Route('/payment/success', name: 'payment_success')]
-     public function paymentSuccess(): Response
-     {
-        /* $pseudo = 'dida';
-
-         // Créer une nouvelle commande pour l'utilisateur
+    public function createCharge(Request $request): Response
+    {
+        // Retrieve the current user
+        $pseudo = 'dida';
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['pseudo' => $pseudo]);
-         $nouvelleCommande = new Commande();
-         $nouvelleCommande->setIduser($utilisateur);
-         $nouvelleCommande->setPrix(0); // Prix de 0 pour la nouvelle commande
-         $nouvelleCommande->setStatus('enAttente');
-     
-         // Persister la nouvelle commande
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->persist($nouvelleCommande);
-         $entityManager->flush(); */
-     
-         // Rendre la vue de confirmation de commande
-         return $this->render('payment/success.html.twig');
-     }
+
+        // Retrieve the user's pending order (assuming there's only one pending order)
+        $commande = $this->getDoctrine()->getRepository(Commande::class)->findOneBy([
+            'iduser' => $utilisateur,
+            'status' => 'enAttente'
+        ]);
+
+        // Check if there's a pending order for this user
+        if (!$commande) {
+            // Handle the error, for example, redirect the user to an error page
+            return $this->redirectToRoute('error_page');
+        }
+
+        // Retrieve the price of the user's order
+        $montantTND = $commande->getPrix();
+
+        // Taux de change TND en USD
+        $tauxDeChange = 0.36;
+        
+        // Convertir le montant en TND en USD
+        $montantUSD = $montantTND * $tauxDeChange;
+        
+        // Convertir le montant en cents (Stripe requiert le montant en plus petite unité de la devise, donc USD * 100)
+        $montantEnCents = $montantUSD * 100;
+        // Create a Stripe charge with the order amount
+        Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
+        Charge::create([
+            "amount" => $montantEnCents,
+            "currency" => "usd",
+            "source" => $request->request->get('stripeToken'),
+            "description" => "Binaryboxtuts Payment Test"
+        ]);
+
+// Set the status of the current order to 'encours'
+$commande->setStatus('encours');
+
+// Save the changes to the database
+$entityManager = $this->getDoctrine()->getManager();
+$entityManager->persist($commande);
+$entityManager->flush();
+
+// Create a new empty order for the user
+$newCommande = new Commande();
+$newCommande->setIdUser($utilisateur); // Associate the order with the current user
+$newCommande->setStatus('enAttente'); // Set the status of the new order as pending
+$newCommande->setPrix(0); // Set the status of the new order as pending
+
+// You can also set other properties of the order if needed
+
+// Save the new order to the database
+$entityManager->persist($newCommande);
+$entityManager->flush();
+
 
       
-        
 
 
+        // Redirect the user to a payment success page
+        return $this->redirectToRoute('payment_success');
+    }
 
-
-
-
-
-
-
-
-
-
-
+    #[Route('/payment/success', name: 'payment_success')]
+    public function paymentSuccess(): Response
+    {
+        // Render the order confirmation view
+        return $this->render('payment/success.html.twig');
+    }
 
 
 

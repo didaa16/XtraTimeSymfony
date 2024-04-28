@@ -1,6 +1,7 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
 
 
@@ -50,14 +51,25 @@
                                 <div class="content-box">
                                      <h2>{{ produit.nom }}</h2>
                                     <div class="review-box">
-                                        <ul class="list-inline">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <span>(2 Ratings)</span>
+                            <!--met le rating là-->
+
+   <div class="review-box">
+    <span>({{ ratingCount }} Ratings)</span>
+    <div class="rating-stars">
+    <form action="{{ path('rate_product', {'ref': produit.ref}) }}" method="post" id="ratingForm">
+        {% for i in 1..5 %}
+          <span class="star {% if i <= averageRating %} filled-star {% endif %} average-rating" data-rating="{{ i }}" id="star{{ i }}">
+    <i class="bi bi-star-fill"></i>
+    
+</span>
+        {% endfor %}
+        <input type="hidden" name="rating" id="ratingInput" value="0">
+<input type="submit" value="Submit" class="custom-submit-butn">
+    </form>
+</div>
+
+
+</div>
                                         
 
                                     </div><span class="size" style="font-size: 20px;">Taille : {{ produit.taille }} </span><br>
@@ -157,13 +169,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        const ratingValueInput = document.getElementById('ratingInput');
+        let userRating = 0;
+
+        // Fonction pour mettre à jour les étoiles en fonction du rating choisi par l'utilisateur
+        function updateStars(rating) {
+            stars.forEach(s => {
+                const sRating = s.getAttribute('data-rating');
+                const starIcon = s.querySelector('i');
+                if (sRating <= rating) {
+                    starIcon.classList.add('filled-star');
+                } else {
+                    starIcon.classList.remove('filled-star');
+                }
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('click', (event) => {
+                const ratingValue = star.getAttribute('data-rating');
+                ratingValueInput.value = ratingValue;
+                userRating = ratingValue;
+
+                // Mettre à jour les étoiles en fonction du rating choisi par l'utilisateur
+                updateStars(userRating);
+            });
+        });
+
+        // Récupérer le rating moyen depuis Twig
+        const averageRating = parseFloat("{{ averageRating }}");
+        // Mettre à jour les étoiles pour afficher le rating moyen
+        updateStars(averageRating);
+    });
+</script>
 
 
 
 
 
+<style>
 
 
+
+
+.filled-star  {
+    color: gold; /* Appliquer la couleur dorée à l'icône remplie */
+    
+}
+.average-rating .star {
+    color: gold; /* Couleur dorée */
+}
+
+.average-rating .star.filled-star {
+    color: gold; /* Couleur dorée pour les étoiles remplies */
+}
+
+.custom-submit-butn {
+    background-color: #cfa029; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    padding: 5px 10px; /* Espacement interne */
+    border: none; /* Suppression de la bordure */
+    border-radius: 3px; /* Bordure arrondie */
+    cursor: pointer; /* Curseur pointeur */
+    font-size: 16px; /* Taille de la police */
+    transition: background-color 0.3s ease; /* Transition en douceur pour la couleur de fond */
+    margin-left:10px;
+}
+
+.custom-submit-butn:hover {
+    background-color: #a6c311; /* Changement de couleur de fond au survol */
+}
+
+.star i {
+    font-size: 20px; /* Taille de la police des icônes des étoiles */
+}
+
+</style>
 
 
 {% endblock %}
