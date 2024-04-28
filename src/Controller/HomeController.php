@@ -48,9 +48,6 @@ class HomeController extends AbstractController
             'graphApiVersion' => 'v19.0',
         ]);
     }
-
-
-
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
@@ -65,20 +62,19 @@ class HomeController extends AbstractController
             'title' => 'welcome',
         ]);
     }
-
-
     #[Route('/back', name: 'app_back')]
     public function back(UtilisateursRepository $userRepository): Response
     {
-        // 1. Extraire les données de la base de données
+        // Fetch data from the database
         $usersByRole = $userRepository->countUsersByRole();
+        $verificationStatus = $userRepository->countVerificationStatus();
 
-        // 2. Préparer les données pour le graphique
+        // Prepare data for the chart (users by role)
         $labels = [];
         $data = [];
         $totalUsers = 0;
 
-        // Calculer le nombre total d'utilisateurs
+        // Calculate the total number of users
         foreach ($usersByRole as $roleData) {
             $totalUsers += $roleData['count'];
         }
@@ -91,14 +87,32 @@ class HomeController extends AbstractController
             $data[] = round($percentage, 2);
         }
 
+        // Prepare data for the chart (verification status)
+        $verificationLabels = [];
+        $verificationData = [];
+        $totalUsers = 0;
 
-        // 3. Afficher le graphique
+        // Calculate the total number of users
+        foreach ($verificationStatus as $statusData) {
+            $totalUsers += $statusData['count'];
+        }
+
+        foreach ($verificationStatus as $statusData) {
+            $status = $statusData['verification_status'] ? 'Verified' : 'Unverified';
+            $count = $statusData['count'];
+            $verificationLabels[] = $status;
+            $percentage = ($count / $totalUsers) * 100;
+            $verificationData[] = round($percentage, 2);
+        }
+
+        // Render the template with the chart data
         return $this->render('home/back.html.twig', [
             'labels' => json_encode($labels),
             'data' => json_encode($data),
+            'verificationLabels' => json_encode($verificationLabels),
+            'verificationData' => json_encode($verificationData),
         ]);
     }
-
     #[Route('/banned', name: 'app_banned')]
     public function banned(): Response
     {
@@ -110,9 +124,7 @@ class HomeController extends AbstractController
     #[Route('/fcb-login', name: 'fcb_login')]
     public function fcbLogin(): Response
     {
-
         $helper_url=$this->provider->getAuthorizationUrl();
-
         return $this->redirect($helper_url);
     }
 
@@ -177,8 +189,6 @@ class HomeController extends AbstractController
         }
     }
 
-
-
     #[Route('/resetPassword', name: 'reset_password', methods: ['GET'])]
     public function resetPassword(Request $request, SmsGenerator $smsGenerator, SessionInterface $session): Response
     {
@@ -196,8 +206,6 @@ class HomeController extends AbstractController
             'code' => $verificationCode,
         ]);
     }
-
-
     #[Route('/verifyVerificationCode', name: 'verify_verification_code')]
     public function verifyVerificationCodeForm(Request $request, SessionInterface $session): Response
     {

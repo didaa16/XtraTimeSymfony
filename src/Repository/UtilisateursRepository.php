@@ -81,6 +81,21 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
         return $query->getResult();
     }
 
+    public function countVerificationStatus(): array
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('verification_status', 'verification_status');
+        $rsm->addScalarResult('count', 'count');
+
+        $query = $this->getEntityManager()->createNativeQuery('
+            SELECT is_verified AS verification_status, COUNT(*) AS count
+            FROM utilisateurs
+            GROUP BY is_verified
+        ', $rsm);
+
+        return $query->getResult();
+    }
+
 
 //    /**
 //     * @return Utilisateurs[] Returns an array of Utilisateurs objects
