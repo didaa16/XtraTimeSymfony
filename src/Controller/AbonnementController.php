@@ -99,34 +99,7 @@ class AbonnementController extends AbstractController
     ]);
 }
 
-#[Route('/envoyer-sms', name: 'envoyer_sms', methods: ['POST'])]
 
-public function envoyerSmsConfirmation(Request $request)
-{
-    // Récupérez le numéro de téléphone à partir des données POST
-    $numTel = $request->request->get('numTel');
-
-    // Remplacez ces variables par vos clés et numéros Twilio réels
-    $twilioAccountSid = 'AC294826a0d7e01332b57990ad5f8149d6';
-    $twilioAuthToken = 'ac5f577e5b9b37e9e6114295d4cab892';
-    $twilioNumber = '+13392290039';
-
-    // Initialisez le client Twilio
-    $twilio = new Client($twilioAccountSid, $twilioAuthToken);
-
-    // Envoyez le message SMS
-    try {
-        $twilio->messages->create(
-            $numTel,
-            ['from' => $twilioNumber, 'body' => 'Votre abonnement a été confirmé avec succès !']
-        );
-        // Renvoyez une réponse JSON pour indiquer que le SMS a été envoyé avec succès
-        return $this->json(['message' => 'SMS envoyé avec succès']);
-    } catch (\Exception $e) {
-        // En cas d'erreur, renvoyez une réponse HTTP avec le code d'erreur approprié
-        return new Response('Une erreur s\'est produite lors de l\'envoi du SMS', Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-}
 
     
 
