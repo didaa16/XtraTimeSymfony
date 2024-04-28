@@ -34,6 +34,8 @@ class PackType extends AbstractType
                     ]),
                 ],
             ])
+
+            
             ->add('description', TextType::class, [
                 'label' => 'Description',
                 'required' => true,
