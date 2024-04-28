@@ -38,9 +38,6 @@ class Abonnement
      */
     private $prix;
 
-
-    
-
     /**
      * @var string
      *
