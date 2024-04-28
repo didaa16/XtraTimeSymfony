@@ -331,9 +331,9 @@ public function participate(
         $email->attachFromPath($imageFile->getPathname(), $imageFile->getFilename());
     }
 
-    // Envoyer l'e-mail
+    /* Envoyer l'e-mail
     $mailer->send($email);
-
+*/
     // Rediriger l'utilisateur vers la page de l'événement
     return $this->redirectToRoute('event_Affiche_front', ['id' => $eventId]);
 }

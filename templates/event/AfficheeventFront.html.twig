@@ -1,8 +1,17 @@
 {% extends 'front.html.twig' %}
 
-{% block title %}Liste des events{% endblock %}
+{% block title %} des events{% endblock %}
 
 {% block body %}
+<style>
+    /* Styles pour l'icône QR Code */
+    img.qr-code-icon {
+        width: 40px; /* Largeur de l'icône */
+        height: 40px; /* Hauteur de l'icône */
+    }
+</style>
+
+
 
 <style>
     @keyframes glow {
@@ -70,7 +79,13 @@
                            
                             <a href="{{ path('event_front_details', {'idevent': event.idevent}) }}" class="thm-btn">Voir les détails</a>
                             <!-- Bouton  mt3 code QR -->
-                            <a href="#" onclick="generateAndShowQrCode('{{ event.idevent }}', '{{ event.titre }}')">Afficher le code QR</a>
+                            <a href="#" onclick="generateAndShowQrCode('{{ event.idevent }}', '{{ event.titre }}')">
+    <img src="{{ asset('/BackEnd/assets/images/qrcodeiconepng.png') }}" alt="QR Code Icon" class="qr-code-icon">
+</a>
+
+                          
+            
+
                         </div>
                     </div>
                 </div>

@@ -8,9 +8,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use GuzzleHttp\Client;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\EventRepository;
 
 class ChatGptController extends AbstractController
 {
+   
+    private $eventRepository;
+
+    public function __construct(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
+
     #[Route('/process-input', name: 'process_input', methods: ['POST'])]
     public function processInput(Request $request): JsonResponse
     {
@@ -28,11 +37,32 @@ class ChatGptController extends AbstractController
 
     private function processInputLogic(string $input): string
     {
-        if (strtolower($input) === 'bonjour') {
-            return 'Est-ce que tu veux des informations concernant les événements ou tu veux utiliser chatgpt?';
+        if (strtolower($input) === 'events') {
+            // Retrieve events from EventController
+            $events = $this->getEvents();
+            return json_encode($events);
         } else {
+            // Default OpenAI API response
             return $this->getOpenAIAPIAnswer($input);
         }
+    }
+
+    private function getEvents(): array
+    {
+        // Example: Retrieve all events
+        $events = $this->eventRepository->findAll();
+
+        // You can format events as needed before returning
+        $formattedEvents = [];
+        foreach ($events as $event) {
+            $formattedEvents[] = [
+                'id' => $event->getIdevent(),
+                'title' => $event->getTitre(),
+                // Add more properties if needed
+            ];
+        }
+
+        return $formattedEvents;
     }
 
     private function getOpenAIAPIAnswer(string $question): string
