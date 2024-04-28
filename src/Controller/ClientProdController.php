@@ -41,7 +41,7 @@ class ClientProdController extends AbstractController
 
 
 
-
+                    
 
         // Rendu de la vue avec les données des produits
         return $this->render('Client_prod/shop.html.twig', [
