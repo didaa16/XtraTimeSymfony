@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use DateInterval;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -250,16 +251,32 @@ class Abonnement
 {
     // Récupérer la date de début de l'abonnement
     $dateDebut = $this->getDate();
-
+  
     // Récupérer la durée du pack associé à l'abonnement
     $dureePack = $this->getPack()->getDuree();
 
-    // Calculer la date de fin en ajoutant la durée du pack en mois à la date de début
+    // Extraire le nombre de mois de la chaîne
+    $nombreMois = (int) filter_var($dureePack, FILTER_SANITIZE_NUMBER_INT);
+
+
+
+    // Ajouter l'intervalle à la date de début pour obtenir la date de fin
     $dateFin = clone $dateDebut;
-    $dateFin->modify("+$dureePack months");
+    $dateFin->add(new DateInterval('P'.$nombreMois.'M'));
 
     return $dateFin;
 }
+
+    
+    
+
+
+
+    
+    
+    
+    
+    
 
   
 }

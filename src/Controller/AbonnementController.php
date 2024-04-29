@@ -108,9 +108,9 @@ public function envoyerSmsConfirmation(Request $request)
     $numTel = $request->request->get('numTel');
 
     // Remplacez ces variables par vos clés et numéros Twilio réels
-    $twilioAccountSid = 'AC294826a0d7e01332b57990ad5f8149d6';
-    $twilioAuthToken = 'ac5f577e5b9b37e9e6114295d4cab892';
-    $twilioNumber = '+13392290039';
+    $twilioAccountSid = 'ACc54419fc41b7438b7f6b18e46ac7d9a6';
+    $twilioAuthToken = '8186bc93d690248fbe1c258c37f830b4';
+    $twilioNumber = '+16812026259';
 
     // Initialisez le client Twilio
     $twilio = new Client($twilioAccountSid, $twilioAuthToken);

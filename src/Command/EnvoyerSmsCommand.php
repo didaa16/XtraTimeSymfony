@@ -28,45 +28,58 @@ class EnvoyerSmsCommand extends Command
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $abonnements = $this->abonnementRepository->findAbonnementsExpireDansDeuxJours();
-        $twilioAccountSid = 'AC294826a0d7e01332b57990ad5f8149d6';
-        $twilioAuthToken =  'ac5f577e5b9b37e9e6114295d4cab892';
-        $twilioNumber = '+13392290039';
-    
-        $twilio = new Client($twilioAccountSid, $twilioAuthToken);
-    
-        foreach ($abonnements as $abonnement) {
-            // Vérifier si un SMS a déjà été envoyé pour cet abonnement
-            if (!$abonnement->getSmsEnvoye()) {
-                $dateFin = $abonnement->getDateFin();
-                $dateActuelle = new \DateTime();
-                $dateActuelle->add(new \DateInterval('P2D'));
-                $numTel = $abonnement->getNumTel();
-    
-                // Si la date actuelle est avant deux jours de la date de fin de l'abonnement
-                if ($dateActuelle < $dateFin) {
-                    try {
-                        $twilio->messages->create(
-                            $numTel,
-                            ['from' => $twilioNumber, 'body' => 'Votre abonnement se termine bientôt. Renouvelez-le dès maintenant !']
-                        );
-                        $output->writeln('SMS envoyé à ' . $numTel);
-    
-                        // Marquer l'abonnement comme ayant eu un SMS envoyé
-                        $abonnement->setSmsEnvoye(true);
-                        $this->entityManager->persist($abonnement);
-                        $this->entityManager->flush();
-                    } catch (\Exception $e) {
-                        $output->writeln('Erreur lors de l\'envoi du SMS à ' . $numTel . ': ' . $e->getMessage());
-                    }
-                }
-            }
-        }
-    
-        return Command::SUCCESS;
+{
+    // Récupérer tous les abonnements depuis la base de données
+    $abonnements = $this->abonnementRepository->findAll();
+
+    // Configurer les identifiants Twilio
+    $twilioAccountSid = 'ACc54419fc41b7438b7f6b18e46ac7d9a6';
+    $twilioAuthToken = '8186bc93d690248fbe1c258c37f830b4';
+    $twilioNumber = '+16812026259';
+
+    // Initialiser le client Twilio
+    $twilio = new Client($twilioAccountSid, $twilioAuthToken);
+
+    foreach ($abonnements as $abonnement) {
+        // Récupérer la date de fin de l'abonnement
+        $dateFin = $abonnement->getDateFin();
+        $dateDebut=$abonnement->getDate();
+
+        // Récupérer la date actuelle et la date dans deux jours
+        $dateActuelle = new \DateTime();
+        $dateDeuxJoursPlusTard = clone $dateFin;
+        $dateDeuxJoursPlusTard->sub(new \DateInterval('P2D'));
+        $output->writeln('Date de debut de l\'abonnement: ' . $dateDebut->format('Y-m-d'));
+        $output->writeln('Date de fin de l\'abonnement: ' . $dateFin->format('Y-m-d'));
+$output->writeln('Date actuelle: ' . $dateActuelle->format('Y-m-d'));
+$output->writeln('Date dans deux jours: ' . $dateDeuxJoursPlusTard->format('Y-m-d'));
+
+if ($dateActuelle->format('d') == $dateDeuxJoursPlusTard->format('d') &&
+    $dateActuelle->format('m') == $dateDeuxJoursPlusTard->format('m') &&
+    $dateActuelle->format('Y') == $dateDeuxJoursPlusTard->format('Y')) 
+ {
+    try {
+        // Récupérer le numéro de téléphone de l'abonné
+        $numTel = "+21652354494";
+
+        // Envoyer le SMS avec Twilio
+        $twilio->messages->create(
+            $numTel,
+            ['from' => $twilioNumber, 'body' => 'Votre abonnement se termine bientôt. Renouvelez-le dès maintenant !']
+        );
+
+        // Afficher un message de succès
+        $output->writeln('SMS envoyé à ' . $numTel);
+    } catch (\Exception $e) {
+        // Afficher un message d'erreur en cas d'échec de l'envoi du SMS
+        $output->writeln('Erreur lors de l\'envoi du SMS à ' . $numTel . ': ' . $e->getMessage());
     }
-    
+}
+}
+
+// Retourner le statut de réussite de la commande
+return Command::SUCCESS;
+}
 
     
 }
