@@ -6,18 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 
 use App\Entity\Commande;
 class CommandeController extends AbstractController
 {
     #[Route('/ListeCommande', name: 'ListeCommande')]
-    public function AfficherCommande(CommandeRepository $repository)
+    public function AfficherCommande(CommandeRepository $repository,PaginatorInterface $paginator)
     {
         $commande = $repository->findAll(); //select *
          // Récupérer le nombre de commandes pour chaque statut
     $nbCommandesEnAttente = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'enAttente']);
     $nbCommandesEnCours = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'enCours']);
     $nbCommandesLivre = $this->getDoctrine()->getRepository(Commande::class)->count(['status' => 'livrée']);
+    
 
         return $this->render('commande/listeCommande.html.twig',   [
             'nbCommandesEnAttente' => $nbCommandesEnAttente,
@@ -27,6 +31,22 @@ class CommandeController extends AbstractController
     }
 
     
+
+   /*  $commandesQuery = $repository->findAll(); // Assurez-vous que votre méthode findAllQuery existe dans votre repository
+
+    // Paginer les résultats
+$commandes = $paginator->paginate(
+    $commandesQuery, // Requête de récupération des commandes
+    $request->query->getInt('page', 1), // Numéro de page à afficher
+    5 // Nombre d'éléments par page
+); */
+
+
+
+
+
+
+
 
 
    

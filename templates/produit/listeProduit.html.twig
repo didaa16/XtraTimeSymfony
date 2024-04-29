@@ -40,15 +40,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm">
-                                                <div class="d-flex justify-content-sm-end">
-                                                    <div class="search-box ms-2">
-                                                        <input type="text" class="form-control search" placeholder="Recherche...">
-                                                        <i class="ri-search-line search-icon"></i>
-                                                        
-
-                                                    </div>
-                                                </div>
+                                        <div class="d-flex justify-content-sm-end">
+                                            <div class="search-box ms-2">
+                                                <input type="text" id="searchInput" class="form-control search" placeholder="Rechercher...">
+                                                <div id="searchResults"></div>
+                                                <i class="ri-search-line search-icon"></i>
                                             </div>
+                                        </div>
+                                    </div>
                                         </div>
 
                          <div class="table-responsive table-card mt-3 mb-1">
@@ -147,16 +146,16 @@
 </div>
 
 
-                                        <div class="d-flex justify-content-end">
-                                           <div class="pagination-wrap hstack gap-2">
-    <a class="page-item pagination-prev" href="javascript:void(0);">
-        Précédent
-    </a>
-    <ul class="pagination listjs-pagination mb-0"></ul>
-    <a class="page-item pagination-next" href="javascript:void(0);">
-        Suivant
-    </a>
-</div>
+                                       {# <div class="d-flex justify-content-end">
+    <div class="pagination-wrap hstack gap-2">
+        <a class="page-item pagination-prev" id="prevPage" href="#">Précédent</a>
+        <ul class="pagination listjs-pagination mb-0">
+            <!-- Ici seront ajoutés dynamiquement les éléments de pagination -->
+        </ul>
+        <a class="page-item pagination-next" id="nextPage" href="#">Suivant</a>
+    </div>
+</div> #}
+
 
                                         </div>
                                     </div>
@@ -202,26 +201,14 @@
 
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var options = {
-            valueNames: ['nomProduit', 'ref', 'marque', 'prix', 'quantite', 'taille', 'type sport', 'desc', 'image', 'action'],
-            page: 1,
-            pagination: true,
-            pageLength: 5 // Assurez-vous que cette valeur est définie à 5
-        };
 
-        var productList = new List('customerList', options);
 
-        // Ajouter des écouteurs d'événements pour le tri lorsque les en-têtes de colonne sont cliqués
-        document.querySelectorAll('.sort').forEach(function(header) {
-            header.addEventListener('click', function() {
-                var sortBy = this.getAttribute('data-sort');
-                productList.sort(sortBy, { order: 'asc' });
-            });
-        });
-    });
-</script>
+
+
+
+
+
+
 
 
 
@@ -231,85 +218,73 @@
 
 
  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search');
+        const tableRows = document.querySelectorAll('#customerTable tbody tr');
+        const noResultMessage = document.querySelector('.noresult');
 
-document.addEventListener('DOMContentLoaded', function() {
-    var options = {
-    valueNames: ['nomProduit', 'ref', 'marque', 'prix', 'quantite', 'taille', 'type sport', 'desc', 'image', 'action'],
-    page: 1,
-    pagination: true,
-    pageLength: 5 // Assurez-vous que cette valeur est définie à 5
-};
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
 
-    var productList = new List('customerList', options);
-});
- </script>
+            tableRows.forEach(row => {
+                let foundResult = false;
+                Array.from(row.cells).forEach(cell => {
+                    const cellData = cell.textContent.toLowerCase();
+                    if (cellData.includes(searchTerm)) {
+                        foundResult = true;
+                    }
+                });
+
+                if (foundResult) {
+                    row.style.display = ''; // Afficher la ligne si le terme est trouvé dans une colonne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne sinon
+                }
+            });
+
+            // Afficher ou masquer le message "No Result Found" en fonction des résultats trouvés
+            const hasFoundResult = Array.from(tableRows).some(row => row.style.display !== 'none');
+            if (hasFoundResult) {
+                noResultMessage.style.display = 'none'; // Masquer le message s'il y a des résultats
+            } else {
+                noResultMessage.style.display = 'block'; // Afficher le message s'il n'y a pas de résultats
+            }
+        });
+    });
+</script>
 
 
 <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    const paginationList = document.querySelector('.listjs-pagination');
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Récupérer les boutons de pagination
-    const prevButton = document.querySelector('.pagination-prev');
-    const nextButton = document.querySelector('.pagination-next');
-
-    // Ajouter des écouteurs d'événements sur les boutons de pagination
     prevButton.addEventListener('click', function(event) {
         event.preventDefault();
-        // Décrémentez le numéro de page
-        productList.prev();
+        const currentPage = parseInt(paginationList.querySelector('.active').innerText);
+        if (currentPage > 1) {
+            paginationList.querySelector('.active').previousElementSibling.querySelector('a').click();
+        }
     });
 
     nextButton.addEventListener('click', function(event) {
         event.preventDefault();
-        // Incrémentez le numéro de page
-        productList.next();
-    });
-});
-
-
- </script>
-
-
-
-
-
- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('.search');
-    const tableRows = document.querySelectorAll('#customerTable tbody tr');
-    const noResultMessage = document.querySelector('.noresult');
-
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.trim().toLowerCase();
-
-        tableRows.forEach(row => {
-            let foundResult = false;
-            Array.from(row.cells).forEach(cell => {
-                const cellData = cell.textContent.toLowerCase();
-                if (cellData.includes(searchTerm)) {
-                    foundResult = true;
-                }
-            });
-
-            if (foundResult) {
-                row.style.display = ''; // Afficher la ligne si le terme est trouvé dans une colonne
-            } else {
-                row.style.display = 'none'; // Masquer la ligne sinon
-            }
-        });
-
-        // Afficher ou masquer le message "No Result Found" en fonction des résultats trouvés
-        const hasFoundResult = Array.from(tableRows).some(row => row.style.display !== 'none');
-        if (hasFoundResult) {
-            noResultMessage.style.display = 'none'; // Masquer le message s'il y a des résultats
-        } else {
-            noResultMessage.style.display = 'block'; // Afficher le message s'il n'y a pas de résultats
+        const currentPage = parseInt(paginationList.querySelector('.active').innerText);
+        const totalPages = parseInt(paginationList.querySelectorAll('li').length) - 2;
+        if (currentPage < totalPages) {
+            paginationList.querySelector('.active').nextElementSibling.querySelector('a').click();
         }
     });
 });
 
-
 </script>
+
+
+
+
+
+
 <!-- JAVASCRIPT -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> 
     <script src="assets/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

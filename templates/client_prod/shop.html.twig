@@ -104,7 +104,30 @@
 
 
 
-    
+   <div class="custom-pagination">
+        <ul class="pagination-list list-inline text-center">
+            {% if produits.currentPageNumber > 1 %}
+                <li class="pagination-item"><a href="{{ path('ClientProd', {'page': produits.currentPageNumber - 1, 'sort_by': app.request.query.get('sort_by', 'default')}) }}"><i class="fa fa-caret-left"></i></a></li>
+            {% else %}
+                <li class="pagination-item disabled"><span><i class="fa fa-caret-left"></i></span></li>
+            {% endif %}
+            
+            {% for page in 1..produits.pageCount %}
+                {% if page == produits.currentPageNumber %}
+                    <li class="pagination-item active"><span>{{ page }}</span></li>
+                {% else %}
+                    <li class="pagination-item"><a href="{{ path('ClientProd', {'page': page, 'sort_by': app.request.query.get('sort_by', 'default')}) }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if produits.currentPageNumber < produits.pageCount %}
+                <li class="pagination-item"><a href="{{ path('ClientProd', {'page': produits.currentPageNumber + 1, 'sort_by': app.request.query.get('sort_by', 'default')}) }}"><i class="fa fa-caret-right"></i></a></li>
+            {% else %}
+                <li class="pagination-item disabled"><span><i class="fa fa-caret-right"></i></span></li>
+            {% endif %}
+        </ul>
+    </div>
+
 
 
 
@@ -515,7 +538,7 @@ $(function() {
 
 
 
- 
+
 
     </style>
 

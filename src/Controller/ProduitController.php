@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 use App\Entity\Ratingprod; // Ajout de l'importation manquante
 use Symfony\Component\HttpFoundation\File\UploadedFile; // Importez UploadedFile
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 
 
@@ -119,13 +120,72 @@ class ProduitController extends AbstractController
     
 
 
+
     #[Route('/afficherProduit', name: 'ListeProduit')]
     public function AfficheP(ProduitRepository $repository)
     {
         $produit = $repository->findAll(); //select *
         return $this->render('produit/listeProduit.html.twig', ['produits' => $produit]);
     }
+
+
+
+
+
+
+
+
+    /* #[Route('/afficherProduit', name: 'ListeProduit')]
+public function AfficheP(Request $request, ProduitRepository $repository, PaginatorInterface $paginator)
+{
+    // Récupérer le terme de recherche depuis la requête GET
+    $query = $request->query->get('q');
+
+    // Utiliser QueryBuilder pour construire la requête
+    $queryBuilder = $repository->createQueryBuilder('e');
+
+    // Paginer les résultats
+    $pagination = $paginator->paginate(
+        $queryBuilder->getQuery(), // Requête à paginer
+        $request->query->getInt('page', 1), // Numéro de page par défaut
+        5 // Nombre d'éléments par page
+    );
+
+    // Extraire les éléments paginés
+    $produits = $pagination->getItems();
+
+    return $this->render('produit/listeProduit.html.twig', [
+        'produits' => $produits, // Passer les produits paginés au template Twig
+        'pagination' => $pagination, // Passer également l'objet de pagination au cas où vous en auriez besoin dans votre template Twig
+    ]);
+} */
+
+
+    #[Route('/search', name: 'search_ajax', methods: ['GET'])]
+public function  search(Request $request, ProduitRepository $repository)
+    {
+        $searchText = $request->query->get('searchText');
+
+        if ($searchText) {
+            $produits = $repository->findBySearchText($searchText);
+        } else {
+            $produits = [];
+        }
+
+        return $this->json($produits);
+    }
+
     
+    
+    
+
+
+
+
+
+
+
+
 
    
 /*

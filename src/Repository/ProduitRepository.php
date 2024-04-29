@@ -45,5 +45,21 @@ class ProduitRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findBySearchText($searchText)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.nom LIKE :searchText')
+        ->orWhere('p.ref LIKE :searchText')
+        ->orWhere('p.marque LIKE :searchText')
+        ->orWhere('p.prix LIKE :searchText')
+        ->orWhere('p.quantite LIKE :searchText')
+        ->orWhere('p.taille LIKE :searchText')
+        ->orWhere('p.typeSport LIKE :searchText')
+        ->orWhere('p.description LIKE :searchText')
+        ->setParameter('searchText', '%' . $searchText . '%')
+        ->getQuery()
+        ->getResult();
+}
+
 
 }
