@@ -1,0 +1,277 @@
+{# templates/front.html.twig #}
+
+<!Doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <title>{% block title %}Welcome to Symfony{% endblock %}</title>
+    {% block StyleSheets %}
+        {% include 'home/frontIncludes/stylesheets.html.twig' %}
+    {% endblock %}
+
+    {% block Header %}
+        {% include 'home/frontIncludes/header.html.twig' %}
+    {% endblock %}
+
+</head>
+<body>
+<br>
+<div>
+    {% block body %}
+        <section class="rev_slider_wrapper">
+
+
+            <div id="slider1" class="rev_slider" data-version="5.0">
+                <ul>
+                    <li data-transition="random">
+                        <img src="/img/slides/ballon.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
+                        <div class="tp-caption tp-resizeme banner-caption-h1" data-x="center" data-hoffset="0" data-y="top" data-voffset="385" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="500">
+                            Welcome to World’s Best
+                        </div>
+                        <div class="tp-caption  tp-resizeme banner-caption-h1" data-x="center" data-hoffset="0" data-y="top" data-voffset="480" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1500">
+                            Sport & Forme Theme
+                        </div>
+                        <div class="tp-caption tp-resizeme banner-caption-h1-large banner-caption-bg" data-x="center" data-hoffset="0" data-y="top" data-voffset="570" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="2000">
+                            <span><img src="" alt=""> XtraTime</span>
+                        </div>
+                    </li>
+                    <li data-transition="random">
+                        <img src="/img/slides/fooot.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="2">
+                        <div class="tp-caption tp-resizeme banner-caption-h1" data-x="right" data-hoffset="0" data-y="top" data-voffset="385" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="500">
+                            Universal Sporting Vitality
+                        </div>
+                        <div class="tp-caption  tp-resizeme banner-caption-h1" data-x="right" data-hoffset="0" data-y="top" data-voffset="480" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1000">
+
+                        </div>
+                        <div class="tp-caption  tp-resizeme banner-caption-h1-large banner-caption-bg" data-x="right" data-hoffset="15" data-y="top" data-voffset="570" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1500">
+                            <span><img src="/img/slides/Terrains.png" alt=""> Book & Have Fun</span>
+                        </div>
+                    </li>
+                    <li data-transition="random" class="slider-3">
+                        <img src="/img/slides/terrain.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="3">
+                        <div class="tp-caption tp-resizeme banner-caption-h1 banner-caption-bg" data-x="left" data-hoffset="15" data-y="top" data-voffset="340" data-transform_idle="o:1;" data-transform_in="y:-50px;opacity:0;s:1500;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="500">
+                            <span>Get Maximum From Us</span>
+                        </div>
+                        <div class="tp-caption tp-resizeme feature-list-item" data-x="left" data-hoffset="15" data-y="top" data-voffset="460" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                            <div class="icon-box">
+                                <div class="box">
+                                    <img src="img/resources/pack.png" alt="Image de votre choix">
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <p>Customized Packages</p>
+                            </div>
+                        </div>
+
+
+                        <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="545" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="900">
+                            <div class="icon-box">
+                                <div class="box">
+                                    <img src="img/resources/shop.png" alt="Image de votre choix">
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <p>Varied Shops</p>
+                            </div>
+                        </div>
+                        <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="325" data-y="top" data-voffset="545" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1000">
+                            <div class="icon-box">
+                                <div class="box">
+                                    <img src="img/resources/party.png" alt="Image de votre choix">
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <p>Memorable Occasions Event</p>
+                            </div>
+                        </div>
+                        <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="630" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="1100">
+                            <div class="icon-box">
+                                <div class="box">
+                                    <img src="img/resources/terrains.png" alt="Image de votre choix">
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <p>Exclusive Terrains</p>
+                            </div>
+                        </div>
+
+                        <div class="tp-caption  tp-resizeme  " data-x="left" data-hoffset="15" data-y="top" data-voffset="742" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="2000">
+                            <img src="/img/slides/title-decor2.png" alt="Awesome Image" />
+                        </div>
+
+
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="slider-bottom-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 slider-bottom-left">
+                        <img  id="skin-banner-1"  />
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 slider-bottom-right">
+                        <img id="skin-banner-2"  />
+                        <a class="arrow-push-in-right"><span><i class="fa fa-caret-right"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="fitness-care-gym-area">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h1><span>Benifits of XtraTime</span></h1>
+                </div>
+                <div class="row">
+                    <!--Start single item-->
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="single-item clearfix">
+                            <div class="left-box clearfix" style="display: flex; align-items: center;"></div>
+                            <div class="icon-holder" style="margin: auto;">
+                                <img src="/img/resources/booking.png" alt="Image 1" style="width: 90px; height: 90px;">
+                            </div>
+
+                            <div class="right-box">
+                                <h3>Booking Sports Fields</h3>
+                                <p>Easily book sports fields on XtraTime for your favorite activities. Our platform allows you to quickly find and reserve fields throughout Tunisia, offering a simple and convenient booking experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End single item-->
+                    <!--Start single item-->
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="single-item clearfix">
+                            <div class="left-box clearfix"></div>
+                            <div class="icon-holder">
+                                <img src="/img/resources/temp-worker.png" alt="Image 2">
+                            </div>
+                            <div class="right-box">
+                                <h3>Real-Time Availability</h3>
+                                <p>Check the availability of fields in real-time on XtraTime, allowing you to plan your sports activities according to your busy schedule. Book with confidence knowing that the field you want is available when you need it.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End single item-->
+                    <!--Start single item-->
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="single-item clearfix">
+                            <div class="left-box clearfix"></div>
+                            <div class="icon-holder">
+                                <img src="/img/resources/sports.png" alt="Image 3">
+                            </div>
+                            <div class="right-box">
+                                <h3>Instant Confirmation</h3>
+                                <p>After making your reservation on XtraTime, receive instant confirmation, ensuring that your field is reserved and ready to use. No need to worry about availability or delays, your field is waiting for you as soon as you need it.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End single item-->
+                    <!--Start single item-->
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="single-item clearfix">
+                            <div class="left-box clearfix"></div>
+                            <div class="icon-holder">
+                                <img src="/img/resources/confirmation.png" alt="Image 4">
+                            </div>
+                            <div class="right-box">
+                                <h3>Confirmation Instantanée</h3>
+                                <p>Après avoir effectué votre réservation sur XtraTime, recevez une confirmation instantanée, vous assurant ainsi que votre terrain est réservé et prêt à être utilisé. Plus besoin de se soucier de la disponibilité ou des retards, votre terrain vous attend dès que vous en avez besoin.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End single item-->
+                </div>
+
+            </div>
+        </section>
+        <section class="support-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="img-holder">
+                            <img alt="" src="/img/support/img.png">
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12 support-content">
+                        <div class="row">
+                            <!--Start single item-->
+                            <div class="col-md-6 col-sm-6">
+                                <div class="single-item">
+                                    <div class="icon-holder">
+                                        <div class="box">
+                                            <img src="img/resources/pack.png" alt="Image de votre choix">
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <h3>Customized Packages</h3>
+                                        <p>Discover personalized packages at XtraTime tailored to your needs. Experience the difference today.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End single item-->
+                            <!--Start single item-->
+                            <div class="col-md-6 col-sm-6">
+                                <div class="single-item">
+                                    <div class="icon-holder">
+                                        <img src="img/resources/shop.png" alt="Image de votre choix">
+                                    </div>
+                                    <div class="content">
+                                        <h3>Varied Shops</h3>
+                                        <p>At XtraTime, explore a range of diverse shops offering everything from sports gear to wellness products. With something for everyone, our varied shops cater to all tastes and preferences. Discover the perfect find at XtraTime today.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End single item-->
+                            <!--Start single item-->
+                            <div class="col-md-6 col-sm-6">
+                                <div class="single-item">
+                                    <div class="icon-holder">
+                                        <img src="img/resources/party.png" alt="Image de votre choix">
+                                    </div>
+                                    <div class="content">
+                                        <h3>Memorable Occasions Event</h3>
+                                        <p>Make memories that last a lifetime with XtraTime Events. From sports tournaments to corporate gatherings, our team ensures every occasion is unforgettable. Experience excellence with XtraTime."</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End single item-->
+                            <!--Start single item-->
+                            <div class="col-md-6 col-sm-6">
+                                <div class="single-item">
+                                    <div class="icon-holder">
+                                        <img src="img/resources/terrains.png" alt="Image de votre choix">
+                                    </div>
+                                    <div class="content">
+                                        <h3>Exclusive Terrains</h3>
+                                        <p>At XtraTime, our exclusive terrains offer unparalleled sporting experiences. From immaculately maintained fields to state-of-the-art facilities, these premium venues are reserved for those seeking the best. Elevate your game with XtraTime's exclusive terrains.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End single item-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+    {% endblock %}
+
+    {% block footer %}
+        {% include 'home/frontIncludes/footer.html.twig' %}
+    {% endblock %}
+</div>
+{% block JavaScript %}
+    {% include 'home/frontIncludes/javascript.html.twig' %}
+{% endblock %}
+</body>
+</html>
