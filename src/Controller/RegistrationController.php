@@ -55,9 +55,11 @@ class RegistrationController extends AbstractController
                 }
 
                 $user->setPictureUrl('profilePics/'.$newFilename);
-            }  else {
-                // Generate an avatar using AvatarProvider
-                $avatarPath = AvatarProvider::avatar(null, true); // Generate a random avatar and save it to disk
+            }
+            else {
+                // Generate a unique seed value based on user data
+                $seed = $user->getUsername(); // You can adjust this to use any unique identifier for the user
+                $avatarPath = AvatarProvider::avatar(null, true, 'adventurer', null, $seed); // Pass the seed value to the avatar method
 
                 // Move the avatar to the desired directory
                 $newFilename = uniqid().'.'.pathinfo($avatarPath, PATHINFO_EXTENSION);
@@ -67,7 +69,6 @@ class RegistrationController extends AbstractController
                 } catch (FileException $e) {
                     dd($e->getMessage());
                 }
-
 
                 // Set the avatar URL in the user entity
                 $user->setPictureUrl('profilePics/'.$newFilename);
