@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Utilisateurs;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use App\Service\AvatarProvider;
 
 class RegistrationController extends AbstractController
 {
@@ -37,6 +39,7 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $profilePictureFile = $form->get('picture_url')->getData();
+
             if ($profilePictureFile instanceof UploadedFile) {
                 $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
@@ -51,11 +54,25 @@ class RegistrationController extends AbstractController
                     dd($e->getMessage());
                 }
 
-                // Set the picture URL in the user entity
+                $user->setPictureUrl('profilePics/'.$newFilename);
+            }  else {
+                // Generate an avatar using AvatarProvider
+                $avatarPath = AvatarProvider::avatar(null, true); // Generate a random avatar and save it to disk
+
+                // Move the avatar to the desired directory
+                $newFilename = uniqid().'.'.pathinfo($avatarPath, PATHINFO_EXTENSION);
+                try {
+                    $newPath = $this->getParameter('kernel.project_dir').'/assets/profilePics/'.$newFilename;
+                    rename($avatarPath, $newPath);
+                } catch (FileException $e) {
+                    dd($e->getMessage());
+                }
+
+
+                // Set the avatar URL in the user entity
                 $user->setPictureUrl('profilePics/'.$newFilename);
             }
 
-            // Encode the plain password and save the user
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -73,7 +90,6 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-
 
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -104,6 +120,4 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_login');
     }
-
-
 }
