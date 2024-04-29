@@ -20,14 +20,14 @@ class TerrainRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Terrain::class);
     }
-    public function countTerrainsByType()
-{
-    return $this->createQueryBuilder('t')
-        ->select('t.type, COUNT(t.id) as count')
-        ->groupBy('t.type')
-        ->getQuery()
-        ->getResult();
-}
+    public function getTerrainTypesCount()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t.type, COUNT(t.id) as count')
+            ->groupBy('t.type')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Terrain[] Returns an array of Terrain objects
 //     */

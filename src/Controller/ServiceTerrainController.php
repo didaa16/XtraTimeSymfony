@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use App\Repository\TerrainRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,23 +118,28 @@ public function delete2(ManagerRegistry $doctrine,TerrainRepository $terrainrepo
 
     return $this->redirectToRoute("Terrain_read2");
 }
-#[Route('/terrain/statistics', name: 'terrain_statistics')]
-public function statistics(TerrainRepository $terrainRepo)
+
+#[Route('/terrain/type/stats', name: 'terrain_statistics')]
+public function terrainTypeStats(TerrainRepository $terrainRepository): Response
 {
-    $terrainStatistics = $terrainRepo->countTerrainsByType();
-    
-    // Construire un tableau associatif des statistiques
-    $statisticsArray = [];
-    foreach ($terrainStatistics as $stat) {
-        $statisticsArray[] = [
-            'type' => $stat['type'],
-            'count' => $stat['count'],
-        ];
+    $terrains = $terrainRepository->findAll();
+
+    $terrainTypes = [];
+    foreach ($terrains as $terrain) {
+        $type = $terrain->getType();
+        if (!isset($terrainTypes[$type])) {
+            $terrainTypes[$type] = 0;
+        }
+        $terrainTypes[$type]++;
     }
-    
+
+    $dataForChart = [
+        'labels' => array_keys($terrainTypes),
+        'data' => array_values($terrainTypes)
+    ];
+
     return $this->render('service_terrain/terrain_statistics.html.twig', [
-        'terrainStatistics' => $statisticsArray,
+        'dataForChart' => $dataForChart,
     ]);
 }
-
 }

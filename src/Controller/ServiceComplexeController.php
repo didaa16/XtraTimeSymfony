@@ -100,19 +100,18 @@ class ServiceComplexeController extends AbstractController
         return $this->renderForm("service_complexe/edit.html.twig", ["form" => $form]);
     }
     
+    
     #[Route('/complexe/delete/{ref}', name: 'delete_complexe')]
-    public function delete(ManagerRegistry $doctrine, ComplexeRepository $complexerepo, SessionInterface $session, $ref): Response
+    public function delete(ManagerRegistry $doctrine,ComplexeRepository $complexerepo, $ref, SessionInterface $session)
     {
         $em = $doctrine->getManager();
         $complexe = $complexerepo->find($ref);
 
-        if (!$complexe) {
-            $session->getFlashBag()->add('error', 'La complexe que vous essayez de supprimer n\'existe pas.');
-        } else {
-            $em->remove($complexe);
-            $em->flush();
-            $session->getFlashBag()->add('success', 'La complexe a été supprimée avec succès.');
-        }
+        $em->remove($complexe);
+        $em->flush();
+
+        // Ajouter un message flash pour la notification
+        $session->getFlashBag()->add('success', 'Le complexe a été supprimé avec succès.');
 
         return $this->redirectToRoute("Complexe_read");
     }

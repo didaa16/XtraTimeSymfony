@@ -1,15 +1,16 @@
-{# templates/Client/add.html.twig #}
 {% extends 'front.html.twig' %}
 
 {% block title %}Ajouter une complexe{% endblock %}
 
 {% block body %}
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">        <div class="row justify-content-center">
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">        
+        <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Ajouter un complexe</h5>
-{{ form_start(form, {'attr': {'class': 'row g-3', 'enctype': 'multipart/form-data'}}) }}                        <div class="mb-3">
+                        {{ form_start(form, {'attr': {'class': 'row g-3', 'enctype': 'multipart/form-data'}}) }}
+                        <div class="mb-3">
                             {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
                             {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.nom) }}
@@ -39,11 +40,30 @@
                             {{ form_widget(form.idlocateur, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.idlocateur) }}
                         </div>
-                      
                         {{ form_end(form) }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="map" style="height: 400px;"></div>
+{% endblock %}
+
+{% block javascripts %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    // Initialisation de la carte
+    var map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées de Paris
+
+    // Ajout d'un fond de carte
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajout d'un marqueur
+    L.marker([48.8566, 2.3522]).addTo(map)
+        .bindPopup('Paris, France')
+        .openPopup();
+</script>
 {% endblock %}

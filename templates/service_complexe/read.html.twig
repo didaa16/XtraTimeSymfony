@@ -3,18 +3,8 @@
 {% block title %}Liste des complexes{% endblock %}
 
 {% block body %}
-  {% for flash_message in app.session.flashBag.get('success') %}
-        <div class="alert alert-success">
-            {{ flash_message }}
-        </div>
-    {% endfor %}
-
-    {% for flash_message in app.session.flashBag.get('error') %}
-        <div class="alert alert-danger">
-            {{ flash_message }}
-        </div>
-    {% endfor %}
-
+  
+ 
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="col-md-6">
             <div class="card">
@@ -23,7 +13,16 @@
                     <!-- Champ de recherche -->
                     <div class="mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom, adresse ou téléphone">
-                    </div>
+                    </div> 
+                    <div id="flash-messages">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
                     <!-- Liens de tri -->
                     <div class="mb-3">
                         <a href="#" onclick="sortByName()">Trier par nom</a>
