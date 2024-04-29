@@ -3,12 +3,35 @@
 {% block title %}Liste des complexes{% endblock %}
 
 {% block body %}
+  {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {% for flash_message in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
                     <h1 class="text-center mb-4">Liste des complexes</h1>
-                    <table class="table table-sm table-bordered table-hover text-center align-middle">
+                    <!-- Champ de recherche -->
+                    <div class="mb-3">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom, adresse ou téléphone">
+                    </div>
+                    <!-- Liens de tri -->
+                    <div class="mb-3">
+                        <a href="#" onclick="sortByName()">Trier par nom</a>
+                        <a href="#" onclick="sortByAddress()">Trier par adresse</a>
+                        <!-- Ajoutez d'autres liens de tri si nécessaire -->
+                    </div>
+                    <!-- Tableau des complexes -->
+                    <table id="complexesTable" class="table table-sm table-bordered table-hover text-center align-middle">
                         <thead>
                             <tr>
                                 <th scope="col">Nom</th>
@@ -26,26 +49,27 @@
                                     <td>{{ complexe.tel }}</td>
                                     <td>
                                         {% if complexe.patente %}
-                                            <img src="{{ complexe.patente }}" alt="Image de la patente" style="max-width: 100px;">
+                                            <img src="{{ asset('uploads/' ~ complexe.patente) }}" alt="patente du complexe" style="max-width: 100px;">
                                         {% else %}
-                                            Pas de patente
+                                            Pas d'image
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <img src="{{ complexe.image }}" alt="Image du complexe" style="max-width: 100px;">
+                                        {% if complexe.image %}
+                                            <img src="{{ asset('uploads/' ~ complexe.image) }}" alt="Image du complexe" style="max-width: 100px;">
+                                        {% else %}
+                                            Pas d'image
+                                        {% endif %}
                                     </td>
                                     <td>
                                         <a href="{{ path('edit_complexe', { 'ref': complexe.ref }) }}">Modifier</a>
                                     </td>
                                     <td>
-                                        <a href="{{ path('delete_complexe', { 'ref': complexe.ref }) }}">Supprimer</a>
-                                    </td>
-                                      <td>
-                                        <a href="">reserver</a>
-                                    </td>
+                                                                            <a href="{{ path('delete_complexe', { 'ref': complexe.ref }) }}">Supprimer</a>
+</td>
                                 </tr>
                             {% else %}
-                                <tr><td colspan="6">Aucun complexe trouvé.</td></tr>
+                                <tr><td colspan="5">Aucun complexe trouvé.</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -53,6 +77,48 @@
             </div>
         </div>
     </div>
-    <!-- Espace après le tableau -->
-    <div style="height: 50px;"></div>
+
+    <!-- Script JavaScript pour trier et rechercher les complexes -->
+    <script>
+        // Récupère le tableau des complexes et les lignes du tableau
+        const table = document.getElementById('complexesTable');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        // Gestionnaire d'événements pour la recherche
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                const complexName = row.cells[0].textContent.toLowerCase();
+                const complexAddress = row.cells[1].textContent.toLowerCase();
+                const complexTel = row.cells[2].textContent.toLowerCase();
+                if (complexName.includes(searchTerm) || complexAddress.includes(searchTerm) || complexTel.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Fonction pour trier par nom
+        function sortByName() {
+            rows.sort((a, b) => {
+                const nameA = a.cells[0].textContent.trim();
+                const nameB = b.cells[0].textContent.trim();
+                return nameA.localeCompare(nameB);
+            });
+            tbody.append(...rows);
+        }
+
+        // Fonction pour trier par adresse
+        function sortByAddress() {
+            rows.sort((a, b) => {
+                const addressA = a.cells[1].textContent.trim();
+                const addressB = b.cells[1].textContent.trim();
+                return addressA.localeCompare(addressB);
+            });
+            tbody.append(...rows);
+        }
+    </script>
 {% endblock %}

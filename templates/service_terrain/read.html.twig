@@ -27,9 +27,13 @@
                                     <td>{{ terrain.type }}</td>
                                   <td>{{ terrain.prix }}</td>
                                   <td>{{ terrain.disponibilite }}</td>
-                                    <td>
-                                        <img src="{{ terrain.img }}" alt="Image du terrain" style="max-width: 100px;">
-                                    </td>
+                                           <td>
+            {% if terrain.img %}
+                <img src="{{ asset('uploads/' ~ terrain.img) }}" alt="Image du terrain" style="max-width: 100px;">
+            {% else %}
+                Pas d'image
+            {% endif %}
+        </td>
                                     <td>
                                         <a href="{{ path('edit_terrain', { 'id': terrain.id }) }}">Modifier</a>
                                     </td>

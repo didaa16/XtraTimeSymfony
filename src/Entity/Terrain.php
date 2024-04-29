@@ -29,12 +29,7 @@ class Terrain
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-      * @Assert\Regex(
-     *     pattern="/^[a-zA-Z]+$/",
-     *     message="Le nom ne peut contenir que des lettres."
-     * )
-     * @Assert\NotBlank(message="Le nom ne peut pas être vide")
-     * @Assert\Length(max=255, maxMessage="Le nom ne peut pas dépasser {{ limit }} caractères")
+     
      */
     private $nom;
 
@@ -47,7 +42,7 @@ class Terrain
 
     /**
      * @var string
-     *
+     
      * @ORM\Column(name="type", type="string", length=255, nullable=false)
      */
     private $type;
@@ -56,11 +51,7 @@ class Terrain
      * @var int
      *
      * @ORM\Column(name="prix", type="integer", nullable=false)
-      * @Assert\Regex(
-     *     pattern="/^[0-9]+$/",
-     *     message="Le prix doit contenir uniquement des chiffres."
-     * )
-     * @Assert\NotNull(message="Le prix ne peut pas être vide.")
+ 
      */
     private $prix;
 
@@ -75,8 +66,6 @@ class Terrain
      * @var string
      *
      * @ORM\Column(name="img", type="string", length=255, nullable=false)
-     *  * @Assert\NotBlank(message="L'image ne peut pas être vide")
-     * @Assert\Length(max=255, maxMessage="Le chemin de l'image ne peut pas dépasser {{ limit }} caractères")
      */
     private $img;
 

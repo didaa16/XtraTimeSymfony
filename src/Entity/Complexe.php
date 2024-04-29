@@ -29,12 +29,7 @@ class Complexe
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-      * @Assert\Regex(
-     *     pattern="/^[a-zA-Z]+$/",
-     *     message="Le nom ne peut contenir que des lettres."
-     * )
-     * @Assert\NotBlank(message="Le nom ne peut pas être vide")
-     * @Assert\Length(max=255, maxMessage="Le nom ne peut pas dépasser {{ limit }} caractères")
+     
      */
     private $nom;
 
@@ -42,8 +37,7 @@ class Complexe
      * @var string
      *
      * @ORM\Column(name="adresse", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="L'adresse ne peut pas être vide")
-     * @Assert\Length(max=255, maxMessage="L'adresse ne peut pas dépasser {{ limit }} caractères")
+    
      */
     private $adresse;
 
@@ -51,11 +45,7 @@ class Complexe
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=255, nullable=false)
-     * @Assert\Regex(
-     *     pattern="/^[0-9]{8}$/",
-     *     message="Le numéro de téléphone doit contenir exactement 8 chiffres."
-     * )
-     * @Assert\NotBlank(message="Le numéro de téléphone ne peut pas être vide")
+     
      */
     private $tel;
 
@@ -63,7 +53,6 @@ class Complexe
      * @var string
      *
      * @ORM\Column(name="patente", type="string", length=255, nullable=false)
-     *   @Assert\NotBlank(message="La patente ne peut pas être vide")
      */
     private $patente;
 
@@ -71,7 +60,6 @@ class Complexe
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
-      * @Assert\NotBlank(message="L'image ne peut pas être vide")
      */
     private $image;
 

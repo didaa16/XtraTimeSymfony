@@ -30,23 +30,38 @@ class ServiceTerrainController extends AbstractController
     }
 
     #[Route('/Terrain/add2', name: 'terrain_add2' )]
-public function add2(ManagerRegistry $doctrine , Request $request): Response
-{
-    $em = $doctrine->getManager();
-    $terrain = new Terrain();
-    $form = $this->createForm(TerrainType::class, $terrain);
-    $form->handleRequest($request);
+    public function add2(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $em = $doctrine->getManager();
+        $terrain = new Terrain();
+        $form = $this->createForm(TerrainType::class, $terrain);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload for 'img' field
+            $imgFile = $form->get('img')->getData();
+            if ($imgFile) {
+                // Generate a unique name for the file
+                $imgName = md5(uniqid()) . '.' . $imgFile->guessExtension();
+                // Move the file to the directory where images are stored
+                $imgFile->move(
+                    $this->getParameter('upload_directory'), // Specify your image directory here
+                    $imgName
+                );
+                // Set the img property of your entity
+                $terrain->setImg($imgName);
+            }
     
-    if ($form->isSubmitted() && $form->isValid()) {
-        $em->persist($terrain);
-        $em->flush();
-        return $this->redirectToRoute('Terrain'); // Redirection vers la page d'accueil ou une autre page
+            $em->persist($terrain);
+            $em->flush();
+            return $this->redirectToRoute('Terrain_read'); // Redirection vers la page d'accueil ou une autre page
+        }
+    
+        return $this->render('/service_terrain/add2.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-
-    return $this->render('/service_terrain/add2.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
+    
 #[Route('/Terrain/edit/{id}', name: 'edit_terrain')]
 public function edit(ManagerRegistry $doctrine, TerrainRepository $terrainrepo, Request $request, $id)
 {
@@ -101,4 +116,23 @@ public function delete2(ManagerRegistry $doctrine,TerrainRepository $terrainrepo
 
     return $this->redirectToRoute("Terrain_read2");
 }
+#[Route('/terrain/statistics', name: 'terrain_statistics')]
+public function statistics(TerrainRepository $terrainRepo)
+{
+    $terrainStatistics = $terrainRepo->countTerrainsByType();
+    
+    // Construire un tableau associatif des statistiques
+    $statisticsArray = [];
+    foreach ($terrainStatistics as $stat) {
+        $statisticsArray[] = [
+            'type' => $stat['type'],
+            'count' => $stat['count'],
+        ];
+    }
+    
+    return $this->render('service_terrain/terrain_statistics.html.twig', [
+        'terrainStatistics' => $statisticsArray,
+    ]);
+}
+
 }

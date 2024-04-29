@@ -8,15 +8,17 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="text-center mb-4">Liste des terrains</h1>
+                    <!-- Tableau des terrains -->
                     <table class="table table-sm table-bordered table-hover text-center align-middle">
                         <thead>
                             <tr>
                                 <th scope="col">Nom</th>
-                                <th scope="col">capacite</th>
-                                <th scope="col">type</th>
-                                <th scope="col">prix</th>
-                                <th scope="col">disponibilite</th>
+                                <th scope="col">Capacité</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Disponibilité</th>
                                 <th scope="col">Image</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,23 +27,24 @@
                                     <td>{{ terrain.nom }}</td>
                                     <td>{{ terrain.capacite }}</td>
                                     <td>{{ terrain.type }}</td>
-                                  <td>{{ terrain.prix }}</td>
-                                  <td>{{ terrain.disponibilite }}</td>
-                                    <td>
-                                        <img src="{{ terrain.img }}" alt="Image du terrain" style="max-width: 100px;">
-                                    </td>
+                                    <td>{{ terrain.prix }}</td>
+                                    <td>{{ terrain.disponibilite }}</td>
+                                    <td><img src="{{ terrain.img }}" alt="Image du terrain" style="max-width: 100px;"></td>
                                     <td>
                                         <a href="{{ path('edit_terrain2', { 'id': terrain.id }) }}">Modifier</a>
-                                    </td>
-                                    <td>
                                         <a href="{{ path('delete_terrain2', { 'id': terrain.id }) }}">Supprimer</a>
                                     </td>
                                 </tr>
                             {% else %}
-                                <tr><td colspan="6">Aucun terrain trouvé.</td></tr>
+                                <tr><td colspan="7">Aucun terrain trouvé.</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    <!-- Bouton pour les statistiques -->
+                    <div class="text-center">
+                                                <a href="{{ path('terrain_statistics') }}" class="btn btn-primary">Statistiques</a>
+
+                    </div>
                 </div>
             </div>
         </div>
