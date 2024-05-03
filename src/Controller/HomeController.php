@@ -14,9 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
@@ -25,6 +23,8 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
@@ -60,6 +60,14 @@ class HomeController extends AbstractController
     public function front(): Response
     {
         return $this->render('home/front.html.twig' ,[
+
+        ]);
+    }
+
+    #[Route('/', name: 'app_front')]
+    public function front(): Response
+    {
+        return $this->render('front.html.twig' ,[
             'title' => 'welcome',
         ]);
     }
@@ -225,6 +233,9 @@ class HomeController extends AbstractController
             'code' => $verificationCode,
         ]);
     }
+
+
+
     #[Route('/verifyVerificationCode', name: 'verify_verification_code')]
     public function verifyVerificationCodeForm(Request $request, SessionInterface $session): Response
     {
@@ -259,4 +270,21 @@ class HomeController extends AbstractController
 
 
 
+
+
+    #[Route('/back', name: 'app_back')]
+    public function index1(): Response
+    {
+        return $this->render('back.html.twig' ,[
+            'title' => 'welcome',
+        ]);
+    }
+
+    #[Route('/test', name: 'test')]
+    public function test1(): Response
+    {
+        return $this->render('test.html.twig' ,[
+            'title' => 'welcome',
+        ]);
+    }
 }

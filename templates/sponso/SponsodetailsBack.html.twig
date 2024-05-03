@@ -1,0 +1,53 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Détails de l'événement{% endblock %}
+
+{% block body %}
+ <div class="main-content">
+
+ <div class="page-content">
+    
+
+    <section class="single-project-content single-post-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ asset('uploads/images/' ~ sponso.image) }}" alt="Awesome Image" style="max-width: 100%; height: auto;">
+
+                </div>
+                <div class="col-md-6">
+                    <div class="event-details">
+                     <div class="text-box">
+                        <h3>{{ sponso.nom}}</h3>
+                        </div>
+                         <div class="single-project-customer-info">
+                       
+                            <ul>
+                                
+                                <li><label>Sponsor Telephone :</label> {{ sponso.tel }}</li>
+                                <!-- Ajoutez d'autres informations sur l'événement ici -->
+                                <li><label>Sponsor Mail :</label> {{ sponso.email }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     </div>
+        </div>
+    
+
+
+    <section class="sidebar-pages">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="sidebar-wrapper section-padding">
+                        <!-- Ajoutez d'autres widgets de la barre latérale ici si nécessaire -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

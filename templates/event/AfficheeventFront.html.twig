@@ -1,0 +1,157 @@
+{% extends 'front.html.twig' %}
+
+{% block title %} des events{% endblock %}
+
+{% block body %}
+<style>
+    /* Styles pour l'icône QR Code */
+    img.qr-code-icon {
+        width: 40px; /* Largeur de l'icône */
+        height: 40px; /* Hauteur de l'icône */
+    }
+</style>
+
+
+
+<style>
+    @keyframes glow {
+        0% {
+            color: #ff0000; /* Couleur de départ jaune */
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000; /* Ombre */
+        }
+        50% {
+            color: #ffcc00; /* Couleur intermédiaire rouge */
+            text-shadow: 0 0 5px #ffcc00, 0 0 15px #ffcc00, 0 0 25px #ff0000, 0 0 35px #ff0000, 0 0 45px #ff0000, 0 0 55px #ff0000, 0 0 65px #ff0000; /* Ombre */
+        }
+        100% {
+            color: #ff0000; /* Couleur finale jaune */
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000; /* Ombre */
+        }
+    }
+
+    .glitch {
+        animation: glow 2s infinite alternate; /* Animation avec la classe "glitch" */
+    }
+</style>
+
+<section class="customizer-box off">
+    <button class="toggler"><i class="fa fa-cog fa-spin"></i></button>
+    <div class="top-box">
+        <h3>Style Switcher</h3>
+    </div><!-- /.top-box -->
+    <div class="customizer-inner ">
+        <!-- Votre contenu de personnalisation ici -->
+    </div><!-- /.customizer-inner -->
+</section><!-- /.customizer-box -->
+
+<section class="inner-banner pattern-3">
+    <div class="container text-center">
+        <h2>Liste des evenements</h2>
+        <p>Nos evenements </p>
+    </div>
+</section>
+<section class="bread-cumb">
+    <div class="container text-center">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Events</a></li>
+            <li><span>Liste des evenements</span></li>
+        </ul>
+    </div>
+</section>
+<section class="section-padding masonary-v1">
+    <div class="container">
+        <ul class="gallery-filter post-filter list-inline text-center">
+        </ul>
+        <br />
+
+        <div class="row masonary-layout filter-layout">
+            {% for event in e %}
+            <div class="col-md-4 col-sm-4 filter-item fitness">
+                <div class="single-project-item">
+                    <div class="img-box">
+                        <img src="{{ asset('uploads/images/' ~ event.image) }}" alt="Awesome Image" />
+                        <div class="title event-title text-center">
+                            <h3>{{ event.titre }}</h3>
+                            <p>Début : {{ event.datedebut|date('Y-m-d H:i:s') }}</p>
+                            <!--  temps elli p9aa -->
+                           
+                           
+                            <a href="{{ path('event_front_details', {'idevent': event.idevent}) }}" class="thm-btn">Voir les détails</a>
+                            <!-- Bouton  mt3 code QR -->
+                            <a href="#" onclick="generateAndShowQrCode('{{ event.idevent }}', '{{ event.titre }}')">
+    <img src="{{ asset('/BackEnd/assets/images/qrcodeiconepng.png') }}" alt="QR Code Icon" class="qr-code-icon">
+</a>
+
+                          
+            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- /.row -->
+        <br />
+        <ul class="post-pagination list-inline text-center">
+            <li><a href="#"><i class="fa fa-caret-left"></i></a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+        </ul>
+    </div>
+</section>
+
+<!-- Modal pour afficher le code QR -->
+<div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="top: 250px;">
+        <div class="modal-content">  
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrCodeModalLabel">Code QR de l'événement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="qrCodeContainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ parent() }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    // script du qr code
+    function generateAndShowQrCode(eventId, title) {
+        // Construire l'URL de l'événement avec l'identifiant et le titre
+        var url = "{{ path('event_front_details', {'idevent': 'EVENT_ID', 'title': 'EVENT_TITLE'}) }}".replace('EVENT_ID', eventId).replace('EVENT_TITLE', encodeURIComponent(title));
+
+        document.getElementById("qrCodeContainer").innerHTML = '';
+
+        // Générer le code QR avec l'URL de l'événement
+        var qrCode = new QRCode(document.getElementById("qrCodeContainer"), {
+            text: url,
+            width: 200,
+            height: 200
+        });
+
+        // Afficher la fenêtre modale
+        $('#qrCodeModal').modal('show');
+    }
+</script>
+
+
+
+
+
+{% endblock %}

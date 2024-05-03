@@ -1,0 +1,65 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Admin Détails de l'événement{% endblock %}
+
+{% block body %}
+      <div class="main-content">
+
+ <div class="page-content">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ asset('uploads/images/' ~ event.image) }}" alt="{{ event.titre }}" style="max-width: 100%; height: auto;" />
+                </div>
+                <div class="col-md-6">
+                    <div class="event-details">
+                     <div class="text-box">
+                        <h3>{{ event.titre }}</h3>
+                        </div>
+                        <p>{{ event.description }}</p>
+                        <!-- Ajoutez d'autres détails de l'événement ici au besoin -->
+                         <div class="single-project-customer-info">
+                       
+                            <ul>
+                                <li><label>Date et Heure Debut:</label> {{ event.datedebut|date('j F Y H:i') }}</li>
+                                <li><label>Date et Heure Fin:</label> {{ event.datefin|date('j F Y H:i') }}</li>
+                                <li><label>Lieu :</label> {{ event.idterrain.nom }}</li>
+                                <!-- Ajoutez d'autres informations sur l'événement ici -->
+                                <li><label>Sponsor :</label> {{ event.idsponso.nom }}</li>
+                                 <li><label>Ajouter Par :</label> {{ event.iduser }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+        </div>
+    <section class="sponsor-image">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h4>Sponsor de l'événement</h4>
+                    <img src="{{ asset('uploads/images/' ~ event.idsponso.image) }}" alt="{{ event.idsponso.nom }}" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="sidebar-pages">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="sidebar-wrapper section-padding">
+                        <!-- Ajoutez d'autres widgets de la barre latérale ici si nécessaire -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+      
+
+{% endblock %}

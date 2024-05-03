@@ -1,0 +1,119 @@
+{% extends 'back.html.twig' %}
+
+
+{% block body %}
+
+<div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Modifier des Sponsors</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Modifier des Sponsors  </li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                  
+
+<form action="{{ path('sponso_edit', {'idsponso': sponso.idsponso}) }}"    method="post" class="row g-3" enctype="multipart/form-data">
+    {{ form_start(f) }}
+
+    <div class="col-md-12">
+        {{ form_label(f.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter le nom du pack'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(f.tel, 'Reduction', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.tel, {'attr': {'class': 'form-control', 'placeholder': 'Enter la référence du pack'}}) }}
+    </div>
+
+     <div class="col-md-6">
+        {{ form_label(f.email, 'Reduction', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter la référence du pack'}}) }}
+    </div>
+  
+    {% if previousImage is not empty %}
+        <div class="col-md-12">
+            <label for="image" class="form-label">previousImage</label>
+            <img id="previousImagePreview" src="{{ asset('uploads/images/' ~ previousImage) }}" alt="previousImage" class="img-thumbnail">
+        </div>
+    {% endif %}
+
+    <div class="col-md-12">
+        {{ form_label(f.image, 'Charger une nouvelle image', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(f.image, {'attr': {'class': 'form-control', 'accept': '', 'onchange': 'updateImagePreview(this)'}}) }}
+    
+    </div>
+
+     
+     
+  
+
+   
+
+
+
+    <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary" onclick="return validateForm()">modifier</button>
+        </div>
+    </div>
+
+    {{ form_end(f) }}
+</form>
+<!-- end formulaire -->
+
+<script>
+    function updateImagePreview(input) {
+        var previousImagePreview = document.getElementById('previousImagePreview');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                previousImagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+
+
+<script>
+    function validateImage(input) {
+        var errorMessage = document.getElementById('image-error');
+        if (input.files.length === 0) {
+            errorMessage.style.display = 'inline';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    }
+
+    function validateForm() {
+        var imageInput = document.getElementById('pack_image');
+        if (imageInput.files.length === 0) {
+            var errorMessage = document.getElementById('image-error');
+            errorMessage.style.display = 'inline';
+            return false;
+        }
+        return true;
+    }
+</script>
+
+                       
+
+
+
+
+{% endblock %}

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Mirrored from st.ourhtmldemo.com/template/fitness-care-html/fitness-care/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 24 Mar 2024 13:36:45 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome to Xtratime{% endblock %}</title>
+     {% block StyleSheets %}
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon-icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon-icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon-icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon-icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon-icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon-icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon-icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon-icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-icons/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon-icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/img/favicon-icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- mobile responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    
+    <!-- customizer plate css -->
+    <link rel="stylesheet" href="/customizer/css/style.css" />
+    <!-- Color css -->
+    <link rel="stylesheet" id="jssDefault" href="/skins/color-files/css/color1.css">
+
+      <!-- Include FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.css" rel="stylesheet">
+    
+	
+ {% endblock %}
+</head>
+
+<body>
+{% block Header %}
+    <section class="customizer-box off">
+        <button class="toggler"><i class="fa fa-cog fa-spin"></i></button>
+        <div class="top-box">
+            <h3>Style Switcher</h3>
+        </div><!-- /.top-box -->
+        <div class="customizer-inner ">
+            <div class="content-box">
+                <div class="title">
+                    <h4>Layout Style</h4>
+                </div><!-- /.title -->
+                <div class="content-row">
+                    <div class="content-col col-6">
+                        <a href="#" id="full-box">
+                            <img src="/customizer/img/full-width.jpg" alt="Awesome Image"/>
+                            <p>Fullwidth</p>
+                        </a><!-- /.full-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-6">
+                        <a href="#" id="boxed">
+                            <img src="/customizer/img/boxed-width.jpg" alt="Awesome Image"/>
+                                <p>Boxed</p>
+                        </a><!-- /.boxed -->
+                    </div><!-- /.content-col -->
+                </div><!-- /.content-row -->
+            </div><!-- /.content-box -->
+            <div class="content-box switcher-box">
+                <div class="title">
+                    <h4>Navigation</h4>
+                </div><!-- /.title -->
+                <div class="content-row">
+                    <div class="content-col col-12">
+                        <p>Sticky</p>
+                        <!-- Rounded switch -->
+                        <label class="switch navigation-switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Static</p>
+                    </div><!-- /.content-col -->
+                </div><!-- /.content-row -->
+            </div><!-- /.content-box -->
+            <div class="content-box">
+                <div class="title">
+                    <h4>Boxed Background</h4>
+                </div><!-- /.title -->
+                <div class="content-row">
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-1" data-pattern-name="boxed-pattern-1"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-2" data-pattern-name="boxed-pattern-2"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-3" data-pattern-name="boxed-pattern-3"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                    <div class="content-col col-3">
+                        <div class="pattern-box skin-pattern-4" data-pattern-name="boxed-pattern-4"></div><!-- /.pattern-box -->
+                    </div><!-- /.content-col -->
+                </div><!-- /.content-row -->
+            </div><!-- /.content-box -->
+            <div class="content-box">
+                <div class="title">
+                    <h4>Color Skins</h4>
+                </div><!-- /.title -->
+                <ul class="content-row" id="styleOptions">
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-1 color1" data-theme="color1">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-2 color2" data-theme="color2">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-3 color3" data-theme="color3">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                    <li class="content-col col-3">
+                        <a href="#" class="skin-box skin-4 color4" data-theme="color4">
+                            <span class="skin-box-inner"></span>
+                        </a>
+                    </li><!-- /.content-col -->
+                </ul><!-- /.content-row -->
+            </div><!-- /.content-box -->
+        </div><!-- /.customizer-inner -->
+    </section><!-- /.customizer-box -->
+
+
+    <header class="header header-v1 has-over-section stricky dark-header ">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 col-sm-12 pull-right">
+                        <div class="top-info">
+                            <div class="clearfix">
+                                <ul class="contact-info pull-left">
+                                    <li><span><i class="fc-icon ftc-icon-email"></i> XtraTime@Gmail.com</span></li>
+                                    <li><span><i class="fc-icon ftc-icon-phone-contact"></i> Troll Free: +1 212-212-2376</span></li>
+                                </ul>
+                                <ul class="social pull-right">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-menu-wrapper ">
+            <div class="container">
+                <nav class="navigation clearfix">
+                    <div id="menuzord" class="menuzord">
+                     <a href="index.html" class="menuzord-brand">
+    <img src="/img/resources/Web.png" alt="Awesome Image" id="skin-logo-img" style="width: 300px; height: auto;" />
+</a>
+
+                        <ul class="menuzord-menu">
+                            <li>
+                                <a href="{{ path('app_front') }}" class="flip-flop-btn"><span data-hover="HOME">HOME</span></a>
+                                
+                            </li>
+                             <li>
+                                <a href="about.html" class="flip-flop-btn"><span data-hover="ABOUT">ABOUT</span></a>
+                                
+                            </li>
+                            <li>
+                                <a  class="flip-flop-btn"><span data-hover="Packages">Packages</span></a>
+                                <div class="megamenu megamenu-width-75-p">
+                                   
+                                </div>
+                            </li>
+                            <li>
+                                <a href="{{ path('test_chat_gpt') }}" class="flip-flop-btn"><span data-hover="Chat_GPT">Chat GPT</span></a>
+                                
+                            </li>
+                            <li>
+                                <a href="{{ path('sponso_Affiche_front') }}" class="flip-flop-btn"><span data-hover="Sponsors">Sponsors</span></a>
+                                <div class="megamenu Sponsors"> 
+                                </div>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_calendar') }}"  class="flip-flop-btn"><span data-hover="Calendrier">Calendrier</span></a>
+                               
+                            </li>
+                            <li><a href="{{ path('event_Affiche_front') }}" class="flip-flop-btn"><span data-hover="Events">Events</span></a></li>
+                            <li><a href="contact.html" class="flip-flop-btn"><span data-hover="CONTACT">CONTACT</span></a></li>
+                            <li class="shopping-cart">
+                                <a href="#"><i class="fc-icon ftc-icon-shopping-bag2"> <span class="cart-item">3</span></i> <span class="text">Cart (3)</span></a>
+                               
+                            </li>
+                            <li class="search-button">
+                                <a data-toggle="collapse" href="#search-box" aria-expanded="false" aria-controls="search-box"><i class="fa fa-search"></i> <span class="text">Search</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- header-menu-wrapper -->
+
+        <div class="search-box collapse" id="search-box">
+            <div class="container">
+                <form action="#">
+                    <input type="text" placeholder="To Search Start Typing...">
+                </form>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+
+{% block body %} 
+  <section class="rev_slider_wrapper">
+       
+        
+       <div id="slider1" class="rev_slider" data-version="5.0">
+            <ul>
+                <li data-transition="random">
+                    <img src="/img/slides/ballon.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1">
+                    <div class="tp-caption tp-resizeme banner-caption-h1" data-x="center" data-hoffset="0" data-y="top" data-voffset="385" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="500">
+                        Welcome to World’s Best
+                    </div>
+                    <div class="tp-caption  tp-resizeme banner-caption-h1" data-x="center" data-hoffset="0" data-y="top" data-voffset="480" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1500">
+                        Sport & Forme Theme
+                    </div>
+                    <div class="tp-caption tp-resizeme banner-caption-h1-large banner-caption-bg" data-x="center" data-hoffset="0" data-y="top" data-voffset="570" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="2000">
+                        <span><img src="" alt=""> XtraTime</span>
+                    </div>
+                </li>
+                <li data-transition="random">
+                    <img src="/img/slides/fooot.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="2">
+                    <div class="tp-caption tp-resizeme banner-caption-h1" data-x="right" data-hoffset="0" data-y="top" data-voffset="385" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="500">
+                     Universal Sporting Vitality
+                    </div>
+                    <div class="tp-caption  tp-resizeme banner-caption-h1" data-x="right" data-hoffset="0" data-y="top" data-voffset="480" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1000">
+                     
+                    </div>
+                    <div class="tp-caption  tp-resizeme banner-caption-h1-large banner-caption-bg" data-x="right" data-hoffset="15" data-y="top" data-voffset="570" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1500">
+                        <span><img src="/img/slides/Terrains.png" alt=""> Book & Have Fun</span>
+                    </div>
+                </li>
+                <li data-transition="random" class="slider-3">
+                    <img src="/img/slides/terrain.jpg" alt="" width="1920" height="705" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="3">
+                    <div class="tp-caption tp-resizeme banner-caption-h1 banner-caption-bg" data-x="left" data-hoffset="15" data-y="top" data-voffset="340" data-transform_idle="o:1;" data-transform_in="y:-50px;opacity:0;s:1500;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="500">
+                        <span>Get Maximum From Us</span>
+                    </div>
+                    <div class="tp-caption tp-resizeme feature-list-item" data-x="left" data-hoffset="15" data-y="top" data-voffset="460" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="700">
+                       <div class="icon-box">
+                          <div class="box">
+                              <img src="img/resources/pack.png" alt="Image de votre choix">
+                            </div>
+                         </div>
+                         <div class="text-box">
+                               <p>Customized Packages</p>
+                       </div>
+</div>
+
+                 
+                    <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="545" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="900">
+                        <div class="icon-box">
+                            <div class="box">
+                                  <img src="img/resources/shop.png" alt="Image de votre choix">
+                            </div>
+                        </div>
+                        <div class="text-box">
+                            <p>Varied Shops</p>
+                        </div>
+                    </div>
+                    <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="325" data-y="top" data-voffset="545" data-transform_idle="o:1;" data-transform_in="x:[175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-start="1000">
+                        <div class="icon-box">
+                            <div class="box">
+                              <img src="img/resources/party.png" alt="Image de votre choix">
+                            </div>
+                        </div>
+                        <div class="text-box">
+                            <p>Memorable Occasions Event</p>
+                        </div>
+                    </div>
+                    <div class="tp-caption  tp-resizeme feature-list-item " data-x="left" data-hoffset="15" data-y="top" data-voffset="630" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="1100">
+                        <div class="icon-box">
+                            <div class="box">
+                                 <img src="img/resources/terrains.png" alt="Image de votre choix">
+                            </div>
+                        </div>
+                        <div class="text-box">
+                            <p>Exclusive Terrains</p>
+                        </div>
+                    </div>
+    
+                    <div class="tp-caption  tp-resizeme  " data-x="left" data-hoffset="15" data-y="top" data-voffset="742" data-transform_idle="o:1;" data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" data-splitin="none" data-splitout="none" data-start="2000">
+                        <img src="/img/slides/title-decor2.png" alt="Awesome Image" />
+                    </div>
+                    
+                    
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slider-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 slider-bottom-left">
+                    <img  id="skin-banner-1"  />
+                   
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 slider-bottom-right">
+                    <img id="skin-banner-2"  />
+                    <a class="arrow-push-in-right"><span><i class="fa fa-caret-right"></i></span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="fitness-care-gym-area">
+        <div class="container">
+            <div class="section-title text-center">
+                <h1><span>Benifits of XtraTime</span></h1>
+            </div>
+           <div class="row">
+    <!--Start single item-->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="single-item clearfix">
+            <div class="left-box clearfix" style="display: flex; align-items: center;"></div>
+           <div class="icon-holder" style="margin: auto;">
+    <img src="/img/resources/booking.png" alt="Image 1" style="width: 90px; height: 90px;">
+</div>
+
+            <div class="right-box">
+                <h3>Booking Sports Fields</h3>
+                <p>Easily book sports fields on XtraTime for your favorite activities. Our platform allows you to quickly find and reserve fields throughout Tunisia, offering a simple and convenient booking experience.</p>
+            </div>
+        </div>
+    </div>
+    <!--End single item-->
+    <!--Start single item-->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="single-item clearfix">
+            <div class="left-box clearfix"></div>
+            <div class="icon-holder">
+                <img src="/img/resources/temp-worker.png" alt="Image 2">
+            </div>
+            <div class="right-box">
+                <h3>Real-Time Availability</h3>
+                <p>Check the availability of fields in real-time on XtraTime, allowing you to plan your sports activities according to your busy schedule. Book with confidence knowing that the field you want is available when you need it.</p>
+            </div>
+        </div>
+    </div>
+    <!--End single item-->
+    <!--Start single item-->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="single-item clearfix">
+            <div class="left-box clearfix"></div>
+            <div class="icon-holder">
+                <img src="/img/resources/sports.png" alt="Image 3">
+            </div>
+            <div class="right-box">
+                <h3>Instant Confirmation</h3>
+                <p>After making your reservation on XtraTime, receive instant confirmation, ensuring that your field is reserved and ready to use. No need to worry about availability or delays, your field is waiting for you as soon as you need it.
+
+</p>
+            </div>
+        </div>
+    </div>
+    <!--End single item-->
+    <!--Start single item-->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="single-item clearfix">
+            <div class="left-box clearfix"></div>
+            <div class="icon-holder">
+                <img src="/img/resources/confirmation.png" alt="Image 4">
+            </div>
+            <div class="right-box">
+                <h3>Confirmation Instantanée</h3>
+                <p>Après avoir effectué votre réservation sur XtraTime, recevez une confirmation instantanée, vous assurant ainsi que votre terrain est réservé et prêt à être utilisé. Plus besoin de se soucier de la disponibilité ou des retards, votre terrain vous attend dès que vous en avez besoin.</p>
+            </div>
+        </div>
+    </div>
+    <!--End single item-->
+</div>
+
+        </div>
+    </section>
+    <section class="support-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="img-holder">
+                        <img alt="" src="/img/support/img.png">
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-12 col-xs-12 support-content">
+                    <div class="row">
+                        <!--Start single item-->
+                        <div class="col-md-6 col-sm-6">
+                            <div class="single-item">
+                                <div class="icon-holder">
+                                  <div class="box">
+                              <img src="img/resources/pack.png" alt="Image de votre choix">
+                            </div>
+                                </div>
+                                <div class="content">
+                                    <h3>Customized Packages</h3>
+                                    <p>Discover personalized packages at XtraTime tailored to your needs. Experience the difference today.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End single item-->
+                        <!--Start single item-->
+                        <div class="col-md-6 col-sm-6">
+                            <div class="single-item">
+                                <div class="icon-holder">
+                                    <img src="img/resources/shop.png" alt="Image de votre choix">
+                                </div>
+                                <div class="content">
+                                    <h3>Varied Shops</h3>
+                                    <p>At XtraTime, explore a range of diverse shops offering everything from sports gear to wellness products. With something for everyone, our varied shops cater to all tastes and preferences. Discover the perfect find at XtraTime today.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End single item-->
+                        <!--Start single item-->
+                        <div class="col-md-6 col-sm-6">
+                            <div class="single-item">
+                                <div class="icon-holder">
+                                  <img src="img/resources/party.png" alt="Image de votre choix">
+                                </div>
+                                <div class="content">
+                                    <h3>Memorable Occasions Event</h3>
+                                    <p>Make memories that last a lifetime with XtraTime Events. From sports tournaments to corporate gatherings, our team ensures every occasion is unforgettable. Experience excellence with XtraTime."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End single item-->
+                        <!--Start single item-->
+                        <div class="col-md-6 col-sm-6">
+                            <div class="single-item">
+                                <div class="icon-holder">
+                                <img src="img/resources/terrains.png" alt="Image de votre choix">
+                                </div>
+                                <div class="content">
+                                    <h3>Exclusive Terrains</h3>
+                                    <p>At XtraTime, our exclusive terrains offer unparalleled sporting experiences. From immaculately maintained fields to state-of-the-art facilities, these premium venues are reserved for those seeking the best. Elevate your game with XtraTime's exclusive terrains.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End single item-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+    
+
+   
+   
+    
+ {% endblock %}
+
+
+{% block footer %}
+
+    <!--Start footer area-->
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row">
+                <!--Start single footer widget-->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="single-footer-widget">
+                        <div class="footer-logo">
+                            <a href="index.html"><img alt="Awesome image" src="/img/resources/Web.png"></a>
+                        </div>
+                        <div class="caption-text">
+                            <p>XtraTime is your ultimate destination for sports enthusiasts in Tunisia. Whether you're looking to book a sports field for a friendly match or serious training, XtraTime makes it effortless. With our user-friendly platform, you can easily find and reserve a wide variety of sports fields, including football, basketball, tennis, and more, all across Tunisia. Experience real-time availability, instant confirmation, and a seamless booking process, ensuring that your sports activities are always on track. Make every game count with XtraTime.</p>
+                            <a class="thm-btn arrow-push-out-right" href="#"><span>Purchase  Now <i class="fa fa-caret-right"></i></span></a>
+                        </div>
+                    </div>
+                </div>
+                <!--End single footer widget-->
+                <!--Start single footer widget-->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="single-footer-widget">
+                        <h3 class="title">Quick Links</h3>
+                        <ul class="quick-links left">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="blog-v1.html">News & Tips</a></li>
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="package-v1.html">Our Packages</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="single-shop.html">Shop</a></li>
+                        </ul>
+                       
+                    </div>
+                </div>
+                <!--End single footer widget-->
+                <!--Start single footer widget-->
+              
+                <!--End single footer widget-->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="single-footer-widget">
+                        <h3 class="title">Contact us</h3>
+                        <ul class="contact">
+                            <li>
+                                <div class="icon-holder">
+                                    <i class="fa fa-map-marker"></i>
+                                </div>
+                                <div class="text">
+                                    <p>Ariana Essoughra, Raoued, Ariana: 2081</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-holder">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                                <div class="text">
+                                    <p>Troll Free: +1 212-212-2376</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-holder">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <div class="text">
+                                    <p>XtraTime@Gmail.com</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-holder">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <div class="text">
+                                    <p>Week Days : 05:00 – 22:00
+                                        <br>Saturday : 08:00 – 18:00
+                                        <br>Sunday : 08:00 – 12:00</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--End footer area-->
+    <!--Start footer bottom area-->
+    <section class="footer-bottom-area">
+        <div class="container ">
+            <div class="footer-bottom">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <div class="copy-right">
+                            <p>© 2016 Fitness Care Theme Designed by Steelthemes</p>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <div class="social-links">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-google-plus"></i></a>
+                            <a href="#"><i class="fa fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.footer-bottom -->
+        </div>
+        {% endblock %}
+    </section>
+            
+ {% block JavaScript %}
+
+    <!--End footer bottom area-->
+    <!--Scroll to top-->
+    <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
+    <!-- jQuery js -->
+    <script src="/assets/jquery-1.12.4.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jQuery ui js -->
+    <script src="/assets/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <!-- owl carousel js -->
+    <script src="/assets/owl.carousel-2/owl.carousel.min.js"></script>
+    <!-- jQuery validation -->
+    <script src="/assets/jquery-validation/dist/jquery.validate.min.js"></script>
+    <!-- gmap.js helper -->
+    <script src="http://maps.google.com/maps/api/js"></script>
+    <!-- gmap.js -->
+    <script src="/assets/gmap.js"></script>
+    <!-- mixit up -->
+    <script src="/assets/jquery.mixitup.min.js"></script>
+    <script src="/assets/jquery.fitvids.js"></script>
+    <!-- revolution slider js -->
+    <script src="/assets/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script src="/assets/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <!-- fancy box -->
+    <script src="/assets/fancyapps-fancyBox/source/jquery.fancybox.pack.js"></script>
+    <script src="/assets/Polyglot-Language-Switcher-master/js/jquery.polyglot.language.switcher.js"></script>
+    <script src="/assets/nouislider/nouislider.js"></script>
+    <script src="/assets/bootstrap-touch-spin/jquery.bootstrap-touchspin.js"></script>
+    <script src="/assets/jquery-appear/jquery.appear.js"></script>
+    <script src="/assets/jquery.countTo.js"></script>
+    <script src="/assets/menuzord/js/menuzord.js"></script>
+    <script src="/assets/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="/assets/jquery.isotope.js"></script>
+    <!-- waypoints js -->
+    <script src="/assets/waypoint.js"></script>
+
+    <!-- theme custom js  -->
+    <script src="/js/default-map.js"></script>
+    <script src="/js/custom.js"></script>
+
+    <script type="text/javascript" src="/../../../../cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.2/js.cookie.min.js"></script>
+    <script src="/customizer/plugins/jQuery.style.switcher.min.js"></script>
+    <script src="/customizer/plugins/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/customizer/js/customizer.js"></script>
+
+
+    <!-- Include FullCalendar JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
+
+
+
+            {% endblock %}
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Mirrored from st.ourhtmldemo.com/template/fitness-care-html/fitness-care/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 24 Mar 2024 13:37:27 GMT -->
+</html>

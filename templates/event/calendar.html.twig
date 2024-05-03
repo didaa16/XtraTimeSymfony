@@ -1,0 +1,55 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Utilisation de FullCalendar{% endblock %}
+
+{% block body %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container text-center" style="margin-top: 100px; margin-bottom: 50px;"> <!-- Ajoute de l'espace en haut et en bas -->
+
+            <!-- Include FullCalendar CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.css" rel="stylesheet">
+
+            <!-- Include FullCalendar JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
+
+            <style>
+                #calendrier {
+                    width: 80%;
+                    margin: auto; /* Centre le calendrier horizontalement */
+                    text-align: center; /* Centre le contenu du calendrier */
+                    border: 1px solid #ccc; /* Ajoute une bordure pour visualiser le calendrier */
+                    padding: 20px; /* Ajoute un espace intérieur au calendrier */
+                }
+            </style>
+
+            <div id="calendrier"></div>
+
+            <script>
+                window.onload = () => {
+                    let calendarElt = document.querySelector("#calendrier")
+
+                    let calendar = new FullCalendar.Calendar(calendarElt, {
+                        initialView: 'timeGridWeek',
+                        locale: 'fr',
+                        timeZone: 'Europe/Paris',
+                        headerToolbar: {
+                            start: 'prev,next today',
+                            center: 'title',
+                            end: 'dayGridMonth,timeGridWeek'
+                        },
+                        events: {{ data|raw }},
+                        editable: true,
+                        eventResizableFromStart: true
+                    })
+
+                    calendar.render()
+                }
+            </script>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

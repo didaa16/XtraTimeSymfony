@@ -1,0 +1,56 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Statistiques du nombre de participants par événement{% endblock %}
+
+{% block body %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <h1>Statistiques du nombre de participants par événement</h1>
+                <div class="card">
+                    <div class="card-body" style="padding: 20px;">
+                        <div id="participantsByEventChart" style="width: 600px; height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/BackEnd/assets/libs/apexcharts/apexcharts.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer les données passées depuis le contrôleur
+        var eventParticipationCounts = {{ eventParticipationCounts|json_encode|raw }};
+        
+        // Préparer les données pour le graphique en secteurs (Pie Chart)
+        var labels = [];
+        var values = [];
+
+        // Parcourir les données pour extraire les noms d'événements et le nombre de participants correspondants
+        for (var eventName in eventParticipationCounts) {
+            if (eventParticipationCounts.hasOwnProperty(eventName)) {
+                labels.push(eventName);
+                values.push(eventParticipationCounts[eventName]);
+            }
+        }
+
+        // Configurer le graphique en secteurs (Pie Chart) avec ApexCharts
+        var options = {
+            chart: {
+                type: 'pie',
+                height: 400,
+                background: '#f8f9fc',
+                foreColor: '#333'
+            },
+            labels: labels,
+            series: values,
+            colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8']
+        };
+
+        var chart = new ApexCharts(document.querySelector("#participantsByEventChart"), options);
+        chart.render();
+    });
+</script>
+{% endblock %}

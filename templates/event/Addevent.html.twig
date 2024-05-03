@@ -1,0 +1,192 @@
+{% extends 'back.html.twig' %}
+{% block body %}
+
+
+<div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Ajouter des Evenements</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Ajouter des Evenements</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                  
+
+
+<!-- formulaire -->
+
+{% block form %}
+<form action="{{ path('app_Add') }}" method="post" class="row g-3" enctype="multipart/form-data">
+    {{ form_start(f) }}
+    <div class="col-md-12">
+        {{ form_row(f.titre, {'attr': {'class': 'form-control', 'placeholder': 'Enter le Titre'}}) }}
+         <span  id="span2">le titre ne contient pas des chiffres</span>
+    </div>
+    <div class="col-md-6">
+        <label for="description" class="form-label">Description</label>
+        {{ form_widget(f.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter la description'}}) }}
+          <span  id="span3">La description est courte</span>
+    </div>
+    <div class="col-md-6">
+        <label for="image" class="form-label">Image</label>
+        {{ form_widget(f.image, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="col-md-6">
+        {{ form_row(f.datedebut, {'attr': {'class': 'form-control'}}) }}
+    <span  id="span4">La datedebut non</span>
+    </div>
+    <div class="col-md-6">
+        {{ form_row(f.datefin, {'attr': {'class': 'form-control'}}) }}
+         <span  id="span5">La datefin non</span>
+    </div>
+    <div class="col-md-6">
+        {{ form_row(f.idsponso, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(f.idterrain, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(f.iduser, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-12">
+        <div class="text-end">
+            <button type="submit" ajouter" id="class="btn btn-primary">Ajouter</button>
+        </div>
+    </div>
+    {{ form_end(f) }}
+</form>
+<!-- end formulaire -->
+
+
+
+{% endblock %}
+
+
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+  
+         $(document).ready(function () {
+            //Controle de saisie titre
+        $("#span2").hide();
+
+        // Utiliser l'ID ou la classe du champ titre pour le sélectionner
+        $("#{{ f.titre.vars.id }}").keyup(function () {
+            var titre = $(this).val();
+            // Expression régulière pour autoriser les lettres et les espaces
+            var test = /^[A-Za-z\s]+$/;
+            if (titre.trim() === '') {
+                // Si le titre est vide, masquer le message d'erreur et activer le bouton Ajouter
+                $('#span2').hide();
+                $('#ajouter').prop('disabled', false);
+            } else if (test.test(titre)) {
+                // Si le titre contient uniquement des lettres et des espaces, masquer le message d'erreur et activer le bouton Ajouter
+                $('#span2').hide();
+                $('#ajouter').prop('disabled', false);
+            } else {
+                // Si le titre contient d'autres caractères que des lettres et des espaces, afficher le message d'erreur et désactiver le bouton Ajouter
+                $('#span2').show();
+                $('#ajouter').prop('disabled', true);
+            }
+        });
+
+
+
+        //controle de saisie description
+
+         $("#span3").hide();
+
+        // Utiliser l'ID ou la classe du champ titre pour le sélectionner
+      
+        $("#{{ f.description.vars.id }}").keyup(function () {
+            var description = $(this).val();         
+            var length = description.trim().length; // Longueur de la description sans espaces au début et à la fin
+            if (length >= 10|| length ===0) {
+                $('#span3').hide(); // Si la description est vide ou si sa longueur est supérieure ou égale à 20, masquer le message d'erreur
+                $('#ajouter').prop('disabled', false); // Activer le bouton Ajouter dans ces cas
+            } else {
+                $('#span3').show(); // Sinon, afficher le message d'erreur
+                $('#ajouter').prop('disabled', true); // Désactiver le bouton Ajouter
+            }
+        });
+//controle de saisie date 
+$("#span4").hide();
+$("#span5").hide();
+
+    $("#{{ f.datedebut.vars.id }}").change(function () {
+        var dayDebut = $("#{{ f.datedebut.vars.id }}_date_day").val();
+        var monthDebut = $("#{{ f.datedebut.vars.id }}_date_month").val();
+        var yearDebut = $("#{{ f.datedebut.vars.id }}_date_year").val();
+        var hourDebut = $("#{{ f.datedebut.vars.id }}_time_hour").val();
+        var minuteDebut = $("#{{ f.datedebut.vars.id }}_time_minute").val();
+
+        // Construire l'objet Date pour la date de début
+        var dateDebut = new Date(yearDebut, monthDebut - 1, dayDebut, hourDebut, minuteDebut);
+
+        // Obtenir la date actuelle
+        var dateActuelle = new Date();
+
+        // Ajouter un jour à la date actuelle
+        var datePlusUnJour = new Date(dateActuelle);
+        datePlusUnJour.setDate(dateActuelle.getDate() + 1);
+
+        // Vérifier si la date de début est postérieure à la date actuelle plus un jour
+        if (dateDebut >= datePlusUnJour) {
+            $('#span4').hide(); // Cacher le message d'erreur
+            $('#ajouter').prop('disabled', false); // Activer le bouton Ajouter
+        } else {
+            $('#span4').show(); // Afficher le message d'erreur
+            $('#ajouter').prop('disabled', true); // Désactiver le bouton Ajouter
+        }
+    });
+
+     $("#{{ f.datefin.vars.id }}").change(function () {
+        var dayFin = $("#{{ f.datefin.vars.id }}_date_day").val();
+        var monthFin = $("#{{ f.datefin.vars.id }}_date_month").val();
+        var yearFin = $("#{{ f.datefin.vars.id }}_date_year").val();
+        var hourFin = $("#{{ f.datefin.vars.id }}_time_hour").val();
+        var minuteFin = $("#{{ f.datefin.vars.id }}_time_minute").val();
+
+        // Construire l'objet Date pour la date de fin
+        var dateFin = new Date(yearFin, monthFin - 1, dayFin, hourFin, minuteFin);
+
+        // Construire l'objet Date pour la date de début
+        var dayDebut = $("#{{ f.datedebut.vars.id }}_date_day").val();
+        var monthDebut = $("#{{ f.datedebut.vars.id }}_date_month").val();
+        var yearDebut = $("#{{ f.datedebut.vars.id }}_date_year").val();
+        var hourDebut = $("#{{ f.datedebut.vars.id }}_time_hour").val();
+        var minuteDebut = $("#{{ f.datedebut.vars.id }}_time_minute").val();
+        var dateDebut = new Date(yearDebut, monthDebut - 1, dayDebut, hourDebut, minuteDebut);
+
+        // Vérifier si la date de fin est postérieure à la date de début
+        if (dateFin > dateDebut) {
+            $('#span5').hide(); // Cacher le message d'erreur
+            $('#ajouter').prop('disabled', false); // Activer le bouton Ajouter
+        } else {
+            $('#span5').show(); // Afficher le message d'erreur
+            $('#ajouter').prop('disabled', true); // Désactiver le bouton Ajouter
+        }
+    });
+
+
+    });
+  </script>
+{% endblock   %}
+{% endblock %}

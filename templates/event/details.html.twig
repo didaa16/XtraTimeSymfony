@@ -1,0 +1,169 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Détails de l'événement{% endblock %}
+
+{% block body %}
+
+
+
+<style>
+    @keyframes glow {
+        0% {
+            color: #ffcc00; /* Couleur de départ jaune */
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000; /* Ombre */
+        }
+        50% {
+            color: #ff0000; /* Couleur intermédiaire rouge */
+            text-shadow: 0 0 5px #ffcc00, 0 0 15px #ffcc00, 0 0 25px #ff0000, 0 0 35px #ff0000, 0 0 45px #ff0000, 0 0 55px #ff0000, 0 0 65px #ff0000; /* Ombre */
+        }
+        100% {
+            color: #ffcc00; /* Couleur finale jaune */
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000; /* Ombre */
+        }
+    }
+
+    .glitch {
+        animation: glow 2s infinite alternate; /* Animation avec la classe "glitch" */
+    }
+</style>
+    <section class="inner-banner pattern-3">
+        <div class="container text-center">
+            <h2>{{ event.titre }}</h2>
+            <p>{{ event.description }}</p>
+        </div>
+    </section>
+
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a>Home</a></li>
+                <li><a >Gallery</a></li>
+                <li><span>{{ event.titre }}</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Votre code HTML existant -->
+
+   <section class="single-project-content single-post-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ asset('uploads/images/' ~ event.image) }}" alt="{{ event.titre }}" style="max-width: 100%; height: auto;" />
+            </div>
+            <div class="col-md-6">
+                <div class="event-details">
+                    <div class="text-box">
+                        <h3>{{ event.titre }}</h3>
+                    </div>
+                    <p>{{ event.description }}</p>
+                    <div class="single-project-customer-info">
+                        <ul>
+                            <li><label>Date et Heure Debut:</label> {{ event.datedebut|date('j F Y H:i') }}</li>
+                            <li><label>Date et Heure Fin:</label> {{ event.datefin|date('j F Y H:i') }}</li>
+                            <li><label>Lieu :</label> {{ event.idterrain.nom }}</li>
+                            <li><label>Sponsor :</label> {{ event.idsponso.nom }}</li>
+                            
+                            {% if event.datedebut|date('U') > 'now'|date('U') %}
+                                <li><label>Temps restant :</label> <span id="remainingTime_{{ event.idevent }}"></span></li>
+                                <li>
+                                    <button class="thm-btn" onclick="confirmParticipation('{{ path('app_participate', {'eventId': event.idevent}) }}')">Participer</button>
+                                </li>
+                            {% endif %}
+                            
+                            {% if event.datedebut|date('U') < 'now'|date('U') %}
+                                <p class="glitch">Cet événement est déjà passé</p>
+                            {% endif %}
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <script>
+        function updateRemainingTime(eventDate, eventId) {
+            var now = new Date().getTime();
+
+            // Calculer la différence entre la date de l'événement et la date actuelle
+            var remainingTime = eventDate - now;
+
+            // Calculer les jours, heures, minutes et secondes restantes
+            var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+            // Afficher le temps restant dans l'élément HTML correspondant à l'ID de l'événement
+            document.getElementById("remainingTime_" + eventId).innerHTML = days + " jours, " + hours + " heures, " + minutes + " minutes, " + seconds + " secondes";
+
+            // Si le temps restant est écoulé, arrêter l'intervalle
+            if (remainingTime <= 0) {
+                clearInterval(intervalId);
+                document.getElementById("remainingTime_" + eventId).innerHTML = "Événement en cours";
+            }
+        }
+
+        // Mettre à jour le temps restant toutes les secondes pour les événements futurs
+        {% if event.datedebut|date('U') > 'now'|date('U') %}
+            var intervalId = setInterval(function() {
+                updateRemainingTime(new Date('{{ event.datedebut|date('Y-m-d H:i:s') }}').getTime(), '{{ event.idevent }}');
+            }, 1000);
+        {% endif %}
+    </script>
+
+
+    <section class="sponsor-image">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h4>Sponsor de l'événement</h4>
+                    <img src="{{ asset('uploads/images/' ~ event.idsponso.image) }}" alt="{{ event.idsponso.nom }}" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sidebar-pages">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="sidebar-wrapper section-padding">
+                        <!-- Ajouter d'autres widgets de la barre latérale ici si nécessaire -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer la date actuelle
+        var now = new Date().getTime();
+
+        // Récupérer la date de début de l'événement (convertir la date de l'événement en millisecondes)
+        var eventStartDate = new Date('{{ event.datedebut|date('Y-m-d H:i:s') }}').getTime();
+
+        // Vérifier si la date de début est antérieure à la date actuelle
+        if (eventStartDate < now) {
+            // Si la date de début est passée, désactiver le lien "Participer"
+            var participateButton = document.querySelector('.thm-btn'); // Sélectionner le lien "Participer"
+            participateButton.setAttribute('disabled', 'disabled'); // Ajouter l'attribut disabled pour le désactiver
+        }
+    });
+</script>
+
+
+    <script>
+    function confirmParticipation(participationUrl) {
+        if (confirm("Êtes-vous sûr de vouloir participer à cet événement ?")) {
+            window.location.href = participationUrl; // Rediriger vers l'URL de participation si confirmé
+        } else {
+            // Ne rien faire si l'utilisateur annule
+        }
+    }
+</script>
+{% endblock %}

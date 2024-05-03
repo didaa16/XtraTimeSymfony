@@ -20,6 +20,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use App\Service\AvatarProvider;
+use SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle;
+
+
 
 class RegistrationController extends AbstractController
 {

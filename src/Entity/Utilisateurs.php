@@ -62,6 +62,80 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+
+/**
+ * Utilisateurs
+ *
+ * @ORM\Table(name="utilisateurs")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ */
+
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pseudo", type="string", length=255, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pseudo;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="cin", type="integer", nullable=false)
+     */
+    private $cin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
+     */
+    private $prenom;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="age", type="integer", nullable=false)
+     */
+    private $age;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numTel", type="integer", nullable=false)
+     */
+    private $numtel;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mdp", type="string", length=255, nullable=false)
+     */
+    private $mdp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=255, nullable=false)
+     */
+    private $role;
+
     public function getPseudo(): ?string
     {
         return $this->pseudo;
@@ -201,7 +275,15 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setNumTel(int $numTel): static
     {
-        $this->numTel = $numTel;
+        $this->numTel = $numTel;}
+    public function getNumtel(): ?int
+    {
+        return $this->numtel;
+    }
+
+    public function setNumtel(int $numtel): static
+    {
+        $this->numtel = $numtel;
 
         return $this;
     }
@@ -225,7 +307,15 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setIsVerified(bool $isVerified): static
     {
-        $this->isVerified = $isVerified;
+        $this->isVerified = $isVerified;}
+    public function getMdp(): ?string
+    {
+        return $this->mdp;
+    }
+
+    public function setMdp(string $mdp): static
+    {
+        $this->mdp = $mdp;
 
         return $this;
     }
@@ -259,5 +349,21 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom; // Assuming 'name' is the property to be displayed
+    }
 
 }

@@ -1,0 +1,181 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Liste des Participations{% endblock %}
+
+{% block body %}
+
+  <div class="main-content">
+
+ <div class="page-content">
+                <div class="container-fluid">
+                  <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Listjs</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                        <li class="breadcrumb-item active">Listjs</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0">Edit & Remove</h4>
+                                </div><!-- end card header -->
+
+                                <div class="card-body">
+                                    <div class="listjs-table" id="customerList">
+                                        <div class="row g-4 mb-3">
+                                            <div class="col-sm-auto">
+                                                <div>
+                                                 <div>
+                                                     <a href= {{ path('nbr_participation') }} class="btn btn-success add-btn">
+                                                     <i class="ri-add-line align-bottom me-1"></i> Stat Participants/événement
+                                                     </a>
+                                                    <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                                </div>
+ </div>
+                                            </div>
+                                                                               <div class="col-sm">
+                                        <div class="d-flex justify-content-sm-end">
+                                            <div class="search-box ms-2">
+                                                <input type="text" class="form-control search" placeholder="Search...">
+                                                <i class="ri-search-line search-icon"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        </div>
+
+                                        <div class="table-responsive table-card mt-3 mb-1">
+                                            <table class="table align-middle table-nowrap" id="customerTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th scope="col" style="width: 50px;">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                                            </div>
+                                                        </th>
+                                                          <th class="sort" data-sort="image">iduser</th>
+
+                                                         <th class="sort" data-sort="nomProduit">idevent</th>
+                                             
+                                                        
+                                                         <th class="sort" data-sort="action">Action</th>
+                                                    </tr>
+                                                </thead>
+  {% for a in p %}
+            <tr>
+                <th scope="row">
+
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                    </div>
+                </th>
+                <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
+                <td class="image" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{  a.iduser }}</td>
+                <td class="desc" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{  a.idevent.titre }}</td>
+                
+                <td>
+                    <div class="d-flex gap-2">
+                        
+                        <div class="remove">
+                      <a href="{{ path('participation_delete', {'idparticipation': a.idparticipation}) }}" >Supprimer</a>
+                        </div>
+                    </div>
+                </td>
+            </tr> 
+            {% endfor %}
+                                            </table>
+                                            <div class="noresult" style="display: none">
+                                                <div class="text-center">
+                                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                                    <p class="text-muted mb-0">We've searched more than 150+ Orders We did not find any orders for you search.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <div class="pagination-wrap hstack gap-2">
+                                                <a class="page-item pagination-prev disabled" href="javascript:void(0);">
+                                                    Previous
+                                                </a>
+                                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                                <a class="page-item pagination-next" href="javascript:void(0);">
+                                                    Next
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end col -->
+                    </div>
+
+                    
+
+          
+{% block JavaScript %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search');
+        const rows = document.querySelectorAll('#customerTable tbody tr');
+
+        searchInput.addEventListener('input', function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+
+            rows.forEach(row => {
+                const iduser = row.querySelector('.image').textContent.toLowerCase();
+                const idevent = row.querySelector('.desc').textContent.toLowerCase();
+                const isVisible = iduser.includes(searchTerm) || idevent.includes(searchTerm);
+                row.style.display = isVisible ? 'table-row' : 'none';
+            });
+        });
+    });
+</script>
+
+
+
+
+        <script src="/BackEnd/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/BackEnd/assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="/BackEnd/assets/libs/node-waves/waves.min.js"></script>
+        <script src="/BackEnd/assets/libs/feather-icons/feather.min.js"></script>
+        <script src="/BackEnd/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+        <script src="/BackEnd/assets/js/plugins.js"></script>
+
+        <!-- apexcharts -->
+        <script src="/BackEnd/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+        <!-- Vector map-->
+        <script src="/BackEnd/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="/BackEnd/assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+        <!--Swiper slider js-->
+        <script src="/BackEnd/assets/libs/swiper/swiper-bundle.min.js"></script>
+
+        <!-- Dashboard init -->
+        <script src="/BackEnd/assets/js/pages/dashboard-ecommerce.init.js"></script>
+
+        <!-- App js -->
+        <script src="BackEnd/assets/js/app.js"></script>
+
+{% endblock %}
+
+                    
+
+{% endblock %}
+
+
