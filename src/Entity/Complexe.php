@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Complexe
  *
  * @ORM\Table(name="complexe", indexes={@ORM\Index(name="fk_complexe", columns={"idlocateur"})})
- * @ORM\Entity(repositoryClass=App\Repository\ComplexeRepository::class)
+ * @ORM\Entity
  */
 class Complexe
 {

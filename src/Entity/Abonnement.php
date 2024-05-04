@@ -3,16 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use DateInterval;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Abonnement
  *
  * @ORM\Table(name="abonnement", indexes={@ORM\Index(name="fk_abonnement_terrian", columns={"terrainId"}), @ORM\Index(name="abonnement_ibfk_1", columns={"packId"})})
- * @ORM\Entity(repositoryClass=App\Repository\AbonnementRepository::class)
+ * @ORM\Entity
  */
 class Abonnement
 {
@@ -75,16 +72,6 @@ class Abonnement
     private $prixtotal;
 
     /**
-     * @var \Terrain
-     *
-     * @ORM\ManyToOne(targetEntity="Terrain")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="terrainId", referencedColumnName="id")
-     * })
-     */
-    private $terrainid;
-
-    /**
      * @var \Pack
      *
      * @ORM\ManyToOne(targetEntity="Pack")
@@ -94,49 +81,19 @@ class Abonnement
      */
     private $packid;
 
-       /**
-     * @var \App\Entity\Terrain
-     *
-     * @ORM\ManyToOne(targetEntity=Terrain::class)
-     * @ORM\JoinColumn(name="terrainId", referencedColumnName="id")
-     */
-    private $terrain;
-
     /**
-     * @var \App\Entity\Pack
+     * @var \Terrain
      *
-     * @ORM\ManyToOne(targetEntity=Pack::class)
-     * @ORM\JoinColumn(name="packId", referencedColumnName="idP")
+     * @ORM\ManyToOne(targetEntity="Terrain")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="terrainId", referencedColumnName="id")
+     * })
      */
-    private $pack;
+    private $terrainid;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPack(): ?Pack
-    {
-        return $this->pack;
-    }
-
-    public function setPack(?Pack $pack): self
-    {
-        $this->pack = $pack;
-
-        return $this;
-    }
-
-    public function getTerrain(): ?Terrain
-    {
-        return $this->terrain;
-    }
-
-    public function setTerrain(?Terrain $terrain): self
-    {
-        $this->terrain = $terrain;
-
-        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface
@@ -223,18 +180,6 @@ class Abonnement
         return $this;
     }
 
-    public function getTerrainid(): ?Terrain
-    {
-        return $this->terrainid;
-    }
-
-    public function setTerrainid(?Terrain $terrainid): static
-    {
-        $this->terrainid = $terrainid;
-
-        return $this;
-    }
-
     public function getPackid(): ?Pack
     {
         return $this->packid;
@@ -247,36 +192,17 @@ class Abonnement
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
-{
-    // Récupérer la date de début de l'abonnement
-    $dateDebut = $this->getDate();
-  
-    // Récupérer la durée du pack associé à l'abonnement
-    $dureePack = $this->getPack()->getDuree();
+    public function getTerrainid(): ?Terrain
+    {
+        return $this->terrainid;
+    }
 
-    // Extraire le nombre de mois de la chaîne
-    $nombreMois = (int) filter_var($dureePack, FILTER_SANITIZE_NUMBER_INT);
+    public function setTerrainid(?Terrain $terrainid): static
+    {
+        $this->terrainid = $terrainid;
 
-
-
-    // Ajouter l'intervalle à la date de début pour obtenir la date de fin
-    $dateFin = clone $dateDebut;
-    $dateFin->add(new DateInterval('P'.$nombreMois.'M'));
-
-    return $dateFin;
-}
-
-    
-    
+        return $this;
+    }
 
 
-
-    
-    
-    
-    
-    
-
-  
 }

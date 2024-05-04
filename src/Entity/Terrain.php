@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Terrain
  *
  * @ORM\Table(name="terrain", indexes={@ORM\Index(name="ck1", columns={"ref"})})
- * @ORM\Entity(repositoryClass=App\Repository\TerrainRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\TerrainRepository")
  */
 class Terrain
 {
@@ -158,6 +158,9 @@ class Terrain
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return $this->nom; // Assuming 'name' is the property to be displayed
+    }
 
 }

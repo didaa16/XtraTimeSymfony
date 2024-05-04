@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Event
  *
- * @ORM\Table(name="event", indexes={@ORM\Index(name="fk_user", columns={"iduser"}), @ORM\Index(name="fk_terrain", columns={"idterrain"}), @ORM\Index(name="idsponso", columns={"idsponso"})})
- * @ORM\Entity
+ * @ORM\Table(name="event", indexes={@ORM\Index(name="fk_terrain", columns={"idterrain"}), @ORM\Index(name="idsponso", columns={"idsponso"}), @ORM\Index(name="fk_user", columns={"iduser"})})
+ * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
 {
@@ -58,34 +58,28 @@ class Event
     private $datefin;
 
     /**
-     * @var \Utilisateurs
+     * @var Sponso|null
      *
-     * @ORM\ManyToOne(targetEntity="Utilisateurs")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="iduser", referencedColumnName="pseudo")
-     * })
-     */
-    private $iduser;
-
-    /**
-     * @var \Sponso
-     *
-     * @ORM\ManyToOne(targetEntity="Sponso")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idsponso", referencedColumnName="idsponso")
-     * })
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sponso")
+     * @ORM\JoinColumn(name="idsponso", referencedColumnName="idsponso")
      */
     private $idsponso;
 
     /**
-     * @var \Terrain
+     * @var Terrain|null
      *
-     * @ORM\ManyToOne(targetEntity="Terrain")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idterrain", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="App\Entity\Terrain")
+     * @ORM\JoinColumn(name="idterrain", referencedColumnName="id")
      */
     private $idterrain;
+
+    /**
+     * @var Utilisateurs|null
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\JoinColumn(name="iduser", referencedColumnName="pseudo")
+     */
+    private $iduser;
 
     public function getIdevent(): ?int
     {
@@ -97,7 +91,7 @@ class Event
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
+    public function setTitre(string $titre): self
     {
         $this->titre = $titre;
 
@@ -109,7 +103,7 @@ class Event
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -121,7 +115,7 @@ class Event
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
@@ -133,7 +127,7 @@ class Event
         return $this->datedebut;
     }
 
-    public function setDatedebut(?\DateTimeInterface $datedebut): static
+    public function setDatedebut(?\DateTimeInterface $datedebut): self
     {
         $this->datedebut = $datedebut;
 
@@ -145,21 +139,9 @@ class Event
         return $this->datefin;
     }
 
-    public function setDatefin(?\DateTimeInterface $datefin): static
+    public function setDatefin(?\DateTimeInterface $datefin): self
     {
         $this->datefin = $datefin;
-
-        return $this;
-    }
-
-    public function getIduser(): ?Utilisateurs
-    {
-        return $this->iduser;
-    }
-
-    public function setIduser(?Utilisateurs $iduser): static
-    {
-        $this->iduser = $iduser;
 
         return $this;
     }
@@ -169,7 +151,7 @@ class Event
         return $this->idsponso;
     }
 
-    public function setIdsponso(?Sponso $idsponso): static
+    public function setIdsponso(?Sponso $idsponso): self
     {
         $this->idsponso = $idsponso;
 
@@ -181,12 +163,25 @@ class Event
         return $this->idterrain;
     }
 
-    public function setIdterrain(?Terrain $idterrain): static
+    public function setIdterrain(?Terrain $idterrain): self
     {
         $this->idterrain = $idterrain;
 
         return $this;
     }
+
+    public function getIduser(): ?Utilisateurs
+    {
+        return $this->iduser;
+    }
+
+    public function setIduser(?Utilisateurs $iduser): self
+    {
+        $this->iduser = $iduser;
+
+        return $this;
+    }
+    
 
 
 }

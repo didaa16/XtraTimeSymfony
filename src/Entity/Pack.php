@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Pack
  *
  * @ORM\Table(name="pack")
- * @ORM\Entity(repositoryClass=App\Repository\PackRepository::class)
+ * @ORM\Entity
  */
 class Pack
 {
@@ -48,13 +48,6 @@ class Pack
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="duree", type="string", length=255, nullable=false)
-     */
-    private $duree;
 
     public function getIdp(): ?int
     {
@@ -105,18 +98,6 @@ class Pack
     public function setImage(string $image): static
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    public function getDuree(): ?string
-    {
-        return $this->duree;
-    }
-
-    public function setDuree(string $duree): static
-    {
-        $this->duree = $duree;
 
         return $this;
     }

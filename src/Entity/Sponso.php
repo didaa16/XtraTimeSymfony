@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Sponso
  *
  * @ORM\Table(name="sponso")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=App\Repository\SponsoRepository::class)
  */
 class Sponso
 {
@@ -101,6 +101,10 @@ class Sponso
 
         return $this;
     }
+    public function __toString()
+{
+    return $this->nom; // Assuming 'name' is the property to be displayed
+}
 
 
 }

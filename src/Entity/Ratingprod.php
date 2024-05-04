@@ -29,16 +29,6 @@ class Ratingprod
     private $rating;
 
     /**
-     * @var \Produit
-     *
-     * @ORM\ManyToOne(targetEntity="Produit")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ref", referencedColumnName="ref")
-     * })
-     */
-    private $ref;
-
-    /**
      * @var \Utilisateurs
      *
      * @ORM\ManyToOne(targetEntity="Utilisateurs")
@@ -47,6 +37,16 @@ class Ratingprod
      * })
      */
     private $iduser;
+
+    /**
+     * @var \Produit
+     *
+     * @ORM\ManyToOne(targetEntity="Produit")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ref", referencedColumnName="ref")
+     * })
+     */
+    private $ref;
 
     public function getId(): ?int
     {
@@ -65,18 +65,6 @@ class Ratingprod
         return $this;
     }
 
-    public function getRef(): ?Produit
-    {
-        return $this->ref;
-    }
-
-    public function setRef(?Produit $ref): static
-    {
-        $this->ref = $ref;
-
-        return $this;
-    }
-
     public function getIduser(): ?Utilisateurs
     {
         return $this->iduser;
@@ -85,6 +73,18 @@ class Ratingprod
     public function setIduser(?Utilisateurs $iduser): static
     {
         $this->iduser = $iduser;
+
+        return $this;
+    }
+
+    public function getRef(): ?Produit
+    {
+        return $this->ref;
+    }
+
+    public function setRef(?Produit $ref): static
+    {
+        $this->ref = $ref;
 
         return $this;
     }
