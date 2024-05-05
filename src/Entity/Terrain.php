@@ -8,7 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Terrain
  *
  * @ORM\Table(name="terrain", indexes={@ORM\Index(name="ck1", columns={"ref"})})
+<<<<<<< HEAD
  * @ORM\Entity(repositoryClass="App\Repository\TerrainRepository")
+=======
+ * @ORM\Entity
+>>>>>>> storeWeb
  */
 class Terrain
 {
@@ -158,9 +162,15 @@ class Terrain
 
         return $this;
     }
+<<<<<<< HEAD
     public function __toString()
     {
         return $this->nom; // Assuming 'name' is the property to be displayed
     }
 
 }
+=======
+
+
+}
+>>>>>>> storeWeb

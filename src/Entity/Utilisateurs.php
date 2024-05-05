@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+<<<<<<< HEAD
 use App\Repository\UtilisateursRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -62,15 +63,25 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+=======
+use Doctrine\ORM\Mapping as ORM;
+>>>>>>> storeWeb
 
 /**
  * Utilisateurs
  *
  * @ORM\Table(name="utilisateurs")
+<<<<<<< HEAD
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 
     
+=======
+  * @ORM\Entity(repositoryClass=App\Repository\UtilisateursRepository::class) */
+
+class Utilisateurs
+{
+>>>>>>> storeWeb
     /**
      * @var string
      *
@@ -141,6 +152,7 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
+<<<<<<< HEAD
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
@@ -220,6 +232,8 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+=======
+>>>>>>> storeWeb
     public function getCin(): ?int
     {
         return $this->cin;
@@ -268,6 +282,7 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+<<<<<<< HEAD
     public function getNumTel(): ?int
     {
         return $this->numTel;
@@ -276,6 +291,8 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNumTel(int $numTel): static
     {
         $this->numTel = $numTel;}
+=======
+>>>>>>> storeWeb
     public function getNumtel(): ?int
     {
         return $this->numtel;
@@ -300,6 +317,7 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+<<<<<<< HEAD
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -308,6 +326,8 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;}
+=======
+>>>>>>> storeWeb
     public function getMdp(): ?string
     {
         return $this->mdp;
@@ -320,6 +340,7 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+<<<<<<< HEAD
     public function __toString(): string
     {
         return $this->nom;
@@ -350,6 +371,8 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+=======
+>>>>>>> storeWeb
     public function getRole(): ?string
     {
         return $this->role;
@@ -361,9 +384,15 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+<<<<<<< HEAD
     public function __toString()
     {
         return $this->nom; // Assuming 'name' is the property to be displayed
     }
 
 }
+=======
+
+
+}
+>>>>>>> storeWeb

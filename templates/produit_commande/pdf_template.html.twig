@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reçu de commande</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #555;
+        }
+        .total {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .user-details {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+        }
+        .user-details h5 {
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+        .user-details li {
+            list-style: none;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 10px;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <img src="/img/shop/testLogo.jpg" alt="Logo" class="logo">
+
+    <div class="container">
+        <div class="header">
+            <h1>Reçu de commande #{{ commande.refCommande }}</h1>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Référence</th>
+                    <th>Taille</th>
+                    <th>Marque</th>
+                    <th>Type de sport</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produit in produits %}
+                    <tr>
+                        <td>{{ produit.nom }}</td>
+                        <td>{{ produit.ref }}</td>
+                        <td>{{ produit.taille }}</td>
+                        <td>{{ produit.marque }}</td>
+                        <td>{{ produit.typeSport }}</td>
+                        <td>{{ produit.prix }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">
+            <p>Total de la commande: {{ commande.prix }} Dt</p>
+        </div>
+        <div class="user-details">
+            <h5>Details de l'utilisateur</h5>
+            <ul>
+                <li>{{ commande.idUser.getNom() }} {{ commande.idUser.getPrenom() }}</li>
+                <li>Pseudo: {{ commande.idUser.getPseudo() }}</li>
+                <li>Email: {{ commande.idUser.getEmail() }}</li>
+                <li>Numéro de téléphone: +(216) {{ commande.idUser.getNumTel() }}</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

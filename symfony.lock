@@ -38,6 +38,7 @@
             "./migrations/.gitignore"
         ]
     },
+<<<<<<< HEAD
     "google/recaptcha": {
         "version": "1.3",
         "recipe": {
@@ -64,6 +65,10 @@
     },
     "endroid/qr-code-bundle": {
         "version": "5.0.1"
+=======
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.9.0"
+>>>>>>> storeWeb
     },
     "phpunit/phpunit": {
         "version": "9.6",
@@ -91,6 +96,18 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+<<<<<<< HEAD
+=======
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.2",
+            "ref": "e805aba9eff5372e2d149a9ff56566769e22819d"
+        }
+    },
+>>>>>>> storeWeb
     "symfony/console": {
         "version": "5.4",
         "recipe": {
@@ -146,6 +163,7 @@
             "./src/Kernel.php"
         ]
     },
+<<<<<<< HEAD
     "symfony/google-mailer": {
         "version": "5.4",
         "recipe": {
@@ -155,6 +173,8 @@
             "ref": "f8fd4ddb9b477510f8f4bce2b9c054ab428c0120"
         }
     },
+=======
+>>>>>>> storeWeb
     "symfony/mailer": {
         "version": "5.4",
         "recipe": {
@@ -253,7 +273,11 @@
         ]
     },
     "symfony/stimulus-bundle": {
+<<<<<<< HEAD
         "version": "2.17",
+=======
+        "version": "2.16",
+>>>>>>> storeWeb
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -266,6 +290,7 @@
             "./assets/controllers/hello_controller.js"
         ]
     },
+<<<<<<< HEAD
     "symfony/swiftmailer-bundle": {
         "version": "3.5",
         "recipe": {
@@ -280,6 +305,8 @@
             "./config/packages/test/swiftmailer.yaml"
         ]
     },
+=======
+>>>>>>> storeWeb
     "symfony/translation": {
         "version": "5.4",
         "recipe": {
@@ -306,6 +333,7 @@
             "./templates/base.html.twig"
         ]
     },
+<<<<<<< HEAD
     "symfony/twilio-notifier": {
         "version": "5.4",
         "recipe": {
@@ -314,6 +342,10 @@
             "version": "5.0",
             "ref": "10af129fcac6d00ffc9bb23d039d997dee35e657"
         }
+=======
+    "symfony/ux-turbo": {
+        "version": "v2.16.0"
+>>>>>>> storeWeb
     },
     "symfony/validator": {
         "version": "5.4",
@@ -340,6 +372,7 @@
             "./config/routes/web_profiler.yaml"
         ]
     },
+<<<<<<< HEAD
     "symfony/webapp-pack": {
         "version": "1.2",
         "recipe": {
@@ -369,5 +402,9 @@
     },
     "twig/extra-bundle": {
         "version": "v3.9.3"
+=======
+    "twig/extra-bundle": {
+        "version": "v3.8.0"
+>>>>>>> storeWeb
     }
 }

@@ -1,0 +1,172 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+<script src="https://js.stripe.com/v3/"></script>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://js.stripe.com/v3/" ></script>
+
+
+<section class="inner-banner pattern-3" style="margin-top: 0px; ">
+    <div class="container text-center">
+        <h2>PAIEMENT</h2>
+        <img alt="" src="/img/shop/carte.png" width="150">
+    </div>
+</section>
+
+<section class="bread-cumb">
+    <div class="container text-center">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><span>Paiement</span></li>
+        </ul>
+    </div>
+</section>
+
+<!--Checkout Section-->
+
+<section class="checkout-section section-padding cart-section">
+ {% for message in app.flashes('success') %}
+        <div class="container mt-3">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Paiement réussi!</h4>
+                <p>{{ message }}</p>
+                <hr>
+                <p class="mb-0">Merci pour votre commande. Nous traitons actuellement votre demande.</p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="container">
+    
+        <div class="row clearfix">
+        
+            <!--Form Column-->
+            <div class="col-md-6 col-sm-12 col-xs-12 column form-column">
+            
+                <div class="section-title text-left">
+                    <h1><span>Paiement Avec Stripe</span></h1> 
+                </div>
+                <div style="margin-top: -50px;margin-bottom: 10px; margin-left:120px;">
+    <img src="{{ asset('/img/shop/stripe.png') }}">
+</div>
+                <div class="card" style="border: 1px solid #ccc; border-radius: 5px; padding: 20px;">
+                    <div class="card-body">
+                    
+                        <form id='checkout-form' method='post' action="{{ path('app_stripe_charge') }}">             
+                            <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
+                            <br>
+                            <div id="card-element" class="form-control" ></div>
+                            <button 
+                                id='pay-btn'
+                                class="btn btn-success mt-3"
+                                type="button"
+                                style="
+    border: none;
+    outline: none;
+    background: #a6c311;
+    font-size: 16px;
+    line-height: 50px;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    display: inline-block;
+    transition: all .5s ease !important;
+    position: relative;
+    padding: 0 40px;
+    margin-left:200px;"
+                                onclick="createToken()">PAYER
+                            </button>
+                        <form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 col-xs-12 column default-column cart-total">
+                <div class="section-title text-left">
+                    <h1><span>Total de la commande</span></h1>
+                </div>
+                <!--Totals Table-->
+                <div class="tot" style="-left-top: 60px;">
+                    <ul class="totals-table">
+                        <li class="clearfix">
+                            <span class="col col-title" style="font-size: 18px;">Sous-total de la commande</span>
+                            <span class="col" style="font-size: 18px;">{{ total }} DT</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="col col-title" style="font-size: 18px;">Frais de Livraison</span>
+                            <span class="col" style="font-size: 18px;">Livraison gratuite</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="col col-title" style="font-size: 18px;">Total</span>
+                            <span class="col total-price" style="font-size: 24px; font-weight: bold;">{{ total }} DT</span>
+                        </li>
+                    </ul>
+
+                    <!--Payment Options-->
+                    <div class="payment-options">
+                        <div class="option-block">
+                            <div class="radio-block active">
+                                <div class="icon clearfix">
+                                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                </div>
+                                <label class="radio-label">Votre paiement</label>
+                            </div>
+                        </div>
+                        <div class="text">
+                            <p>Rassurez-vous, votre paiement est sécurisé avec Stripe, notre partenaire de confiance. Vos données sont cryptées et traitées en toute sécurité. Optez pour la tranquillité d'esprit lors de vos transactions avec nous.</p>
+                        </div>
+                        <div class="option-block"></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <script>
+    var stripe = Stripe("{{stripe_key}}");
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+   function createToken() {
+    document.getElementById("pay-btn").disabled = true;
+    stripe.createToken(cardElement).then(function(result) {
+        if (result.error) {
+            document.getElementById("pay-btn").disabled = false;
+            alert(result.error.message);
+        } else {
+            // Create a hidden form input to store the token
+            var tokenInput = document.createElement('input');
+            tokenInput.setAttribute('type', 'hidden');
+            tokenInput.setAttribute('name', 'stripeToken');
+            tokenInput.setAttribute('value', result.token.id);
+            // Append the form input to the existing form
+            document.getElementById('checkout-form').appendChild(tokenInput);
+            // Prevent the default form submission behavior
+            event.preventDefault();
+            // Submit the form with the new token
+            document.getElementById('checkout-form').submit();
+        }
+    });
+}
+
+</script>
+
+
+
+   
+
+<style>
+    .total-price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #bf472c;
+    }
+
+    
+</style>
+
+{% endblock %}

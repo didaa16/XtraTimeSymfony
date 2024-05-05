@@ -8,7 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Sponso
  *
  * @ORM\Table(name="sponso")
+<<<<<<< HEAD
  * @ORM\Entity(repositoryClass=App\Repository\SponsoRepository::class)
+=======
+ * @ORM\Entity
+>>>>>>> storeWeb
  */
 class Sponso
 {
@@ -101,6 +105,7 @@ class Sponso
 
         return $this;
     }
+<<<<<<< HEAD
     public function __toString()
 {
     return $this->nom; // Assuming 'name' is the property to be displayed
@@ -108,3 +113,8 @@ class Sponso
 
 
 }
+=======
+
+
+}
+>>>>>>> storeWeb

@@ -7,9 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Ratingprod
  *
+<<<<<<< HEAD
  * @ORM\Table(name="ratingprod", indexes={@ORM\Index(name="ref", columns={"ref"}), @ORM\Index(name="idUser", columns={"idUser"})})
  * @ORM\Entity
  */
+=======
+ * @ORM\Table(name="ratingprod", indexes={@ORM\Index(name="idUser", columns={"idUser"}), @ORM\Index(name="ref", columns={"ref"})})
+   * @ORM\Entity(repositoryClass=App\Repository\RatingRepository::class) */
+
+>>>>>>> storeWeb
 class Ratingprod
 {
     /**

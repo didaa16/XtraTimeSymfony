@@ -1,0 +1,196 @@
+{% extends 'back.html.twig' %}
+
+{% block menu %}
+{% endblock %}
+{% block body %}
+
+<div>
+<!-- Bloc bleu à gauche -->
+    <div class="blue-block left-block"></div>
+
+    <div class="row justify-content-center"> <!-- Centrage du contenu -->
+        <div class="col-lg-10"> <!-- Limite de la largeur -->
+            <div class="page-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1 mt-4"> <!-- Utilisation de la classe offset-md-2 pour déplacer le contenu de 2 colonnes vers la droite -->
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                    <h4 class="mb-sm-0">Details sur la commande</h4>
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Commande</a></li>
+                                            <li class="breadcrumb-item active">Details sur la commande</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                        <div class="row">
+                            <div class="col-xl-10 offset-md-1">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h3 class="mb-0">Commande #{{ commande.refCommande }}</h3>
+
+                                            <div class="d-flex align-items-center">
+                                               <div class="btn-group material-shadow me-2">
+    <button type="button" class="btn btn-warning dropdown-toggle material-shadow-none btn-custom" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{{ commande.status|capitalize }}    </button>
+    <div class="dropdown-menu">
+        <form method="post" action="{{ path('modifier_statut_commande', {'refCommande': commande.refCommande, 'nouveauStatut': 'enAttente'}) }}">
+            <button type="submit" class="dropdown-item">En attente</button>
+        </form>
+        <form method="post" action="{{ path('modifier_statut_commande', {'refCommande': commande.refCommande, 'nouveauStatut': 'enCours'}) }}">
+            <button type="submit" class="dropdown-item">En cours</button>
+        </form>
+        <form method="post" action="{{ path('modifier_statut_commande', {'refCommande': commande.refCommande, 'nouveauStatut': 'livree'}) }}">
+            <button type="submit" class="dropdown-item">Livrée</button>
+        </form>
+    </div>
+</div><!-- /btn-group -->
+
+
+                                                <div class="flex-shrink-0">
+<a href="{{ path('generate_pdf_livreur', {'refCommande': commande.refCommande }) }}" class="btn btn-success btn-lg custom-btn"><i class="ri-download-2-fill align-middle me-1"></i> PRINT</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <table class="table table-bordered align-middle mb-0">
+                                                <thead class="table-light text-muted">
+                                                     <tr>
+                                                        <th class="sort text-center" data-sort="nomProduit" style="width: 10%;">Produit</th> <!-- Définir une largeur spécifique pour la colonne -->
+                                                        <th class="sort text-center" data-sort="nomProduit">Nom</th>
+                                                        <th class="sort text-center" data-sort="ref">Référence</th>
+                                                        <th class="sort text-center" data-sort="marque">Marque</th>
+                                                        <th class="sort text-center" data-sort="prix">Prix</th>
+                                                        <th class="sort text-center" data-sort="taille">Taille</th>
+                                                        <th class="sort text-center" data-sort="type sport">Type sport</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for produit in produits %}
+                                                        <tr>
+                                                            <td class="image text-center" style="width: 10%;"> <!-- Définir une largeur spécifique pour la colonne -->
+                                                                {% if produit.image %}
+                                                                    <img src="{{ asset('uploads/images/' ~ produit.image) }}" alt="Image du produit" style="max-width: 100px;">
+                                                                {% else %}
+                                                                    <span>Pas d'image</span>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="text-center">{{ produit.nom }}</td>
+                                                            <td class="text-center">{{ produit.ref }}</td>
+                                                            <td class="text-center">{{ produit.marque }}</td>
+                                                            <td class="text-center">{{ produit.prix }}</td>
+                                                            <td class="text-center">{{ produit.taille }}</td>
+                                                            <td class="text-center">{{ produit.typeSport }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 d-flex">
+                                        <div class="card border rounded p-4 w-100" style="font-size: 1rem;">
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Sous-total de la commande (DT) :</td>
+                                                            <td class="text-end">{{ commande.prix }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Frais de Livraison :</td>
+                                                            <td class="text-end">Livraison gratuite</td>
+                                                        </tr>
+                                                        <tr class="border-top border-top-dashed">
+                                                            <th scope="row" class="text-success">Total (DT) :</th>
+                                                            <th class="text-end">{{ commande.prix }}</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 d-flex">
+                                        <div class="card border rounded p-4 w-100" style="font-size: 1rem;">
+                                            <div class="card-header">
+                                                <div class="d-flex">
+                                                    <h5 class="card-title flex-grow-1 mb-0">Details de l'utilisateur </h5>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled mb-0 vstack gap-3">
+                                                    <li>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src="/BackEnd/assets/images/xtra.png" alt="" width="100" height="100" >
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-3">
+                                                                <h6 class="fs-14 mb-1">{{ commande.idUser.getNom() }} {{ commande.idUser.getPrenom() }}</h6>
+                                                                <p class="text-muted mb-0">Pseudo : {{ commande.idUser.getPseudo() }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li><i class="ri-mail-line me-2 align-middle text-muted fs-16"></i>{{ commande.idUser.getEmail() }}</li>
+                                                    <li><i class="ri-phone-line me-2 align-middle text-muted fs-16"></i>+(216) {{ commande.idUser.getNumTel() }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- container-fluid -->
+            </div><!-- End Page-content -->
+        </div>
+    </div>
+      <!-- Bloc bleu à droite -->
+    <div class="blue-block right-block"></div>
+</div>
+
+<style>
+.btn-custom {
+    width: 150px; 
+        height: 50px; 
+            font-size: 16px; 
+}
+.blue-block {
+        background-color: #48548c; /* Bleu */
+        position: fixed;
+        top: 0;
+        width: 200px; /* Largeur du bloc bleu */
+        height: 100%; /* Hauteur du bloc bleu */
+        z-index: -1; /* Assurez-vous que les blocs bleus restent en arrière-plan */
+    }
+
+    .left-block {
+        left: 0; /* Bloc bleu à gauche */
+    }
+
+    .right-block {
+        right: 0; /* Bloc bleu à droite */
+    }
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+{% endblock %}

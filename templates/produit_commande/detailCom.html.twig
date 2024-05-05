@@ -1,0 +1,166 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+
+
+
+
+
+  <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Order Details</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
+                                        <li class="breadcrumb-item active">Order Details</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-xl-20">
+                            <div class="card">
+                                <div class="card-header">
+    <div class="d-flex align-items-center justify-content-between">
+        <h3 class="mb-0">Commande #{{ commande.refCommande }}</h3>
+        <div class="flex-shrink-0">
+<a href="{{ path('generate_pdf', {'refCommande': commande.refCommande }) }}" class="btn btn-success btn-lg custom-btn"><i class="ri-download-2-fill align-middle me-1"></i> PRINT</a>
+</div>
+    </div>
+</div>
+
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-nowrap align-middle table-borderless mb-0">
+                                            <thead class="table-light text-muted">
+                                                <tr>
+                                            <th class="sort" data-sort="nomProduit">Produit</th>
+                                             <th class="sort" data-sort="nomProduit">Nom</th>
+                                             <th class="sort" data-sort="ref">Réference</th>
+                                             <th class="sort" data-sort="marque">Marque</th>
+                                             <th class="sort" data-sort="prix">Prix</th>
+                                             <th class="sort" data-sort="taille">Taille</th>
+                                             <th class="sort" data-sort="type sport">Type sport</th>
+                                             <th class="sort" data-sort="desc">Description</th>
+                                                </tr>
+                                            </thead>
+                                             <tbody>
+                              {% for produit in produits %}
+                <tr>
+                    
+                    <td class="image">
+                    {% if produit.image %}
+                        <img src="{{ asset('uploads/images/' ~ produit.image) }}" alt="Image du produit" style="max-width: 100px;">
+                    {% else %}
+                        <span>Pas d'image</span>
+                    {% endif %}
+                </td> 
+                    <td>{{ produit.nom }}</td>
+                    <td>{{ produit.ref }}</td>
+                    <td>{{ produit.marque }}</td>
+                    <td>{{ produit.prix }}</td>
+                    <td>{{ produit.taille }}</td>
+                    <td>{{ produit.typeSport }}</td>
+    <td class="desc" style="max-width: 100px; white-space: pre-wrap; overflow-wrap: break-word;">{{ produit.description }}</td>
+                </tr>
+                
+            {% endfor %}
+
+           
+
+
+
+                        </tbody>
+
+
+                        
+                                        </table>
+
+
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                           
+                           
+                             <div class="row">
+    <div class="col-md-6">
+        <!-- Votre contenu actuel ici -->
+    </div>
+    <div class="col-md-6">
+        <div class="card border rounded p-4" style="font-size: 1rem;">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Sous-total de la commande (DT) :</td>
+                            <td class="text-end">{{ commande.prix }}</td>
+                        </tr>
+                        <tr>
+                            <td>Frais de Livraison :</td>
+                            <td class="text-end">Livraison gratuite</td>
+                        </tr>
+                        <tr class="border-top border-top-dashed">
+                           <th scope="row" class="text-success">Total (DT) :</th>
+
+                            <th class="text-end">{{ commande.prix }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <!--end card-->
+                          
+                          
+                            <!--end card-->
+                        </div>
+                        
+                        <!--end col-->
+                        
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                    
+
+                </div><!-- container-fluid -->
+            </div><!-- End Page-content -->
+            
+
+
+
+
+
+
+<style>
+.custom-btn {
+    font-size: 1rem; /* Ajustez la taille du texte selon vos besoins */
+    padding: 12px 24px; /* Ajustez les rembourrages selon vos besoins */
+}
+</style>
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,6 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+<<<<<<< HEAD
 modifier_utilisateur:
   path: '/utilisateur/modifier/{id}'
   controller: 'App\Controller\UtilisateursController::modifier'
@@ -14,3 +15,5 @@ app_utilisateurs_display:
 
 
 
+=======
+>>>>>>> storeWeb

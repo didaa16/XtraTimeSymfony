@@ -8,7 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Abonnement
  *
+<<<<<<< HEAD
  * @ORM\Table(name="abonnement", indexes={@ORM\Index(name="fk_abonnement_terrian", columns={"terrainId"}), @ORM\Index(name="abonnement_ibfk_1", columns={"packId"})})
+=======
+ * @ORM\Table(name="abonnement", indexes={@ORM\Index(name="abonnement_ibfk_1", columns={"packId"}), @ORM\Index(name="fk_abonnement_terrian", columns={"terrainId"})})
+>>>>>>> storeWeb
  * @ORM\Entity
  */
 class Abonnement
@@ -72,6 +76,7 @@ class Abonnement
     private $prixtotal;
 
     /**
+<<<<<<< HEAD
      * @var \Pack
      *
      * @ORM\ManyToOne(targetEntity="Pack")
@@ -82,6 +87,8 @@ class Abonnement
     private $packid;
 
     /**
+=======
+>>>>>>> storeWeb
      * @var \Terrain
      *
      * @ORM\ManyToOne(targetEntity="Terrain")
@@ -91,6 +98,19 @@ class Abonnement
      */
     private $terrainid;
 
+<<<<<<< HEAD
+=======
+    /**
+     * @var \Pack
+     *
+     * @ORM\ManyToOne(targetEntity="Pack")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="packId", referencedColumnName="idP")
+     * })
+     */
+    private $packid;
+
+>>>>>>> storeWeb
     public function getId(): ?int
     {
         return $this->id;
@@ -180,6 +200,7 @@ class Abonnement
         return $this;
     }
 
+<<<<<<< HEAD
     public function getPackid(): ?Pack
     {
         return $this->packid;
@@ -192,6 +213,8 @@ class Abonnement
         return $this;
     }
 
+=======
+>>>>>>> storeWeb
     public function getTerrainid(): ?Terrain
     {
         return $this->terrainid;
@@ -204,5 +227,20 @@ class Abonnement
         return $this;
     }
 
+<<<<<<< HEAD
+=======
+    public function getPackid(): ?Pack
+    {
+        return $this->packid;
+    }
+
+    public function setPackid(?Pack $packid): static
+    {
+        $this->packid = $packid;
+
+        return $this;
+    }
+
+>>>>>>> storeWeb
 
 }

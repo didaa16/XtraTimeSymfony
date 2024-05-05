@@ -8,8 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * ProduitCommande
  *
  * @ORM\Table(name="produit_commande", indexes={@ORM\Index(name="refCommande", columns={"refCommande"}), @ORM\Index(name="ref", columns={"ref"})})
+<<<<<<< HEAD
  * @ORM\Entity
  */
+=======
+   * @ORM\Entity(repositoryClass=App\Repository\ProduitCommandeRepository::class) */
+
+>>>>>>> storeWeb
 class ProduitCommande
 {
     /**
@@ -33,7 +38,11 @@ class ProduitCommande
      *
      * @ORM\Column(name="refCommande", type="integer", nullable=false)
      */
+<<<<<<< HEAD
     private $refcommande;
+=======
+    private $refCommande;
+>>>>>>> storeWeb
 
     public function getNbr(): ?int
     {
@@ -52,6 +61,7 @@ class ProduitCommande
         return $this;
     }
 
+<<<<<<< HEAD
     public function getRefcommande(): ?int
     {
         return $this->refcommande;
@@ -60,9 +70,23 @@ class ProduitCommande
     public function setRefcommande(int $refcommande): static
     {
         $this->refcommande = $refcommande;
+=======
+    public function getrefCommande(): ?int
+    {
+        return $this->refCommande;
+    }
+
+    public function setrefCommande(int $refcommande): static
+    {
+        $this->refCommande = $refcommande;
+>>>>>>> storeWeb
 
         return $this;
     }
 
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> storeWeb
 }

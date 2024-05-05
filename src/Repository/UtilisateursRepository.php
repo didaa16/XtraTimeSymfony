@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Utilisateurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+<<<<<<< HEAD
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -16,19 +17,30 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 
  * @extends ServiceEntityRepository<Utilisateurs>
+=======
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @extends ServiceEntityRepository<Utilisateurs>
+>>>>>>> storeWeb
  *
  * @method Utilisateurs|null find($id, $lockMode = null, $lockVersion = null)
  * @method Utilisateurs|null findOneBy(array $criteria, array $orderBy = null)
  * @method Utilisateurs[]    findAll()
  * @method Utilisateurs[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+<<<<<<< HEAD
 class UtilisateursRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+=======
+class UtilisateursRepository extends ServiceEntityRepository
+>>>>>>> storeWeb
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Utilisateurs::class);
     }
 
+<<<<<<< HEAD
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
@@ -100,6 +112,8 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
     }
 
 
+=======
+>>>>>>> storeWeb
 //    /**
 //     * @return Utilisateurs[] Returns an array of Utilisateurs objects
 //     */

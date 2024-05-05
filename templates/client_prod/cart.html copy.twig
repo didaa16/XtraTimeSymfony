@@ -1,0 +1,117 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+
+
+
+  <section class="inner-banner pattern-3" style="margin-top: 0px;">
+        <div class="container text-center">
+            <h2>Votre commande</h2>
+        </div>
+    </section>
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><span>Cart page</span></li>
+            </ul>
+        </div>
+    </section>
+    <!--Cart Section-->
+    <section class="cart-section pb0">
+        <div class="container">
+            <!--Cart Outer-->
+            <div class="cart-outer">
+                <div class="table-outer">
+                    <table class="cart-table">
+                        <thead class="cart-header">
+                            <tr>
+                                <th class="prod-column">PRODUIT</th>
+                                <th>&nbsp;</th>
+                                <th>QUANTITE</th>
+                                <th class="price">Prix</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="prod-column">
+                                    <div class="column-box">
+                                        <figure class="prod-thumb">
+                                            <a href="#"><img src="/img/shop/thumb-1.jpg" alt=""></a>
+                                        </figure>
+                                        <h3 class="prod-title padd-top-20">Rocket Twister with  N Grip</h3>
+                                    </div>
+                                </td>
+                                <td class="qty">
+                                    <input class="quantity-spinner" type="text" value="1" name="quantity">
+                                </td>
+                                <td class="unit-price">
+                                    <div class="available-info"><span class="icon fa fa-check"></span> Item(s)
+                                        <br>Avilable Now</div>
+                                </td>
+                                <td class="price">$44.99</td>
+                                <td class="sub-total">$44.99</td>
+                                <td class="remove"><a href="#" class="remove-btn"><span class="fa fa-trash-o"></span> Remove</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="prod-column">
+                                    <div class="column-box">
+                                        <figure class="prod-thumb">
+                                            <a href="#"><img src="/img/shop/thumb-2.jpg" alt=""></a>
+                                        </figure>
+                                        <h3 class="prod-title padd-top-20">25Kg Weight Plates</h3>
+                                    </div>
+                                </td>
+                                <td class="qty">
+                                    <input class="quantity-spinner" type="text" value="2" name="quantity">
+                                </td>
+                                <td class="unit-price">
+                                    <div class="available-info"><span class="icon fa fa-check"></span> Item(s)
+                                        <br>Avilable Now</div>
+                                </td>
+                                <td class="price">$44.99</td>
+                                <td class="sub-total">$44.99</td>
+                                <td class="remove"><a href="#" class="remove-btn"><span class="fa fa-trash-o"></span> Remove</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="prod-column">
+                                    <div class="column-box">
+                                        <figure class="prod-thumb">
+                                            <a href="#"><img src="/img/shop/thumb-3.jpg" alt=""></a>
+                                        </figure>
+                                        <h3 class="prod-title padd-top-20">Muscle Pharm Assault </h3>
+                                    </div>
+                                </td>
+                                <td class="qty">
+                                    <input class="quantity-spinner" type="text" value="3" name="quantity">
+                                </td>
+                                <td class="unit-price">
+                                    <div class="available-info"><span class="icon fa fa-check"></span> Item(s)
+                                        <br>Avilable Now</div>
+                                </td>
+                                <td class="price">$44.99</td>
+                                <td class="sub-total">$44.99</td>
+                                <td class="remove"><a href="#" class="remove-btn"><span class="fa fa-trash-o"></span> Remove</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="update-cart-box clearfix">
+                    
+                    <div class="pull-right">
+                        <button type="button" class="thm-btn update-cart">Update Cart</button> &emsp;
+                         <a class="thm-btn thm-blue-bg">Proceed to Checkout</a>
+
+                       {#<a href="{{ path('CHECKOUTShop') }}" class="thm-btn thm-blue-bg">Proceed to Checkout</a>
+                   #}  </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}

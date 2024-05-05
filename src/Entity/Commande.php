@@ -8,18 +8,30 @@ use Doctrine\ORM\Mapping as ORM;
  * Commande
  *
  * @ORM\Table(name="commande", indexes={@ORM\Index(name="idUser", columns={"idUser"})})
+<<<<<<< HEAD
  * @ORM\Entity
  */
 class Commande
 {
     /**
+=======
+ * @ORM\Entity(repositoryClass=App\Repository\CommandeRepository::class) */
+
+class Commande
+{
+   /**
+>>>>>>> storeWeb
      * @var int
      *
      * @ORM\Column(name="refCommande", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+<<<<<<< HEAD
     private $refcommande;
+=======
+    private $refCommande; // Mettez à jour le nom de l'attribut
+>>>>>>> storeWeb
 
     /**
      * @var float|null
@@ -45,9 +57,21 @@ class Commande
      */
     private $iduser;
 
+<<<<<<< HEAD
     public function getRefcommande(): ?int
     {
         return $this->refcommande;
+=======
+    public function getRefCommande(): ?int
+    {
+        return $this->refCommande;
+    }
+
+    public function setRefCommande(int $refCommande): self
+    {
+        $this->refCommande = $refCommande;
+        return $this;
+>>>>>>> storeWeb
     }
 
     public function getPrix(): ?float

@@ -8,8 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Event
  *
+<<<<<<< HEAD
  * @ORM\Table(name="event", indexes={@ORM\Index(name="fk_terrain", columns={"idterrain"}), @ORM\Index(name="idsponso", columns={"idsponso"}), @ORM\Index(name="fk_user", columns={"iduser"})})
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+=======
+ * @ORM\Table(name="event", indexes={@ORM\Index(name="fk_user", columns={"iduser"}), @ORM\Index(name="fk_terrain", columns={"idterrain"}), @ORM\Index(name="idsponso", columns={"idsponso"})})
+ * @ORM\Entity
+>>>>>>> storeWeb
  */
 class Event
 {
@@ -58,14 +63,34 @@ class Event
     private $datefin;
 
     /**
+<<<<<<< HEAD
      * @var Sponso|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sponso")
      * @ORM\JoinColumn(name="idsponso", referencedColumnName="idsponso")
+=======
+     * @var \Utilisateurs
+     *
+     * @ORM\ManyToOne(targetEntity="Utilisateurs")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="iduser", referencedColumnName="pseudo")
+     * })
+     */
+    private $iduser;
+
+    /**
+     * @var \Sponso
+     *
+     * @ORM\ManyToOne(targetEntity="Sponso")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idsponso", referencedColumnName="idsponso")
+     * })
+>>>>>>> storeWeb
      */
     private $idsponso;
 
     /**
+<<<<<<< HEAD
      * @var Terrain|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Terrain")
@@ -81,6 +106,17 @@ class Event
      */
     private $iduser;
 
+=======
+     * @var \Terrain
+     *
+     * @ORM\ManyToOne(targetEntity="Terrain")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idterrain", referencedColumnName="id")
+     * })
+     */
+    private $idterrain;
+
+>>>>>>> storeWeb
     public function getIdevent(): ?int
     {
         return $this->idevent;
@@ -91,7 +127,11 @@ class Event
         return $this->titre;
     }
 
+<<<<<<< HEAD
     public function setTitre(string $titre): self
+=======
+    public function setTitre(string $titre): static
+>>>>>>> storeWeb
     {
         $this->titre = $titre;
 
@@ -103,7 +143,11 @@ class Event
         return $this->description;
     }
 
+<<<<<<< HEAD
     public function setDescription(string $description): self
+=======
+    public function setDescription(string $description): static
+>>>>>>> storeWeb
     {
         $this->description = $description;
 
@@ -115,7 +159,11 @@ class Event
         return $this->image;
     }
 
+<<<<<<< HEAD
     public function setImage(string $image): self
+=======
+    public function setImage(string $image): static
+>>>>>>> storeWeb
     {
         $this->image = $image;
 
@@ -127,7 +175,11 @@ class Event
         return $this->datedebut;
     }
 
+<<<<<<< HEAD
     public function setDatedebut(?\DateTimeInterface $datedebut): self
+=======
+    public function setDatedebut(?\DateTimeInterface $datedebut): static
+>>>>>>> storeWeb
     {
         $this->datedebut = $datedebut;
 
@@ -139,19 +191,42 @@ class Event
         return $this->datefin;
     }
 
+<<<<<<< HEAD
     public function setDatefin(?\DateTimeInterface $datefin): self
+=======
+    public function setDatefin(?\DateTimeInterface $datefin): static
+>>>>>>> storeWeb
     {
         $this->datefin = $datefin;
 
         return $this;
     }
 
+<<<<<<< HEAD
+=======
+    public function getIduser(): ?Utilisateurs
+    {
+        return $this->iduser;
+    }
+
+    public function setIduser(?Utilisateurs $iduser): static
+    {
+        $this->iduser = $iduser;
+
+        return $this;
+    }
+
+>>>>>>> storeWeb
     public function getIdsponso(): ?Sponso
     {
         return $this->idsponso;
     }
 
+<<<<<<< HEAD
     public function setIdsponso(?Sponso $idsponso): self
+=======
+    public function setIdsponso(?Sponso $idsponso): static
+>>>>>>> storeWeb
     {
         $this->idsponso = $idsponso;
 
@@ -163,13 +238,18 @@ class Event
         return $this->idterrain;
     }
 
+<<<<<<< HEAD
     public function setIdterrain(?Terrain $idterrain): self
+=======
+    public function setIdterrain(?Terrain $idterrain): static
+>>>>>>> storeWeb
     {
         $this->idterrain = $idterrain;
 
         return $this;
     }
 
+<<<<<<< HEAD
     public function getIduser(): ?Utilisateurs
     {
         return $this->iduser;
@@ -185,3 +265,7 @@ class Event
 
 
 }
+=======
+
+}
+>>>>>>> storeWeb

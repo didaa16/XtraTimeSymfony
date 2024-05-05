@@ -1,0 +1,519 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+
+
+  <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                                <h4 class="mb-sm-0">Liste des commandes</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                        <li class="breadcrumb-item active">Li</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0">Affichage de la liste des commandes </h4>
+                                </div><!-- end card header -->
+
+                                <div class="card-body">
+                                    <div class="listjs-table" id="customerList">
+                                <div class="row g-3 mb-3 align-items-center">
+                                            {# <div class="col-sm-auto">
+                                                <div>
+                                                  
+                                                    <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                                </div>
+                                            </div> #}
+
+                                            <div class="row text-center" style="margin-left: 10px; margin-top:50px;" >
+    <div class="col-md-4 mb-4">
+        <div class="card bg-warning-light card-widget">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium mb-1">Commandes en attente</p>
+                        <h4 class="mb-0">{{ nbCommandesEnAttente }}</h4>
+                    </div>
+                    <div class="flex-shrink-0 ms-2">
+                        <div class="bg-warning-alt-shape bg-soft-warning-alt-shape rounded-circle">
+                            <i class="ri-shopping-cart-2-line text-warning fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-info-light card-widget">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium mb-1">Commandes en cours</p>
+                        <h4 class="mb-0">{{ nbCommandesEnCours }}</h4>
+                    </div>
+                    <div class="flex-shrink-0 ms-2">
+                        <div class="bg-info-alt-shape bg-soft-info-alt-shape rounded-circle">
+                            <i class="ri-truck-line text-info fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success-light card-widget">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium mb-1">Commandes livrées</p>
+                        <h4 class="mb-0">{{ nbCommandesLivre }}</h4>
+                    </div>
+                    <div class="flex-shrink-0 ms-2">
+                        <div class="bg-success-alt-shape bg-soft-success-alt-shape rounded-circle">
+                            <i class="ri-checkbox-circle-line text-success fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+                                    <div class="col-sm">
+
+                                    
+    <div class="btn-group material-shadow my-filtre"> <!-- Ajout de la classe ms-2 pour une marge à gauche -->
+    <button type="button" class="btn btn-danger dropdown-toggle material-shadow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filtrer par statut</button>
+    <div class="dropdown-menu">
+            <button class="dropdown-item filter-status" data-status="Tous">Défaut</button>
+
+        <button class="dropdown-item filter-status" data-status="EnCours">En cours</button>
+        <button class="dropdown-item filter-status" data-status="Livrée">Livrée</button>
+        <button class="dropdown-item filter-status" data-status="EnAttente">En attente</button>
+    </div>
+</div><!-- /btn-group -->
+</div>
+
+
+
+                                            
+                                            <div class="col-sm my-rech">
+                                                <div class="d-flex justify-content-sm-end ">
+                                                    <div class="search-box ms-2">
+                                                        <input type="text" class="form-control search" placeholder="Recherche...">
+                                                        <i class="ri-search-line search-icon"></i>
+                                                        
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+<div class="table-responsive table-card mt-3 mb-1 px-5 text-center"> <!-- Ajoutez la classe "text-center" pour centrer le contenu -->
+                                       
+<table class="table align-middle table-nowrap custom-table table-margin" id="customerTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        {# <th scope="col" style="width: 50px;">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                                            </div>
+                                                        </th>
+                                                 #}
+                                                        <th class="sort" data-sort="refCom">Réference <br> de la commande</th>
+                                                        <th class="sort" data-sort="total">Total</th>
+                                                        <th class="sort" data-sort="stat">Status</th>
+                                                        <th class="sort" data-sort="pseudo">Pseudo</th>
+                                                        <th class="sort" data-sort="Action">Action</th>
+
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="list form-check-all">
+                                                <!-- boucle-->
+                                              {% for commande in commandes %}
+<tr>
+   {#  <th scope="row">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+        </div>
+    </th> #}
+    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
+   
+    <td class="refCom">#{{ commande.refCommande }}</td>
+    <td class="total">{{ commande.prix }}</td>
+    <td class="status">
+        <h4>
+        {% if commande.status == 'livrée' %}
+            <span class="badge bg-success-subtle text-success">{{ commande.status|capitalize }}</span>
+        {% elseif commande.status == 'enCours' %}
+            <span class="badge bg-warning-subtle text-warning text-uppercase">{{ commande.status|capitalize }}</span>
+        {% else %}
+            <span class="badge bg-info-subtle text-info">{{ commande.status|capitalize }}</span>
+        {% endif %}
+        </h4>
+    </td>
+    <td class="pseudo">{{ commande.idUser.pseudo }}</td>
+    <td class="align-middle text-center"> <!-- Utilisez les classes align-middle et text-center -->
+    <ul class="list-inline hstack gap-2 mb-0 align-items-center justify-content-center">
+        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Afficher les produits">
+            <a href="{{ path('commandeDet', {'refCommande': commande.refCommande}) }}" class="text-primary d-inline-block"> 
+                <i class="ri-eye-fill fs-16" ></i>
+            </a>
+        </li>
+        {# Vos autres éléments ici #}
+    </ul>
+</td>
+
+
+</tr>
+{% endfor %}
+
+
+
+
+
+                                             </tbody>
+                                            </table>
+
+        <div class="noresult" style="display: none">
+        <div class="text-center">
+            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+            <h5 class="mt-2">Désolé! Pas de resultat </h5>
+        </div>
+    </div>
+                                        </div>
+
+                                       
+
+
+                                    </div>
+                                    {# <div class="d-flex justify-content-end">
+    <div class="pagination-wrap hstack gap-2">
+        {% if commandes.currentPageNumber > 1 %}
+            <a class="page-item pagination-prev" href="{{ path('ListeCommande', {'page': commandes.currentPageNumber - 1}) }}">
+                Precedemment
+            </a>
+        {% else %}
+            <a class="page-item pagination-prev disabled" href="#">
+                Precedemment
+            </a>
+        {% endif %}
+        <ul class="pagination listjs-pagination mb-0">
+            {% for page in 1..commandes.pageCount %}
+                {% if page == commandes.currentPageNumber %}
+                    <li class="page-item active"><span>{{ page }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ path('ListeCommande', {'page': page}) }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% if commandes.currentPageNumber < commandes.pageCount %}
+            <a class="page-item pagination-next" href="{{ path('ListeCommande', {'page': commandes.currentPageNumber + 1}) }}">
+                Suivant
+            </a>
+        {% else %}
+            <a class="page-item pagination-next disabled" href="#">
+                Suivant
+            </a>
+        {% endif %}
+    </div>
+</div> #}
+
+                                </div><!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                   
+                    <!-- end row -->
+
+                
+                    <!-- end row -->
+
+                   
+
+                    <!--end modal -->
+
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <!-- scriptttt-->
+<!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteCommandeButtons = document.querySelectorAll('.delete-commande-btn');
+        deleteCommandeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const refCommande = this.getAttribute('data-commande-id');
+                if (refCommande) {
+                    const deletePath = "/deleteCommande/" + refCommande; // Changer le chemin en fonction de votre configuration Symfony
+                    fetch(deletePath, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('La suppression de la commande a échoué');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Une erreur s\'est produite lors de la suppression de la commande :', error);
+                    });
+                }
+            });
+        });
+    });
+</script>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+    const filterButtons = document.querySelectorAll('.filter-status');
+    const filterDropdown = document.querySelector('.btn-group .btn');
+    const tableRows = document.querySelectorAll('#customerTable tbody tr');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const status = this.getAttribute('data-status');
+            filterDropdown.textContent = status === 'Tous' ? 'Aucun filtre' : 'Filtrée par statut : ' + status;
+            
+            tableRows.forEach(row => {
+                const rowStatus = row.querySelector('.status').textContent.toLowerCase();
+                if (status === 'Tous' || rowStatus.includes(status.toLowerCase())) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+
+
+</script>
+
+
+
+
+
+<!-- Assurez-vous que le script est inclus après la définition des boutons dans le DOM -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteCommandeButtons = document.querySelectorAll('.delete-commande-btn');
+        deleteCommandeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const refCommande = this.getAttribute('data-commande-id');
+                if (refCommande) {
+                    const deletePath = "/deleteCommande/" + refCommande; // Changer le chemin en fonction de votre configuration Symfony
+                    fetch(deletePath, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('La suppression de la commande a échoué');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Une erreur s\'est produite lors de la suppression de la commande :', error);
+                    });
+                }
+            });
+        });
+
+        // Code pour la recherche
+        const searchInput = document.querySelector('.search');
+        const tableRows = document.querySelectorAll('#customerTable tbody tr');
+        const noResultMessage = document.querySelector('.noresult');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+
+            tableRows.forEach(row => {
+                let foundResult = false;
+                Array.from(row.cells).forEach(cell => {
+                    const cellData = cell.textContent.toLowerCase();
+                    if (cellData.includes(searchTerm)) {
+                        foundResult = true;
+                    }
+                });
+
+                if (foundResult) {
+                    row.style.display = ''; // Afficher la ligne si le terme est trouvé dans une colonne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne sinon
+                }
+            });
+
+            // Afficher ou masquer le message "No Result Found" en fonction des résultats trouvés
+            const hasFoundResult = Array.from(tableRows).some(row => row.style.display !== 'none');
+            if (hasFoundResult) {
+                noResultMessage.style.display = 'none'; // Masquer le message s'il y a des résultats
+            } else {
+                noResultMessage.style.display = 'block'; // Afficher le message s'il n'y a pas de résultats
+            }
+        });
+    });
+</script>
+
+<style>
+.custom-table {
+    max-width: 1000px; /* Ajustez la largeur maximale selon vos besoins */
+    width: 100%; /* Assurez-vous que le tableau occupe 100% de la largeur disponible */
+}
+
+.table-margin {
+    margin-left: 20px; /* Par exemple, ajustez cette valeur selon vos besoins */
+    margin-bottom: 20px; /* Par exemple, ajustez cette valeur selon vos besoins */
+}
+.list-inline-item a:hover .ri-eye-fill {
+        color: #ff6347; /* Couleur rouge */
+       
+    }
+
+.my-filtre {
+    margin-left:670px; /* Ajoutez la valeur de la marge souhaitée */
+}
+.my-rech {
+    margin-right:100px; /* Ajoutez la valeur de la marge souhaitée */
+}
+.card-widget {
+    width: 100%;
+    max-width: 300px; /* Ajustez la largeur maximale selon vos besoins */
+    margin-right: 15px; /* Marge entre les widgets */
+    border-radius: 10px; /* Bordure arrondie */
+    transition: all 0.3s ease; /* Transition fluide pour l'effet de survol */
+    font-size: 19px;
+        background-color: #cfe8d5; /* Couleur de fond des widgets */
+
+}
+
+.card-widget:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Augmentez les valeurs x, y et blur-radius pour une ombre plus grande */
+    transform: translateY(-6px); /* Légère translation vers le haut au survol */
+}
+
+
+/* Style pour la pagination */
+.pagination-wrap {
+    margin-top: 20px; /* Ajoutez une marge supérieure pour l'éloigner du tableau */
+}
+
+.pagination-wrap .page-item {
+    display: inline-block;
+    margin: 0 2px;
+    font-size: 16px;
+}
+
+.pagination-wrap .page-item.disabled .page-link {
+    color: #6c757d; /* Couleur de texte grise pour les liens de pagination désactivés */
+}
+
+.pagination-wrap .page-item.disabled .page-link:hover {
+    cursor: not-allowed; /* Curseur non autorisé pour les liens de pagination désactivés */
+}
+
+.pagination-wrap .page-item.active .page-link {
+    background-color: #007bff; /* Couleur de fond pour le numéro de page actif */
+    border-color: #007bff; /* Couleur de bordure pour le numéro de page actif */
+}
+
+.pagination-wrap .page-link {
+    color: #007bff; /* Couleur de texte pour les liens de pagination actifs */
+    border-radius: 4px; /* Bordure arrondie pour les liens de pagination */
+    padding: 0.5rem 0.75rem; /* Rembourrage pour les liens de pagination */
+}
+
+.pagination-wrap .page-link:hover {
+    color: #0056b3; /* Couleur de texte au survol des liens de pagination */
+    text-decoration: none; /* Supprimer la soulignement au survol */
+    background-color: #f8f9fa; /* Couleur de fond au survol */
+    border-color: #dee2e6; /* Couleur de bordure au survol */
+}
+
+.pagination-wrap .pagination-prev,
+.pagination-wrap .pagination-next {
+    padding: 0.5rem 0.75rem; /* Rembourrage pour les boutons précédent et suivant */
+    border-radius: 4px; /* Bordure arrondie pour les boutons précédent et suivant */
+    color: #007bff; /* Couleur de texte pour les boutons précédent et suivant */
+}
+
+.pagination-wrap .pagination-prev.disabled,
+.pagination-wrap .pagination-next.disabled {
+    color: #6c757d; /* Couleur de texte grise pour les boutons précédent et suivant désactivés */
+}
+
+.pagination-wrap .pagination-prev.disabled:hover,
+.pagination-wrap .pagination-next.disabled:hover {
+    cursor: not-allowed; /* Curseur non autorisé pour les boutons précédent et suivant désactivés */
+}
+.pagination-wrap .page-item.active .page-link {
+    background-color: #007bff; /* Couleur de fond pour le numéro de page actif */
+    border-color: #007bff; /* Couleur de bordure pour le numéro de page actif */
+    color: #fff; /* Couleur du texte pour le numéro de page actif */
+}
+
+.pagination-wrap .page-item.active .page-link {
+    background-color: #007bff; /* Couleur de fond pour le numéro de page actif */
+    border-color: #007bff; /* Couleur de bordure pour le numéro de page actif */
+    color: #fff; /* Couleur du texte pour le numéro de page actif */
+    margin-top: 10px; /* Ajouter une marge en haut pour séparer le numéro de page de la ligne de pagination */
+}
+
+
+
+</style>
+
+
+
+
+
+{% endblock %}

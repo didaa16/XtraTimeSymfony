@@ -1,0 +1,161 @@
+
+{% extends 'index.html.twig' %}
+
+{% block body %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<section class="inner-banner pattern-3" style="margin-top: 0px;">
+    <div class="container text-center">
+        <h2>Votre commande</h2>
+    </div>
+</section>
+<section class="bread-cumb">
+    <div class="container text-center">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><span>Cart page</span></li>
+        </ul>
+    </div>
+</section>
+<section class="cart-section pb0">
+    <div class="container">
+        <div class="cart-outer">
+            <div class="table-outer">
+                <table class="cart-table">
+    <thead class="cart-header">
+        <tr>
+            <th class="prod-column">PRODUIT</th>
+            <th>TAILLE</th>
+            <th>QUANTITE</th>
+            <th class="price">Prix</th>
+            <th>Total</th>
+            <th>Remove</th> <!-- Ajout d'une colonne vide pour les actions, par exemple "Remove" -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits %}
+        <tr>
+            <td class="prod-column">
+                <div class="column-box">
+                    <!-- Afficher l'image du produit -->
+                    <img style="width: 80px; height: 80px;" alt="{{ produit.produit.nom }}" src="{{ asset('uploads/images/' ~ produit.produit.image) }}">
+                    <!-- Afficher le nom du produit -->
+                    <h3 class="prod-title padd-top-20 " >{{ produit.produit.nom }}</h3>
+                </div>
+            </td>
+           <td class="taille" >
+    <h4>{{ produit.produit.taille }}</h4>
+</td>
+
+            </td>
+            <td class="qty">
+    <!-- Afficher la quantité du produit -->
+    <input class="quantity-spinner" type="text" value="{{ produit.quantite }}" id="spinner_{{ produit.produit.ref }}" name="quantity_{{ produit.produit.ref }}">
+
+</td>
+            <td class="unit-price">
+                <!-- Afficher le prix unitaire du produit -->
+                {{ produit.produit.prix }} DT 
+            </td>
+            <td class="sub-total">
+                <!-- Calculer et afficher le total pour chaque produit -->
+                {{ produit.quantite * produit.produit.prix }} DT 
+            </td>
+            <td class="remove">
+                <!-- Option pour supprimer le produit -->
+<a href="{{ path('RemoveFromCart', {'ref': produit.produit.ref}) }}" class="remove-btn" data-ref="{{ produit.produit.ref }}"><span class="fa fa-trash-o"></span> Supprimer</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+            </div>
+                    
+                   <div class="column cart-total col-md-6 col-sm-12 col-xs-12" style="margin-top: 50px; margin-bottom: 20px;">
+    <div class="section-title text-left" ;>
+        <h1><span>Total de la commande</span></h1>
+    </div>
+    <!--Totals Table-->
+    <ul class="totals-table" >
+          <li class="clearfix">
+                <span class="col col-title">Sous-total de la commande</span>
+                <span class="col">{{ commande.prix }} DT</span>
+          </li>        
+           <li class="clearfix"><span class="col col-title">Frais de Livraison</span><span class="col">Livraison gratuite</span></li>
+           <li class="clearfix"><span class="col col-title">Total</span><span class="col">{{ commande.prix }}DT</span></li>
+    </ul>
+</div>
+
+<div class="update-cart-box clearfix">
+    <div class="pull-right">
+        {# <button type="button" class="thm-btn update-cart">Mise à jour Commande</button> &emsp; #}
+<a href="{{ path('app_payment', {'refCommande': commande.refCommande}) }}" class="thm-btn thm-blue-bg">PASSER À LA CAISSE</a>
+    </div>
+</div>
+
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+<script>
+    // Wait for the DOM to be ready
+    $(document).ready(function() {
+        // Attach a click event handler to the update-cart button
+        $('.update-cart').on('click', function() {
+            // Prepare the data to be sent in the AJAX request
+            var quantities = {};
+
+            // Loop through each product input field and get its reference and quantity
+            $('.product-quantity').each(function() {
+                var ref = $(this).data('ref');
+                var quantity = $(this).val();
+                quantities[ref] = quantity;
+            });
+
+            // Send the AJAX request to update the cart
+            $.ajax({
+                url: '/update-cart',
+                type: 'POST',
+                data: {
+                    quantities: quantities
+                },
+                success: function(response) {
+                    // Handle the success response from the server
+                    if (response.success) {
+                        // Reload the page or update the cart view
+                        location.reload();
+                    } else {
+                        // Display an error message to the user
+                        alert('Failed to update the cart. Please try again.');
+                    }
+                },
+                error: function() {
+                    // Handle errors in the AJAX request
+                    alert('An error occurred while updating the cart. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,8 +1,13 @@
 framework:
     notifier:
+<<<<<<< HEAD
         texter_transports:
             twilio: '%env(TWILIO_DSN)%'
         chatter_transports:  # Assuming this is a separate section
+=======
+        chatter_transports:
+        texter_transports:
+>>>>>>> storeWeb
         channel_policy:
             # use chat/slack, chat/telegram, sms/twilio or sms/nexmo
             urgent: ['email']

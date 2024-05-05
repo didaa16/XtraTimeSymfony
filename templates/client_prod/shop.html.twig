@@ -1,0 +1,548 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+
+
+
+  <section class="inner-banner pattern-3" style="margin-top: 0px;">
+
+
+        <div class="container text-center">
+            <h2>Découvrez notre boutique de sport </h2>
+            <p>Améliorez votre style et vos performances avec nos collections .</p>
+        </div>
+    </section>
+    <section class="bread-cumb">
+        <div class="container text-center">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><span>Shop</span></li>
+            </ul>
+        </div>
+    </section>
+
+
+    
+    <section class="sidebar-pages popular-shop-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-8 col-xs-12">
+                    <div class="sidebar-page-content section-padding pb0">
+                        <div class="inner-page-wrapper section-padding pt0 white-bg">
+                            <div class="row meta-info">
+                                  <div class="col-md-12">
+                                     <p class="number-of-product pull-left">Showing 1-12 of 34 Results</p>
+                                     <div class="select-box pull-right">
+   <select class="selectpicker" onchange="handleChange(this)">
+    <option value="{{ path('ClientProd', {'sort_by': 'default'}) }}" {% if app.request.query.get('sort_by', 'default') == 'default' %}selected{% endif %}>Tri par défaut</option>
+    <option value="{{ path('ClientProd', {'sort_by': 'price_asc'}) }}" {% if app.request.query.get('sort_by') == 'price_asc' %}selected{% endif %}>Tri par prix ascendant</option>
+    <option value="{{ path('ClientProd', {'sort_by': 'price_desc'}) }}" {% if app.request.query.get('sort_by') == 'price_desc' %}selected{% endif %}>Tri par prix descendant</option>
+    <option value="{{ path('ClientProd', {'sort_by': 'name_asc'}) }}" {% if app.request.query.get('sort_by') == 'name_asc' %}selected{% endif %}>Tri par nom (A-Z)</option>
+</select>
+
+</div>
+
+
+                                </div>
+                                </div>
+   <div class="row">
+   
+ {% for produit in produits %}
+<div class="col-md-6 col-sm-6 single-product-item">
+
+        <div class="img-holder text-center">
+            <img style="width: 200px; height: 200px;" alt="{{ produit.nom }}" src="{{ asset('uploads/images/' ~ produit.image) }}">
+            <div class="overlay">
+                <div class="icon-holder">
+                    <ul>
+                        {# <li><a href="{{ path('AddCart', {'ref': produit.ref}) }}"><i class="fa fa-shopping-cart"></i></a></li> #}
+                        <li><a href="{{ path('AddCart', {'ref': produit.ref}) }}" class="add-to-cart" data-nom="{{ produit.nom }}"><i class="fa fa-shopping-cart"></i></a></li>
+                        <li><a href="{{ path('MoreDetailsShop', {'ref': produit.ref}) }}"><i class="fa fa-search-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="product-info text-center">
+    <a class="product-name" href="{{ path('MoreDetailsShop', {'ref': produit.ref}) }}">{{ produit.nom }}</a>
+    <div class="product-details">
+        <span class="product-size">Taille: {{ produit.taille }}</span>
+        <span class="product-price">{{ produit.prix }} DT</span>
+    </div>
+</div>
+
+
+          
+
+      
+
+
+
+
+    </div>
+
+
+
+
+   
+{% endfor %}
+</div>
+<div class="no-result text-center" style="display: none;">
+    <p style="font-size: 24px; font-weight: bold;padding: 90px ;">
+        Aucun résultat trouvé    <i class="bi bi-search" style="font-size: 32px; vertical-align: middle;"></i> 
+    </p>
+</div>
+
+
+
+
+   <div class="custom-pagination">
+        <ul class="pagination-list list-inline text-center">
+            {% if produits.currentPageNumber > 1 %}
+                <li class="pagination-item"><a href="{{ path('ClientProd', {'page': produits.currentPageNumber - 1, 'sort_by': app.request.query.get('sort_by', 'default')}) }}"><i class="fa fa-caret-left"></i></a></li>
+            {% else %}
+                <li class="pagination-item disabled"><span><i class="fa fa-caret-left"></i></span></li>
+            {% endif %}
+            
+            {% for page in 1..produits.pageCount %}
+                {% if page == produits.currentPageNumber %}
+                    <li class="pagination-item active"><span>{{ page }}</span></li>
+                {% else %}
+                    <li class="pagination-item"><a href="{{ path('ClientProd', {'page': page, 'sort_by': app.request.query.get('sort_by', 'default')}) }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if produits.currentPageNumber < produits.pageCount %}
+                <li class="pagination-item"><a href="{{ path('ClientProd', {'page': produits.currentPageNumber + 1, 'sort_by': app.request.query.get('sort_by', 'default')}) }}"><i class="fa fa-caret-right"></i></a></li>
+            {% else %}
+                <li class="pagination-item disabled"><span><i class="fa fa-caret-right"></i></span></li>
+            {% endif %}
+        </ul>
+    </div>
+
+
+
+
+                        </div>
+                        <!-- /.inner-page-wrapper -->
+                    </div>
+                    <!-- /.sidebar-page-content -->
+                </div>
+                <!-- /.col-md-9 -->
+                <div class="col-lg-3 col-md-4 col-xs-12">
+                    <div class="sidebar-wrapper section-padding">
+                        <div class="single-sidebar search-widget">
+                            <div class="title">
+                                <h3>RECHERCHER DES MOTS-CLÉS</h3>
+                            </div>
+                            <!-- /.title -->
+                            <form id="search-form" action="#">
+    <input type="text" id="search-input" class="search" placeholder="Rechercher..." />
+    <button type="submit" id="search-btn"><i class="fa fa-search"></i></button>
+</form>
+
+                        </div>
+
+                        <!--filtre -->
+                      <div class="range-slider">
+                      <div class="titleF">
+                                <h3>Filtrer par prix</h3>
+                            </div>
+
+              <p>
+                <label for="amount"></label>
+                <input type="text" id="amount" readonly="" style="border:0; font-weight:bold;">
+              </p>
+              <div id="slider-range"></div>
+            </div>
+ 
+
+
+
+
+                        
+                        <!-- /.single-sidebar -->
+                       
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar package-slider-widget">
+                            <div class="title">
+                                <h3>packs</h3>
+                            </div>
+                            <!-- /.title -->
+                            <div id="package-slider-widget-wrapper" class="carousel slide offer-going-package-menu" data-ride="carousel">
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item ">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item ">
+                                        <div class="single-offer-going-pack">
+                                            <div class="img-box">
+                                                <img src="img/resources/offer-menu-1.jpg" alt="Awesome Image" />
+                                                <div class="box">
+                                                    <div class="overlay">
+                                                        <div class="content">
+                                                            <h4>50% Offer</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-box">
+                                                <div class="icon-box">
+                                                    <div class="box">
+                                                        <i class="fc-icon ftc-icon-running"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-box">
+                                                    <a href="single-package.html"><h3>Fat Loss <span>($150&nbsp;&nbsp;<b>$75</b>)</span></h3></a>
+                                                    <ul>
+                                                        <li><a href="#">06 Month Training</a></li>
+                                                        <li><a href="#">30 Min</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="0" class="active"></li>
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="1"></li>
+                                    <li data-target="#package-slider-widget-wrapper" data-slide-to="2"></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <!-- /.single-sidebar -->
+                        <div class="single-sidebar call-to-action-widget">
+                            <img src="img/resources/menu-package-offer.jpg" alt="Awesome Image" />
+                        </div>
+                        <!-- /.single-sidebar -->
+                    </div>
+                    <!-- /.sidebar-wrapper -->
+                </div>
+                <!-- /.col-md-3 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- /.section-padding sidebar-pages -->
+
+
+
+
+
+
+<script>
+    // Fonction pour mettre à jour le texte du sélecteur
+    function updateSelectText(select) {
+        var selectedOptionText = select.options[select.selectedIndex].textContent;
+        $(select).siblings('.dropdown-toggle').text(selectedOptionText);
+    }
+
+    // Fonction pour gérer le changement d'option
+   function handleChange(select) {
+        var selectedOptionText = select.options[select.selectedIndex].textContent; // Récupérer le texte de l'option sélectionnée
+        $(select).siblings('.dropdown-toggle').text(selectedOptionText); // Mettre à jour le texte du sélecteur
+        var sortBy = select.value; // Récupérer la valeur sélectionnée
+        window.location.href = sortBy; // Redirection vers l'URL correspondant au tri sélectionné
+    }
+</script>
+
+
+
+
+<script>
+    $(document).ready(function() {
+        var select = $('.selectpicker'); // Sélection du premier sélecteur avec la classe selectpicker
+        updateSelectText(select);
+    });
+</script>
+
+
+
+
+
+
+
+
+<script>
+       $(document).ready(function() {
+    $('#search-form').on('submit', function(event) {
+        event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+
+        var searchTerm = $('#search-input').val().toLowerCase(); // Convertir la saisie en minuscules pour une recherche insensible à la casse
+        var anyProductFound = false; // Variable pour indiquer si au moins un produit correspondant a été trouvé
+
+        // Parcourir tous les produits
+        $('.single-product-item').each(function() {
+            var productName = $(this).find('.product-name').text().toLowerCase(); // Récupérer le nom du produit
+
+            // Vérifier si le nom du produit contient le terme de recherche
+            if (productName.includes(searchTerm)) {
+                $(this).show(); // Afficher le produit s'il correspond à la recherche
+                anyProductFound = true; // Indiquer qu'au moins un produit correspondant a été trouvé
+            } else {
+                $(this).hide(); // Cacher le produit s'il ne correspond pas à la recherche
+            }
+        });
+
+        // Si aucun produit correspondant n'a été trouvé, afficher un message
+        if (!anyProductFound) {
+            $('.no-result').show();
+        } else {
+            $('.no-result').hide();
+        }
+    });
+});
+
+    </script>
+
+
+
+<script>
+$(function() {
+    // Initialisation du slider
+    $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 2000,
+        values: [75, 300],
+        slide: function(event, ui) {
+            $("#amount").val(ui.values[0] + " DT - " + ui.values[1] + " DT"); // Modifier cette ligne
+            // Appel de la fonction de filtrage des produits à chaque changement de valeur du slider
+            filterProducts(ui.values[0], ui.values[1]);
+        }
+    });
+
+    // Initialisation du champ de texte
+    $("#amount").val($("#slider-range").slider("values", 0) +
+        " DT - " + $("#slider-range").slider("values", 1) + " DT"); // Modifier cette ligne
+
+    // Fonction de filtrage des produits
+    function filterProducts(minPrice, maxPrice) {
+        $('.single-product-item').each(function() {
+            var productPrice = parseFloat($(this).find('.product-price').text().replace('DT', '').trim());
+            if (productPrice >= minPrice && productPrice <= maxPrice) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+});
+
+</script>
+
+
+
+
+
+
+ <style>
+.product-info {
+    position: relative;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.product-name {
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.product-name:hover {
+    color: #ccff00;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-size {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #a6c311;
+}
+
+
+/* Personnalisation du slider */
+#slider-range {
+    width: 100%;
+    height: 10px;
+    margin-top: 20px;
+    background: #ddd; 
+        border: 1px solid #ddd; /* Bordure de même couleur que le fond */
+            margin-bottom: 30px;
+
+
+}
+
+/* Barre de progression */
+.ui-slider-range {
+    background: #a6c311; /* Couleur de la barre de progression */
+}
+
+/* Boutons du slider */
+.ui-slider-handle {
+    width: 30px;
+    height: 30px;
+    background: #a6c311; /* Couleur des boutons */
+    border: 2px solid #fff; /* Bordure des boutons */
+    border-radius: 50%; /* Forme des boutons */
+    cursor: pointer;
+}
+
+/* Style du champ de texte pour afficher la plage de prix */
+#amount {
+    color: #a6c311; /* Couleur du texte */
+    font-weight: bold;
+        font-size: 25px; 
+
+}
+
+.titleF{
+    background: url(../img/resources/texture/strip.png) 0 0 repeat;
+    padding: 15px 0;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+.titleF h3{
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #272727;
+    line-height: 30px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.custom-pagination {
+    margin-top: 20px;
+}
+
+.pagination-list {
+    padding: 0;
+    margin: 0;
+}
+
+.pagination-item {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.pagination-item a, .pagination-item span {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #555; /* Couleur par défaut pour les numéros de page */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.pagination-item a:hover {
+    background-color: ##ebff87;
+}
+
+.pagination-item.active span {
+    background-color: #a6c311; /* Couleur verte pour la page active */
+    color: #fff; /* Texte en blanc pour la page active */
+}
+
+.pagination-item.disabled span, .pagination-item.disabled a {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+
+
+
+    </style>
+
+
+
+
+{% endblock %}

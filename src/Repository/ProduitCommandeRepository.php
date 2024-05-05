@@ -45,4 +45,21 @@ class ProduitCommandeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+<<<<<<< HEAD
+=======
+
+
+public function findProductsByOrderReference(string $orderReference): array
+    {
+        return $this->createQueryBuilder('pc')
+            ->leftJoin('pc.commande', 'c')
+            ->andWhere('c.refCommande = :orderReference')
+            ->setParameter('orderReference', $orderReference)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+>>>>>>> storeWeb
 }
