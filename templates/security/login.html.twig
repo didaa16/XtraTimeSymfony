@@ -1,76 +1,542 @@
 {% extends 'home/front.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in{% endblock %}
 
 {% block body %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-HG2RsFiRV2m75KMSwKcDWtVygqG7aWz+lDVK+1p8thZIiKd4HHfFyV5qD2BeNmn51MHVtkQSR29gUV1xtOIs7Q==" crossorigin="anonymous" />
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-md-6">
-                <form method="post">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" />
+    
+    <style>
+        /* Override existing styles for login page */
+        .login-page-wrapper {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 195, 74, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
 
-                    {% if app.user %}
-                        <div class="mb-3">
-                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                        </div>
-                    {% endif %}
+        /* Animated background elements */
+        .login-page-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+            z-index: 1;
+        }
 
-                    <h1 class="h3 mb-3 font-weight-normal text-center">Sign in</h1>
-                    <br>
-                    <div class="mb-3">
-                        <label for="inputPseudo" class="sr-only">Pseudo</label>
-                        <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control" placeholder="Pseudo" autocomplete="username" required autofocus>
-                    </div>
-                    <br>
-                    <div class="mb-3">
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" autocomplete="current-password" required>
-                    </div>
-                    <br>
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    <br>
-                    <style>
-                        .custom-div {
-                            margin-left: 170px;
-                            margin-right: 170px;
-                            border: 1.5px solid #000000;
-                            border-radius: 40px;
-                            background-color: #6e6ee1;
-                        }
-                        a{
-                            color: #FFFFFF;
-                        }
-                    </style>
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
 
-                    <div class="custom-div">
-                        <a href="{{ path('fcb_login') }}" style="display: flex;">
-                            <i class="fa fa-facebook" style="margin-left: 35px; margin-top: 16px"></i>
-                            <p style="margin-left: 10px; margin-top: 9px">Sign in with Facebook</p>
-                        </a>
-                    </div>
-                    <div class="row justify-content-center mt-3">
-                        <div class="col-md-6 text-center">
-                            <h3 class="mb-0">Don't have an account?</h3>
-                            <a href="{{ path('app_register') }}" class="btn btn-link">SIGN UP</a>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <h3 class="mb-0">Forget your password?</h3>
-                            <a href="{{ path('app_forgot_password_request') }}" class="btn btn-link">Reset Password</a>
-                        </div>
-                    </div>
-                </form>
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 2;
+            animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center bottom;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            animation: fadeInDown 1s ease-out 0.3s both;
+        }
+
+        .login-subtitle {
+            color: #6b7280;
+            font-size: 0.95rem;
+            animation: fadeInDown 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+            animation: fadeInLeft 0.8s ease-out both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.6s; }
+        .form-group:nth-child(2) { animation-delay: 0.7s; }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 16px 16px 50px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #fff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-control::placeholder {
+            color: #9ca3af;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .form-group:focus-within .input-icon {
+            color: #4caf50;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+            font-family: inherit;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .social-login {
+            margin: 30px 0;
+            animation: fadeInUp 0.8s ease-out 0.9s both;
+        }
+
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+        }
+
+        .divider-text {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .btn-facebook {
+            width: 100%;
+            padding: 14px;
+            background: #1877f2;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn-facebook:hover {
+            background: #166fe5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .footer-link-group {
+            text-align: center;
+        }
+
+        .footer-link-title {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .footer-link {
+            color: #4caf50;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #2e7d32;
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: none;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border-left: 4px solid #dc2626;
+        }
+
+        .logged-in-message {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading animation */
+        .btn-primary.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-primary.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px 25px;
+                max-width: none;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .login-page-wrapper {
+                padding: 40px 15px;
+                min-height: 70vh;
+            }
+        }
+
+        /* Pulse effect for focused inputs */
+        .form-group.pulse {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Hide default Bootstrap margins that might interfere */
+        .mb-3 {
+            margin-bottom: 0 !important;
+        }
+
+        /* Success message styling */
+        .user-info-link {
+            color: #2e7d32;
+            text-decoration: underline;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        .user-info-link:hover {
+            color: #1b5e20;
+        }
+    </style>
+
+    <div class="login-page-wrapper">
+        <div class="login-container">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="logged-in-message">
+                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                    You are logged in as <strong>{{ app.user.userIdentifier }}</strong>
+                    <a href="{{ path('app_logout') }}" class="user-info-link">Logout</a>
+                </div>
+            {% endif %}
+
+            <div class="login-header">
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Sign in to your account to continue</p>
             </div>
+
+            <form method="post" id="loginForm">
+                <div class="form-group">
+                    <i class="input-icon fas fa-user"></i>
+                    <input type="text" 
+                           value="{{ last_username }}" 
+                           name="pseudo" 
+                           id="inputPseudo" 
+                           class="form-control" 
+                           placeholder="Username" 
+                           autocomplete="username" 
+                           required 
+                           autofocus>
+                </div>
+
+                <div class="form-group">
+                    <i class="input-icon fas fa-lock"></i>
+                    <input type="password" 
+                           name="password" 
+                           id="inputPassword" 
+                           class="form-control" 
+                           placeholder="Password" 
+                           autocomplete="current-password" 
+                           required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                
+                <button class="btn btn-primary" type="submit" id="submitBtn">
+                    <span class="btn-text">Sign In</span>
+                </button>
+
+                <div class="social-login">
+                    <div class="divider">
+                        <span class="divider-text">or continue with</span>
+                    </div>
+                    
+                    <a href="{{ path('fcb_login') }}" class="btn-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        Sign in with Facebook
+                    </a>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-link-group">
+                        <div class="footer-link-title">Need an account?</div>
+                        <a href="{{ path('app_register') }}" class="footer-link">Sign Up</a>
+                    </div>
+                    <div class="footer-link-group">
+                        <div class="footer-link-title">Forgot password?</div>
+                        <a href="{{ path('app_forgot_password_request') }}" class="footer-link">Reset Password</a>
+                    </div>
+                </div>
+            </form>
         </div>
-
-
-
-
-
     </div>
-    <br><br><br><br><br><br><br><br><br><br><br>
+
+    <script>
+        // Add loading animation on form submit
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            
+            submitBtn.classList.add('loading');
+            btnText.textContent = 'Signing in...';
+        });
+
+        // Add focus animations
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('pulse');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('pulse');
+            });
+        });
+
+        // Add subtle hover effect to container
+        const container = document.querySelector('.login-container');
+        container.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        container.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+
+        // Enhanced form validation feedback
+        inputs.forEach(input => {
+            input.addEventListener('invalid', function() {
+                this.style.borderColor = '#dc2626';
+                this.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.1)';
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.validity.valid) {
+                    this.style.borderColor = '#4caf50';
+                    this.style.boxShadow = '0 0 0 3px rgba(76, 175, 80, 0.1)';
+                }
+            });
+        });
+    </script>
 {% endblock %}

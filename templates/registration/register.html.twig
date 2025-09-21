@@ -1,139 +1,896 @@
-{# templates/registration/register.html.twig #}
+{# registration/register.html.twig #}
 
 {% extends 'home/front.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <br><br><br><br>
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-md-6">
-                <h1 class="text-center">Register</h1>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" />
+    
+    <style>
+        /* Registration page wrapper */
+        .registration-page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(139, 195, 74, 0.08) 100%);
+            position: relative;
+            overflow: hidden;
+        }
 
-                {{ form_start(registrationForm, {'id': 'register-form', 'attr': {'onsubmit': 'toggleRegisterButton();', 'enctype': 'multipart/form-data'}}) }}
+        /* Animated background */
+        .registration-page-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.02) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: moveBackground 25s linear infinite;
+            z-index: 1;
+        }
 
-                {# Display flash errors if any #}
-                {% for flash_error in app.flashes('verify_email_error') %}
-                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                {% endfor %}
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(60px, 60px) rotate(360deg); }
+        }
 
-                {# Display form errors #}
-                {{ form_errors(registrationForm) }}
+        /* Floating elements */
+        .registration-page-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
+            border-radius: 50%;
+            top: 10%;
+            right: 10%;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
 
-                {# Display other form fields #}
-                <div class="mb-3">
-                    {{ form_row(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo'}}) }}
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        .registration-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            padding: 50px 45px;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+            animation: slideInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .registration-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: fadeInDown 1.2s ease-out 0.3s both;
+        }
+
+        .registration-subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+            animation: fadeInDown 1.2s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form styling */
+        .form-grid {
+            display: grid;
+            gap: 20px;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            position: relative;
+            animation: fadeInUp 0.8s ease-out both;
+            margin-bottom: 4px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.8s; }
+        .form-group:nth-child(2) { animation-delay: 0.9s; }
+        .form-group:nth-child(3) { animation-delay: 1s; }
+        .form-group:nth-child(4) { animation-delay: 1.1s; }
+        .form-group:nth-child(5) { animation-delay: 1.2s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            font-family: inherit;
+            color: #374151;
+            height: 52px;
+        }
+
+        .form-control:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.08);
+            transform: translateY(-1px);
+            background: #fafbfc;
+        }
+
+        .form-control::placeholder {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b949e;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 2;
+            width: 16px;
+            text-align: center;
+        }
+
+        .form-group:focus-within .input-icon {
+            color: #4caf50;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* File upload styling */
+        .file-upload-container {
+            position: relative;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+            cursor: pointer;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-upload-container:hover {
+            border-color: #4caf50;
+            background: #f1f8e9;
+            transform: translateY(-1px);
+        }
+
+        .file-upload-container.dragover {
+            border-color: #4caf50;
+            background: #e8f5e8;
+            transform: scale(1.02);
+        }
+
+        .file-upload-icon {
+            font-size: 1.8rem;
+            color: #8b949e;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-text {
+            color: #6b7280;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        /* Password strength indicator */
+        .password-strength-container {
+            margin-top: 10px;
+            padding: 0 2px;
+        }
+
+        #password-strength {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            appearance: none;
+            background: #f1f3f4;
+            border: none;
+            overflow: hidden;
+        }
+
+        #password-strength::-webkit-progress-bar {
+            background: #f1f3f4;
+            border-radius: 3px;
+        }
+
+        #password-strength::-webkit-progress-value {
+            background: linear-gradient(90deg, #ef4444, #ff9800, #4caf50);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        #password-strength-text {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 6px;
+            display: block;
+            transition: color 0.3s ease;
+            text-align: left;
+        }
+
+        .strength-very-weak { color: #ef4444; }
+        .strength-weak { color: #ff9800; }
+        .strength-medium { color: #2196f3; }
+        .strength-strong { color: #4caf50; }
+        .strength-very-strong { color: #2e7d32; }
+
+        /* Checkbox and select styling */
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 2px solid #e1e5e9;
+            transition: all 0.3s ease;
+            margin: 16px 0;
+        }
+
+        .checkbox-container:hover {
+            border-color: #4caf50;
+            background: #f1f8e9;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4caf50;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-container label {
+            display: block !important;
+            color: #374151 !important;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .select-container {
+            position: relative;
+        }
+
+        .select-container select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23868e96' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        /* Submit button */
+        .btn-register {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-register:hover::before {
+            left: 100%;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-register:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-register.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-register.loading::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 50%;
+            left: 50%;
+            margin-left: -12px;
+            margin-top: -12px;
+            border: 3px solid transparent;
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Alert styling */
+        .alert {
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            border: none;
+            animation: slideInDown 0.6s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border-left: 4px solid #dc2626;
+        }
+
+        /* Captcha styling */
+        .captcha-container {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e1e5e9;
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        /* Section dividers with better styling */
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e1e5e9;
+            padding-bottom: 8px;
+        }
+
+        /* Roles styling - clean horizontal layout */
+        .roles-container {
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 2px solid #e1e5e9;
+            transition: all 0.3s ease;
+        }
+
+        .roles-container:hover {
+            border-color: #4caf50;
+            background: #f1f8e9;
+        }
+
+        /* Target the roles wrapper div */
+        .roles-container > div {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Style individual role options */
+        .roles-container > div > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .roles-container input[type="radio"],
+        .roles-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4caf50;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .roles-container input[type="radio"]:checked,
+        .roles-container input[type="checkbox"]:checked {
+            transform: scale(1.1);
+        }
+
+        .roles-container label {
+            display: inline-block !important;
+            font-size: 15px;
+            color: #374151;
+            font-weight: 500;
+            margin: 0 !important;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .roles-container label:hover {
+            color: #4caf50;
+        }
+
+        /* Better spacing for password with strength indicator */
+        .password-field-wrapper {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .registration-container {
+                margin: 20px;
+                padding: 35px 25px;
+                max-width: none;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .registration-page-wrapper {
+                padding: 60px 15px;
+            }
+            
+            .registration-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Form validation feedback */
+        .is-invalid {
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1) !important;
+        }
+
+        .is-valid {
+            border-color: #4caf50 !important;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1) !important;
+        }
+
+        /* Style form labels properly */
+        .form-group label {
+            display: block !important;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+            margin-left: 2px;
+        }
+
+        .form-group label.sr-only {
+            display: none !important;
+        }
+
+        /* Progress indicator for multi-step feel */
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            width: 40px;
+            height: 4px;
+            background: #e5e7eb;
+            margin: 0 4px;
+            border-radius: 2px;
+            animation: fillProgress 2s ease-in-out infinite;
+        }
+
+        .progress-step:nth-child(1) { animation-delay: 0s; }
+        .progress-step:nth-child(2) { animation-delay: 0.5s; }
+        .progress-step:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes fillProgress {
+            0%, 100% { background: #e5e7eb; }
+            50% { background: #4caf50; }
+        }
+    </style>
+
+    <div class="registration-page-wrapper">
+        <div class="registration-container">
+            <div class="registration-header">
+                <h1 class="registration-title">Join XtraTime</h1>
+                <p class="registration-subtitle">Create your account to start your sports journey</p>
+                
+                <div class="progress-indicator">
+                    <div class="progress-step"></div>
+                    <div class="progress-step"></div>
+                    <div class="progress-step"></div>
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+            </div>
+
+            {{ form_start(registrationForm, {'id': 'register-form', 'attr': {'onsubmit': 'toggleRegisterButton();', 'enctype': 'multipart/form-data'}}) }}
+
+            {# Display flash errors if any #}
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+                    {{ flash_error }}
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+            {% endfor %}
+
+            {# Display form errors #}
+            {{ form_errors(registrationForm) }}
+
+            <div class="form-grid">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <div class="form-section-title">Personal Information</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <i class="input-icon fas fa-user"></i>
+                            {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Username'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <i class="input-icon fas fa-envelope"></i>
+                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email Address'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <i class="input-icon fas fa-user-circle"></i>
+                            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Last Name'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <i class="input-icon fas fa-user-circle"></i>
+                            {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'First Name'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <i class="input-icon fas fa-birthday-cake"></i>
+                            {{ form_widget(registrationForm.age, {'attr': {'class': 'form-control', 'placeholder': 'Age'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <i class="input-icon fas fa-phone"></i>
+                            {{ form_widget(registrationForm.numTel, {'attr': {'class': 'form-control', 'placeholder': 'Phone Number'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <i class="input-icon fas fa-id-card"></i>
+                        {{ form_widget(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'National ID (CIN)'}}) }}
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.age, {'attr': {'class': 'form-control', 'placeholder': 'Age'}}) }}
+
+                <!-- Profile Picture Section -->
+                <div class="form-section">
+                    <div class="form-section-title">Profile Picture</div>
+                    <div class="form-group full-width">
+                        <div class="file-upload-container" id="fileUploadContainer">
+                            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                            <div class="file-upload-text">
+                                <strong>Choose a profile picture</strong> or drag and drop<br>
+                                <small style="color: #9ca3af;">PNG, JPG up to 5MB</small>
+                            </div>
+                            {{ form_widget(registrationForm.picture_url, {'attr': {'class': 'form-control', 'style': 'display: none;'}}) }}
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.numTel, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de téléphone'}}) }}
+
+                <!-- Security Section -->
+                <div class="form-section">
+                    <div class="form-section-title">Security</div>
+                    <div class="form-group password-field-wrapper">
+                        {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password', 'oninput': 'checkPasswordStrength(this.value)'}}) }}
+                        <div class="password-strength-container">
+                            <progress id="password-strength" max="100" value="0"></progress>
+                            <span id="password-strength-text"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirm your password'}}) }}
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+
+                <!-- Account Settings Section -->
+                <div class="form-section">
+                    <div class="form-section-title">Account Settings</div>
+                    <div class="form-group">
+                        <div class="roles-container">
+                            {{ form_row(registrationForm.roles) }}
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN'}}) }}
+
+                <!-- Terms and Verification -->
+                <div class="form-section">
+                    <div class="checkbox-container">
+                        {{ form_widget(registrationForm.agreeTerms) }}
+                        <label for="{{ registrationForm.agreeTerms.vars.id }}">
+                            I agree to the <a href="#" style="color: #4caf50; text-decoration: none; font-weight: 500;">Terms of Service</a> and <a href="#" style="color: #4caf50; text-decoration: none; font-weight: 500;">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <div class="captcha-container">
+                        {{ form_row(registrationForm.captcha) }}
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.picture_url, {'label': 'Profile Picture', 'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.plainPassword.first, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password', 'oninput': 'checkPasswordStrength(this.value)'}}) }}
-                    <progress id="password-strength" max="100" value="0"></progress>
-                    <span id="password-strength-text"></span>
-                </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.plainPassword.second, {'label': 'Confirm Password', 'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.roles) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.agreeTerms) }}
-                </div>
-                <br>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.captcha) }}
-                </div>
-                <button type="submit" id="register-button" class="btn btn-lg btn-primary btn-block">Register</button>
-                {{ form_end(registrationForm) }}
+
+                <button type="submit" id="register-button" class="btn-register">
+                    <span class="btn-text">Create Account</span>
+                </button>
+            </div>
+
+            {{ form_end(registrationForm) }}
+
+            <div style="text-align: center; margin-top: 25px; animation: fadeIn 1.5s ease-out 1.8s both;">
+                <p style="color: #6b7280;">Already have an account? 
+                    <a href="{{ path('app_login') }}" style="color: #4caf50; font-weight: 600; text-decoration: none;">Sign In</a>
+                </p>
             </div>
         </div>
     </div>
 
-    <br><br><br>
     <script>
+        // Enhanced password strength checker
         function checkPasswordStrength(password) {
-            var progressBar = document.getElementById("password-strength");
-            var strengthText = document.getElementById("password-strength-text");
-
-            var strength = 0;
-
+            const progressBar = document.getElementById("password-strength");
+            const strengthText = document.getElementById("password-strength-text");
+            
+            let strength = 0;
+            
             // Check for lowercase characters
-            if (password.match(/[a-z]+/)) {
-                strength += 1;
-            }
-
+            if (password.match(/[a-z]+/)) strength += 1;
+            
             // Check for uppercase characters
-            if (password.match(/[A-Z]+/)) {
-                strength += 1;
-            }
-
+            if (password.match(/[A-Z]+/)) strength += 1;
+            
             // Check for numbers
-            if (password.match(/[0-9]+/)) {
-                strength += 1;
-            }
-
+            if (password.match(/[0-9]+/)) strength += 1;
+            
             // Check for special characters
-            if (password.match(/[$&+,:;=?@#|'<>.^*()%!-]+/)) {
-                strength += 1;
-            }
-
-            // Check for length greater than or equal to 8
-            if (password.length >= 8) {
-                strength += 1;
-            }
-
-            // Adjust the scoring system to match the desired categories
-            if (password.length < 8) {
+            if (password.match(/[$&+,:;=?@#|'<>.^*()%!-]+/)) strength += 1;
+            
+            // Check for length
+            if (password.length >= 8) strength += 1;
+            
+            // Update progress bar
+            progressBar.value = (strength / 5) * 100;
+            
+            // Update text and styling
+            strengthText.className = '';
+            if (password.length === 0) {
+                strengthText.innerText = "";
+            } else if (password.length < 8) {
                 strengthText.innerText = "Very Weak";
+                strengthText.classList.add('strength-very-weak');
             } else if (strength === 1) {
                 strengthText.innerText = "Very Weak";
+                strengthText.classList.add('strength-very-weak');
             } else if (strength === 2) {
                 strengthText.innerText = "Weak";
+                strengthText.classList.add('strength-weak');
             } else if (strength === 3) {
                 strengthText.innerText = "Medium";
+                strengthText.classList.add('strength-medium');
             } else if (strength === 4) {
                 strengthText.innerText = "Strong";
+                strengthText.classList.add('strength-strong');
             } else {
                 strengthText.innerText = "Very Strong";
+                strengthText.classList.add('strength-very-strong');
             }
-            //progressBar.style.borderRadius = 300px;
-            progressBar.value = (strength / 5) * 100;
         }
 
+        // Enhanced form submission handler
         function toggleRegisterButton() {
-            var passwordInput = document.getElementById('registrationForm_plainPassword_first');
-            var confirmPasswordInput = document.getElementById('registrationForm_plainPassword_second');
-
-            var password = passwordInput.value;
-            var confirmPassword = confirmPasswordInput.value;
-
-            var strengthText = document.getElementById("password-strength-text");
-            var strength = getPasswordStrength(password);
-
+            const submitBtn = document.getElementById('register-button');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const passwordInput = document.getElementById('registrationForm_plainPassword_first');
+            const confirmPasswordInput = document.getElementById('registrationForm_plainPassword_second');
+            const strengthText = document.getElementById("password-strength-text");
+            
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
             if (strengthText.innerText === "Weak" && password.trim() !== "") {
-                alert("Are you sure to register with this weak password?");
+                const confirmed = confirm("Your password is weak. Are you sure you want to continue with this password?");
+                if (!confirmed) {
+                    return false;
+                }
             }
+            
+            // Add loading state
+            submitBtn.classList.add('loading');
+            btnText.textContent = 'Creating Account...';
+            
+            return true;
         }
+
+        // File upload enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileUploadContainer = document.getElementById('fileUploadContainer');
+            const fileInput = document.querySelector('input[type="file"]');
+            
+            if (fileUploadContainer && fileInput) {
+                // Click to upload
+                fileUploadContainer.addEventListener('click', function() {
+                    fileInput.click();
+                });
+                
+                // Drag and drop functionality
+                fileUploadContainer.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                
+                fileUploadContainer.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                });
+                
+                fileUploadContainer.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        fileInput.files = files;
+                        updateFileUploadText(files[0].name);
+                    }
+                });
+                
+                // File input change
+                fileInput.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        updateFileUploadText(e.target.files[0].name);
+                    }
+                });
+                
+                function updateFileUploadText(filename) {
+                    const textElement = fileUploadContainer.querySelector('.file-upload-text');
+                    textElement.innerHTML = `<strong>Selected:</strong> ${filename}`;
+                }
+            }
+            
+            // Form validation feedback
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value.trim() !== '') {
+                        if (this.validity.valid) {
+                            this.classList.remove('is-invalid');
+                            this.classList.add('is-valid');
+                        } else {
+                            this.classList.remove('is-valid');
+                            this.classList.add('is-invalid');
+                        }
+                    }
+                });
+                
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('is-invalid') && this.validity.valid) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    }
+                });
+            });
+            
+            // Password confirmation validation
+            const confirmPassword = document.getElementById('registrationForm_plainPassword_second');
+            const password = document.getElementById('registrationForm_plainPassword_first');
+            
+            if (confirmPassword && password) {
+                confirmPassword.addEventListener('input', function() {
+                    if (this.value !== password.value && this.value !== '') {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    } else if (this.value === password.value && this.value !== '') {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    }
+                });
+            }
+        });
     </script>
 {% endblock %}
